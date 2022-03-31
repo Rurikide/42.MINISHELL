@@ -9,7 +9,7 @@ CFLAGS= -Wall -Werrror -Wextra -c
 SDIR= srcs
 ODIR= objs
 
-SRCS= readline.c
+SRCS= main.c ft_echo.c
 
 OBJS= $(SRCS:.c=.o)
 
@@ -20,7 +20,7 @@ VPATH= $(SDIR)
 
 $(NAME): $(ODIR) $(OFIX)
 		$(MAKE) -C ./libft
-		$(CC) $(OFIX) -Llibread -lreadline -lcurses -I./incls -o $(NAME)
+		$(CC) $(OFIX) -lft -L./libft -Llibread -lreadline -lcurses -I./incls -o $(NAME)
 
 $(ODIR)/%.o: %.c
 			$(CC) $(CFLAGS) -I./libft/libsrcs -I./incls $< -o $@
