@@ -9,7 +9,7 @@ CFLAGS= -Wall -Werrror -Wextra -c
 SDIR= srcs
 ODIR= objs
 
-SRCS= main.c ft_echo.c
+SRCS= main.c builtin_echo.c builtin_cd.c
 
 OBJS= $(SRCS:.c=.o)
 
