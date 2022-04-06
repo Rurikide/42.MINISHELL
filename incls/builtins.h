@@ -2,6 +2,7 @@
 # define BUILTINS_H
 
 # include <stdio.h>
+# include <limits.h>
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -21,14 +22,14 @@ typedef enum s_answer
 	YES = 1,
 }t_answer;
 
-typedef	struct s_singleton
+typedef	struct s_minishell
 {
 	int		init;
-	char	*login1;
-	char	*login2;
-}t_singleton;
+	char	**env;
+}t_minishell;
 
-
+t_minishell	*get_minishell(void);
+char	*ft_find_env_variable(char *key, size_t size);
 t_answer	ft_is_option(char valid, char *list);
 void		builtin_echo(char **options);
 t_answer	ft_is_builtin(char *keyword, char *input);
