@@ -26,13 +26,16 @@ typedef	struct s_minishell
 {
 	int		init;
 	char	**env;
+	int		env_size;
 }t_minishell;
 
 t_minishell	*get_minishell(void);
-char	*ft_find_env_variable(char *key, size_t size);
 t_answer	ft_is_option(char valid, char *list);
-void		builtin_echo(char **options);
 t_answer	ft_is_builtin(char *keyword, char *input);
+void		env_var_print(void);
+void		env_var_update(char *key, size_t size, char *value);
+char		*env_var_get_value(char *key, size_t size);
+void		builtin_echo(char **options);
 void		builtin_cd(char **options);
 
 #endif

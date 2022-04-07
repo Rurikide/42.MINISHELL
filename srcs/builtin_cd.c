@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 15:44:44 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/06 16:19:53 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/07 14:37:28 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,26 +34,6 @@ t_answer    ft_is_builtin(char *keyword, char *input)
 
 }
 
-// function searches value of variable in the env
-char	*ft_find_env_variable(char *key, size_t size)
-{
-	t_minishell *ms;
-
-	ms = get_minishell();
-
-	if (ms->env == NULL)
-		return (NULL);
-
-	while (ms->env != NULL)
-	{
-		if (ft_strncmp(*ms->env, key, size) == SUCCESS)
-			return (&(*ms->env)[size]);
-		else
-			ms->env++;
-	}
-	return (NULL);
-}
-
 // Absolute path starts with '/' meaning at the root
 // chdir(char *path) returns 0 on SUCCESS, -1 on FAIL
 void	builtin_cd(char **options)
@@ -61,7 +41,7 @@ void	builtin_cd(char **options)
 	char	s[PATH_MAX];
 	char	*home;
 	
-	home = ft_find_env_variable("HOME=", 5);
+	home = get_env_var_value("HOME=", 5);
 	if (home == NULL)
 		printf("ERROR? no home variable\n");
 		
