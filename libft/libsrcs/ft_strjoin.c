@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/02 20:36:30 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/01/18 21:17:03 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/08 16:20:04 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	while (s2 != NULL && s2[j])
 		newstr[i++] = s2[j++];
 	newstr[i] = '\0';
-	free((void *)s1);
 	s1 = NULL;
 	return (newstr);
 }

@@ -6,11 +6,11 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 12:00:31 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/05 17:16:31 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/08 14:43:01 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incls/builtins.h"
+#include "builtins.h"
 
 // function scanning the string *list and returns a bool depending on 
 // if it only contains the valid option 'n' 

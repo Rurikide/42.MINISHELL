@@ -6,13 +6,13 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 15:44:44 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/07 14:37:28 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/08 17:05:25 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incls/builtins.h"
+#include "builtins.h"
 
-t_answer    ft_is_builtin(char *keyword, char *input)
+t_answer    ft_is_a_match(char *keyword, char *input)
 {
 	size_t i;
 	size_t len;
@@ -38,16 +38,16 @@ t_answer    ft_is_builtin(char *keyword, char *input)
 // chdir(char *path) returns 0 on SUCCESS, -1 on FAIL
 void	builtin_cd(char **options)
 {
+	//t_minishell *minishell;
 	char	s[PATH_MAX];
 	char	*home;
 	
-	home = get_env_var_value("HOME=", 5);
+	home = env_var_get_value("HOME=", 5);
 	if (home == NULL)
 		printf("ERROR? no home variable\n");
-		
 	printf("\033[1;33mINITIAL FOLDER is: %s\033[0m\n", getcwd(s, 100));
 	
-	// if there input is only "cd", chdir will go to the HOME
+	// if the input is only "cd", chdir will go to the HOME
 	if (*options == NULL)
 	{
 		chdir(home);
@@ -61,7 +61,16 @@ void	builtin_cd(char **options)
 		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
 		return ;
 	}
-	printf("CURRENT FOLDER is: %s\n", getcwd(s, 100));
 
-	// TO DO UPDATE OLDPWD= && PWD=
+	env_var_print();
+
+	printf("\033[1;34m-------------------TESTOTOTEST--------------------\033[0m\n");
+	
+	getcwd(s, PATH_MAX);
+	env_var_update("OLDPWD=", 7, s);
+
+	getcwd(s, PATH_MAX);
+	env_var_update("PWD=", 4, s);
+	
+	env_var_print();
 }

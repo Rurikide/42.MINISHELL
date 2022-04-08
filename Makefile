@@ -8,25 +8,32 @@ CFLAGS= -Wall -Werrror -Wextra -c
 
 SDIR= srcs
 ODIR= objs
+BDIR= srcs/builtins
+VDIR= srcs/vector_array
 
-SRCS= main.c builtin_echo.c builtin_cd.c
+SRCS= main.c
 
-OBJS= $(SRCS:.c=.o)
+BUILTINS=  builtin_echo.c builtin_cd.c builtin_pwd.c builtin_export.c
+VECTOR_ARRAY= vector_array.c vector_utils.c
+
+OBJS= $(SRCS:.c=.o) $(BUILTINS:.c=.o) $(VECTOR_ARRAY:.c=.o)
 
 SFIX= $(addprefix $(SDIR)/, $(SRCS))
-OFIX= $(addprefix $(ODIR)/, $(OBJS)) 
+OFIX= $(addprefix $(ODIR)/, $(OBJS))
+BFIX= $(addprefix $(BDIR)/, $(BUILTINS)) 
+VFIX= $(addprefix $(VDIR)/, $(VECTOR_ARRAY)) 
 
-VPATH= $(SDIR)
-
-$(NAME): $(ODIR) $(OFIX)
-		$(MAKE) -C ./libft
-		$(CC) $(OFIX) -lft -L./libft -Llibread -lreadline -lcurses -I./incls -o $(NAME)
+VPATH= $(SDIR) $(BDIR) $(VDIR)
 
 $(ODIR)/%.o: %.c
-			$(CC) $(CFLAGS) -I./libft/libsrcs -I./incls $< -o $@
+			$(CC) $(CFLAGS) -I./libft/libsrcs -I./incls -I./readline $< -o $@
 
 $(ODIR):
 		mkdir -p $(ODIR)
+
+$(NAME): $(ODIR) $(OFIX)
+		$(MAKE) -C ./libft
+		$(CC) $(OFIX) -lft -L./libft -Llibread -lreadline -lcurses -o $(NAME)
 
 
 all: $(NAME)
