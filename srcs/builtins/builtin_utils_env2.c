@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 16:15:40 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/09 16:56:25 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/11 13:05:33 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  // function updating an env var
 void	env_var_update(char *key, size_t size, char *update)
 {
-	size_t i;
+	int i;
 
 	i = 0;
 
@@ -34,7 +34,7 @@ void	env_var_add(char *key, size_t size, char *update)
 {
 	t_minishell *minishell;
 	char **back_up;
-	size_t nb;
+	int nb;
 	
 	nb = 0;
 	back_up = minishell->env;

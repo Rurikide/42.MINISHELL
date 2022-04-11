@@ -32,8 +32,8 @@ int	main(int argc, char **argv, char **env)
 		builtin_cd(&options[1]);
 	else if (ft_is_a_match("pwd", options[0]) == YES)
 		builtin_pwd(&options[1]);
-	else if (ft_is_a_match("export", options[0]) == YES)
-		builtin_export(&options[1]);
+	// else if (ft_is_a_match("export", options[0]) == YES)
+	// 	builtin_export(&options[1]);
 
 	ft_free_table(options);
 

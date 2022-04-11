@@ -41,6 +41,7 @@ void		env_var_update(char *key, size_t size, char *update);
 int			env_var_get_key_index(char *key, size_t size);
 char		*env_var_get_key_value(char *key, size_t size);
 char		*env_var_get_value(char *key, size_t size);
+void		env_var_add(char *key, size_t size, char *update);
 void		builtin_echo(char **options);
 void		builtin_cd(char **options);
 void		builtin_pwd(char **options);

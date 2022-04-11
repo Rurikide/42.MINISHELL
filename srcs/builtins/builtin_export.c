@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 17:15:15 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/09 17:42:35 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/11 13:00:12 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,36 +23,39 @@
 
 
 
-// FINALLY PRINTS all the env var
-t_answer export_option(char *option)
-{
-	size_t i;
+// // FINALLY PRINTS all the env var
+// t_answer export_option(char *option)
+// {
+// 	size_t i;
 
-	i = 0;
+// 	i = 0;
 		
-}
+// }
 
-void	builtin_export(char **options)
-{
-	t_minishell *minishell;
-	size_t i;
-	size_t j;
-	size_t len;
+// void	builtin_export(char **options)
+// {
+// 	t_minishell *minishell;
+// 	size_t i;
+// 	size_t j;
+// 	size_t len;
 
-	i = 0;
-	len = 0;
-	minishell = get_minishell();
-	while (options[i] != NULL)
-	{
-		len = ft_strlen(options[i]);
-		j = 0;
-		while (minishell->env[j] != NULL)
-		{
-			j++;
-		}
-		i++;
-	}
-}
+// 	i = 0;
+// 	j = 0;
+// 	len = 0;
+// 	minishell = get_minishell();
+// 	// looping to check every env var input
+// 	while (options[i] != NULL)
+// 	{
+// 		len = ft_strlen(options[i]);
+// 		j = 0;
+// 		while (minishell->env[j] != NULL)
+// 		{
+// 			minishell->env[j]
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// }
 
 // check sil y a un doublon de KEY
 // check sil y a un KEY= dans loption
