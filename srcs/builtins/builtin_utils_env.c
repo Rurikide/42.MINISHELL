@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 16:04:19 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/09 16:50:55 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/12 16:49:16 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ char	*env_var_get_key_value(char *key, size_t size)
 			printf("%s\n", *ms->env);
 			return (*ms->env);
 		}
-
 		else
 			ms->env++;
 	}
@@ -107,5 +106,7 @@ void	init_env(char **env)
 		minishell->env[nb] = ft_strdup(env[nb]);
 		nb++;
 	}
+	env_var_update("SHLVL=", 6, ft_itoa(minishell->shlvl));
+	
 	minishell->env[nb] = NULL;
 }

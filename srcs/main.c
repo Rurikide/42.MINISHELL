@@ -8,6 +8,7 @@ t_minishell	*get_minishell(void)
 	if (minishell.init != 1)
 	{
 		minishell.init = 1;
+		minishell.shlvl = 2;
 		minishell.env = NULL;
 		minishell.env_size = 0;
 	}
@@ -34,6 +35,10 @@ int	main(int argc, char **argv, char **env)
 		builtin_pwd(&options[1]);
 	// else if (ft_is_a_match("export", options[0]) == YES)
 	// 	builtin_export(&options[1]);
+	// else if (ft_is_a_match("unset", options[0]) == YES)
+	// 	builtin_unset(&options[1]);
+	else if (ft_is_a_match("env", options[0]) == YES)
+		builtin_env(&options[1]);
 
 	ft_free_table(options);
 

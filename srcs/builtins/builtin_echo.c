@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 12:00:31 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/11 13:30:16 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/12 12:09:30 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ t_answer	ft_is_option(char valid, char *list)
 	i = 0;
 	while (list[i] != '\0')
 	{
-		printf("list[i] = %c\n", list[i]);
 		if (valid == list[i])
 			i++;
 		else
@@ -39,32 +38,27 @@ void	builtin_echo(char **options)
 {
 	t_answer	remove_nl;
 	t_answer	is_option;
+	int			i;
 
-	if (*options == NULL)
-		return ;
-	remove_nl = NO;
-	if (*options[0] == '-')
-		remove_nl = ft_is_option('n', &(*options++)[1]);
-	
-
+	i = 0;
 	is_option = YES;
-	while (*options != NULL && is_option == YES)
+	if (options[i] == NULL)
+		return ;
+	if (*options[i] == '-')
+		remove_nl = ft_is_option('n', &(options[i])[1]);
+	while (options[i] != NULL && is_option == YES)
 	{
-		printf("current option = %s\n", *options);
-		printf("is_option = %d\n", is_option);
-		if (*options[0] == '-')
-			is_option = ft_is_option('n', &(*options)[1]);
-		options++;
+		if (*options[i] == '-')
+			is_option = ft_is_option('n', &(options[i])[1]);
+		if (is_option == YES)
+			i++;
 	}
-	while (*options != NULL)
+	while (options[i] != NULL)
 	{
-		printf("current option = %s\n", *options);
-		write(1, *options, ft_strlen(*options));
-		if (*(++options) != NULL)
+		write(1, options[i], ft_strlen(options[i]));
+		if (options[++i] != NULL)
 			write(1, " ", 1);
 	}
-	
-	printf("remove_nl = %d\n", remove_nl);
 	if (remove_nl == NO)
 		write(1, "\n", 1);
 }

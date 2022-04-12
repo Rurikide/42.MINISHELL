@@ -29,6 +29,7 @@ typedef enum s_answer
 typedef	struct s_minishell
 {
 	int		init;
+	int		shlvl;
 	char	**env;
 	int		env_size;
 }t_minishell;
@@ -50,5 +51,5 @@ void		builtin_unset(char **options);
 void		builtin_env(char **options);
 void		builtin_exit(char **options);
 void		init_env(char **env);
-
+int			export_type_key_value(char *option);
 #endif
