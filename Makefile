@@ -13,7 +13,7 @@ VDIR= srcs/vector_array
 
 SRCS= main.c
 
-BUILTINS=  builtin_echo.c builtin_cd.c builtin_pwd.c builtin_export.c builtin_utils_env.c builtin_utils_env2.c builtin_env.c
+BUILTINS=  builtin_echo.c builtin_cd.c builtin_pwd.c builtin_export.c builtin_unset.c builtin_utils_env.c builtin_utils_env2.c builtin_env.c
 VECTOR_ARRAY= vector_array.c vector_utils.c
 
 OBJS= $(SRCS:.c=.o) $(BUILTINS:.c=.o) $(VECTOR_ARRAY:.c=.o)

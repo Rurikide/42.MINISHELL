@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 16:15:40 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/11 13:05:33 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/13 15:40:54 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,29 @@ void	env_var_add(char *key, size_t size, char *update)
 		nb++;
 	}
 	minishell->env[nb] = ft_strjoin(key, update);
+}
+
+void	env_var_del(char *key, int env_index)
+{
+	t_minishell *minishell;
+	char **back_up;
+	int i;
+	int j;
+	
+	i = 0;
+	j = 0;
+	minishell = get_minishell();
+	minishell->env_size--;
+	back_up = minishell->env;
+	// ft_free_table(minishell->env);
+	// free(minishell->env);
+	minishell->env = ft_calloc(minishell->env_size, sizeof(char *));
+	while (i < minishell->env_size - 1)
+	{
+		if (i == env_index)
+			j++;
+		minishell->env[i++] = ft_strdup(back_up[j++]);
+	}
+	// JE PENSE PAS BESOIN DE METTRE UN NULL
 }
 

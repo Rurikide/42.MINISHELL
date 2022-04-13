@@ -35,8 +35,8 @@ int	main(int argc, char **argv, char **env)
 		builtin_pwd(&options[1]);
 	// else if (ft_is_a_match("export", options[0]) == YES)
 	// 	builtin_export(&options[1]);
-	// else if (ft_is_a_match("unset", options[0]) == YES)
-	// 	builtin_unset(&options[1]);
+	else if (ft_is_a_match("unset", options[0]) == YES)
+		builtin_unset(&options[1]);
 	else if (ft_is_a_match("env", options[0]) == YES)
 		builtin_env(&options[1]);
 

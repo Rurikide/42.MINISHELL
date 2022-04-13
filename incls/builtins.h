@@ -37,12 +37,14 @@ typedef	struct s_minishell
 t_minishell	*get_minishell(void);
 t_answer	ft_is_option(char valid, char *list);
 t_answer	ft_is_a_match(char *keyword, char *input);
+t_answer is_only_key_identifier(char *option);
 void		env_var_print(void);
 void		env_var_update(char *key, size_t size, char *update);
 int			env_var_get_key_index(char *key, size_t size);
 char		*env_var_get_key_value(char *key, size_t size);
 char		*env_var_get_value(char *key, size_t size);
 void		env_var_add(char *key, size_t size, char *update);
+void		env_var_del(char *key, int env_index);
 void		builtin_echo(char **options);
 void		builtin_cd(char **options);
 void		builtin_pwd(char **options);

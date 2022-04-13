@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 16:05:56 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/12 16:11:50 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/13 11:07:54 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,4 +15,7 @@
 void	builtin_env(char **options)
 {
 	env_var_print();
+
+	// if (*options != NULL)
+	// in case of options should I print?   env: options: No such file or directory
 }
