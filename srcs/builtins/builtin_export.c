@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 17:15:15 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/12 15:37:07 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/15 17:04:28 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,90 +21,145 @@
 // IF THE VAR EXIST and you try to export with KEY= it will be updated.
 // IF ITS THE SAME ENV VAR, it will update with the lastest entry
 
-
-// VALID KEY ABCabc underscore_ 
-// slash / = invalid identifier???
-
-
-// EXEMPLE DE INPUT
-// options[0] == VAR1       -> VAR1
-// options[1] == VAR2=      -> VAR2=""
-// options[2] == VAR3=abc   -> VAR3=abc
 // a verifier avec Alex sil enleve le backslash
+void	ft_swap(char **s1, char **s2)
+{
+	char *temp;
 
-// int	export_type_key_value(char *option)
+	temp = *s1;
+	*s1 = *s2;
+	*s2 = temp;
+}
+
+void	env_var_print_in_order(t_minishell *ms, int i, int j)
+{
+	char **table;
+
+	table = ft_calloc(ms->env_size, sizeof(char *));
+	while (ms->env[i] != NULL)
+	{
+		table[i] = ft_strdup(ms->env[i]);
+		i++;
+	}
+	i = 0;
+	while (table[i] != NULL)
+	{
+		j = i + 1;
+		while (table[j] != NULL)
+		{
+
+			if (ft_strcmp(table[i], table[j]) > 0)
+				ft_swap(&table[i], &table[j]);
+			j++;
+		}
+		i++;
+	}
+	i = 0;
+	while (table[i])
+		printf("%s\n", table[i++]);
+	ft_free_table(table);
+}
+
+// 45 - 46 . 47 / 58 : 95 _ 34 "
+// int	special_value_ascii(char *line, int i, int j)
 // {
-// 	int	type;
-// 	int i;
-// 	// type 0 == error invalid identifier
-// 	// type 1 == valid key
-// 	// type 2 == key followed by '='
-// 	// type 3 == key=value pair 
-// 	type = 0;
+// 	char	*charset;
+// 	int		valid;
+
+// 	charset = (char [6]){45, 46, 47, 58, 95};
+
 // 	i = 0;
-// 	if (!ft_isalpha(option[i]) && option[i] != '_')
-// 		return (type);
-// 	else
-// 		type = 1;
-// 	i++;
-// 	while (option[i] != '\0' && type == 1)
+// 	while (line[i])
 // 	{
-// 		if (option[i] == '=')
-// 			type = 2;
+// 		valid = 0;
+// 		j = 0;
+// 		while (charset[j])
+// 		{
+// 			if (line[i] == charset[j])
+// 				valid = 1;
+// 			j++;
+// 		}
+// 		if (valid == 0)
+// 			printf("Found invalid character");
 // 		i++;
 // 	}
-// 	if (option[i] != '\0')
-// 		type = 3; 
-// 	return (type);
+// 	return (valid);
 // }
 
-// function returning the name of the key
-// char *export_get_key(char *option)
-// {
-	
-// }
+int	evaluate_export_key(char *option)
+{
+	int i;
+	int equal;
 
-// void	builtin_export(char **options)
-// {
-// 	t_minishell *minishell;
-// 	int i;
-// 	int j;
-// 	int len;
-// 	int type;
+	i = 1;
+	equal = NO;
+	if (!ft_isalpha(option[0]) && option[0] != '_')
+	{
+		printf("ici\n");
+		return (FAIL);
+	}
+	while (option[i])
+	{
+		if (option[i] == '=')
+		{
+			equal = YES;
+			if (option[i + 1] == '\0')
+				return (2);
+			else 
+				return (3);
+		}
+		// CHECK UP POUR UNE VALID KEY
+		if (!ft_isalnum(option[i]) && option[i] != '_' && equal == NO)
+		{
+			printf("incorrect key\n ");
+			return (FAIL);
+		}
+		//
+		// fonction qui regarde les caractere dans les values
+		//
+		if (option[i] == '/' && equal == NO)
+			return(FAIL);
+		i++;
+	}
+	return(1);
+}
 
-// 	i = 0;
-// 	j = 0;
-// 	len = 0;
-// 	minishell = get_minishell();
-// 	if (options[i] == NULL)
-// 		return ;
+void	builtin_export(char **options)
+{
+	int i;
 
-// 	while (options[i] != NULL)
-// 	{
-// 		printf("options[%d] == %s\n", i, options[i]);
-// 		type = export_type_key_value(options[i]);
-// 		printf("type = %d\n", type);
-// 		if (type == 0)
-// 			printf("error identifier\n");
-// 		else if (type == 1)
-// 		{
-// 			env_var_update()
-// 		}
-// 		else if (type == 2)
-// 		{
-// 			printf("type 2\n");
-// 		}
-// 		else if (type == 3)
-// 		{
-// 			printf("type 3\n");
-// 		}
-// 		i++;
-// 	}
-// }
+	i = 0;
+	// If there are no options, EXPORT print env is alpha order
+	if (options[i] == NULL)
+	{
+		env_var_print_in_order(get_minishell(), 0, 0);
+		return ;
+	}
+	while (options[i])
+	{
+		printf("option: %s\n", options[i]);
+		int type = evaluate_export_key(options[i]);
+		printf("type: %d\n", type);
 
-// check sil y a un doublon de KEY
-// check sil y a un KEY= dans loption
+		// ENSUITE VERIFIER SI LA KEY EXISTE DANS ENV
+		/*
+		si la key=value existe deja avec une valeur
+		type1 = no update
+		typ2 & 3 = update
 
+		si cest a key=
+		type1 = no update
+		typ2 & 3 = update
 
-// unset SHLVL donne SHLVL=1
-// unset PWD   delete, mais garde en memoire. 
+		si la key SEUL pas de =
+		type1 = no update
+		typ2 & 3 = update
+
+	si la key nexiste pas
+	NEW ENV VAR!
+		*/
+		// si le type == 1
+
+		i++;
+	}
+}

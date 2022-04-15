@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 16:15:40 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/13 15:40:54 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/15 17:11:07 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 // key == name of the env var; size == len of the env var + 1 for the '='; update == value only to the env var
 
  // function updating an env var
+ // env_var_update must receive the key followed by a '=' for the ft_strjoin
 void	env_var_update(char *key, size_t size, char *update)
 {
 	int i;
@@ -70,6 +71,41 @@ void	env_var_del(char *key, int env_index)
 			j++;
 		minishell->env[i++] = ft_strdup(back_up[j++]);
 	}
-	// JE PENSE PAS BESOIN DE METTRE UN NULL
+	// Je crois que ce n'est pas nécessaire de mettre un NULL, mais à reverifier
 }
 
+
+int	env_var_key_len(char *key)
+{
+	int	len;
+
+	len = 0;
+	while (key[len] != '=' && key[len] != '\0')
+	{
+		len++;
+	}
+	return (len);
+}
+
+int	env_var_matching_key(char *option)
+{
+	t_minishell	*minishell;
+	int			i;
+	int			key_len;
+	int			option_len;
+
+	i = 0;
+	option_len = ft_strlen(option);
+	minishell = get_minishell();
+	while (minishell->env[i] != NULL)
+	{
+		key_len = env_var_key_len(minishell->env[i]);
+		if (key_len == option_len)
+		{
+			if (ft_strncmp(minishell->env[i], option, key_len) == SUCCESS)
+				return (i);
+		}
+		i++;
+	}
+	return (FAIL);
+}

@@ -4,7 +4,7 @@ AR= ar rc
 RM= rm -rf
 
 CC= gcc
-CFLAGS= -Wall -Werrror -Wextra -c
+CFLAGS= -Wall -Werrror -Wextra -g -c
 
 SDIR= srcs
 ODIR= objs
