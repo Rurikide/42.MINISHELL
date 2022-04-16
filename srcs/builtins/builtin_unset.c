@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 11:10:52 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/15 17:11:01 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/16 15:45:15 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ void	builtin_unset(char **options)
 			if (env_index != FAIL)
 			{
 				if (ft_strncmp(options[i], "SHLVL", 5) == SUCCESS)
-					env_var_update("SHLVL=", 6, "1");
+					env_var_update("SHLVL", "1");
 				else
-					env_var_del(options[i], env_index);
+					env_var_del(env_index);
 			}
 		}
 		i++;

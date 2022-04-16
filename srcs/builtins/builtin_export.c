@@ -6,61 +6,17 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 17:15:15 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/15 17:04:28 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/16 17:50:56 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-// function adding an env var if there is options 
-// BASH export KEY without =VALUE adds a new env var with just the name
-// export KEY= without value outputs KEY=""
-// IF THE env var already exist, it will update it!!!
-// EXPORT CAN ADD MULTIPLE VAR AT ONCE
-// IF THE VAR EXIST and you try export just the KEY, the VAR will remain unchanged
-// IF THE VAR EXIST and you try to export with KEY= it will be updated.
-// IF ITS THE SAME ENV VAR, it will update with the lastest entry
-
 // a verifier avec Alex sil enleve le backslash
-void	ft_swap(char **s1, char **s2)
-{
-	char *temp;
 
-	temp = *s1;
-	*s1 = *s2;
-	*s2 = temp;
-}
+// #45 '-' #46 '.' #47 '/' %58 ':' #95 '_' #34 '"'
 
-void	env_var_print_in_order(t_minishell *ms, int i, int j)
-{
-	char **table;
 
-	table = ft_calloc(ms->env_size, sizeof(char *));
-	while (ms->env[i] != NULL)
-	{
-		table[i] = ft_strdup(ms->env[i]);
-		i++;
-	}
-	i = 0;
-	while (table[i] != NULL)
-	{
-		j = i + 1;
-		while (table[j] != NULL)
-		{
-
-			if (ft_strcmp(table[i], table[j]) > 0)
-				ft_swap(&table[i], &table[j]);
-			j++;
-		}
-		i++;
-	}
-	i = 0;
-	while (table[i])
-		printf("%s\n", table[i++]);
-	ft_free_table(table);
-}
-
-// 45 - 46 . 47 / 58 : 95 _ 34 "
 // int	special_value_ascii(char *line, int i, int j)
 // {
 // 	char	*charset;
@@ -86,7 +42,7 @@ void	env_var_print_in_order(t_minishell *ms, int i, int j)
 // 	return (valid);
 // }
 
-int	evaluate_export_key(char *option)
+int	evaluate_export_type(char *option)
 {
 	int i;
 	int equal;
@@ -95,7 +51,7 @@ int	evaluate_export_key(char *option)
 	equal = NO;
 	if (!ft_isalpha(option[0]) && option[0] != '_')
 	{
-		printf("ici\n");
+		printf("FAIL ici\n");
 		return (FAIL);
 	}
 	while (option[i])
@@ -127,7 +83,9 @@ int	evaluate_export_key(char *option)
 void	builtin_export(char **options)
 {
 	int i;
-
+	int type;
+	int pos;
+	
 	i = 0;
 	// If there are no options, EXPORT print env is alpha order
 	if (options[i] == NULL)
@@ -137,29 +95,24 @@ void	builtin_export(char **options)
 	}
 	while (options[i])
 	{
-		printf("option: %s\n", options[i]);
-		int type = evaluate_export_key(options[i]);
-		printf("type: %d\n", type);
-
-		// ENSUITE VERIFIER SI LA KEY EXISTE DANS ENV
-		/*
-		si la key=value existe deja avec une valeur
-		type1 = no update
-		typ2 & 3 = update
-
-		si cest a key=
-		type1 = no update
-		typ2 & 3 = update
-
-		si la key SEUL pas de =
-		type1 = no update
-		typ2 & 3 = update
-
-	si la key nexiste pas
-	NEW ENV VAR!
-		*/
-		// si le type == 1
-
+		type = evaluate_export_type(options[i]);
+		// TYPE1: KEY ONLY    TYPE2: KEY=  TYPE3: KEY=VALUE
+		pos = env_var_matching_key(options[i]);
+		// if la var existe deja et de type 2 ou 3
+		if ((type == 2 || type == 3) && pos != FAIL)
+			env_var_export_update(options[i], pos, NO);
+		// else if new var de type 2 ou 3
+		else if ((type == 2 || type == 3) && pos == FAIL)
+			env_var_export_update(options[i], pos, YES);
+		// else if its a new variable!!!
+		else if (type == 1 && pos == FAIL)
+			env_var_export_update(options[i], pos, YES);
 		i++;
 	}
+	//
+	env_var_print();
+	printf("==================TEST=================\n");
+	env_var_print_in_order(get_minishell(), 0, 0);
 }
+
+// POOURRQUOI   ./minishell "export type=shadoow TERM= ZSH=ciaobye LESS _=/R" ??? le dernier print avant le type=shadoow

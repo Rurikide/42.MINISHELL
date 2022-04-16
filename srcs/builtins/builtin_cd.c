@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 15:44:44 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/15 12:09:13 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/16 15:45:45 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ void	builtin_cd(char **options)
 	env_var_print();
 	printf("\033[1;34m------TESTOTOTEST---------\033[0m\n");
 	getcwd(s, PATH_MAX);
-	env_var_update("OLDPWD=", 7, s);
+	env_var_update("OLDPWD", s);
 	getcwd(s, PATH_MAX);
-	env_var_update("PWD=", 4, s);
+	env_var_update("PWD", s);
 	env_var_print();
 }

@@ -1,40 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*   ft_swap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/12 16:05:56 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/16 17:57:39 by tshimoda         ###   ########.fr       */
+/*   Created: 2022/04/16 13:15:04 by tshimoda          #+#    #+#             */
+/*   Updated: 2022/04/16 13:15:39 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "libft.h"
 
-int		env_var_is_key_only(char *option)
+void	ft_swap(char **s1, char **s2)
 {
-	int i;
-	int equal;
+	char	*temp;
 
-	i = 0;
-	equal = YES;
-	while (option[i])
-	{
-		if (option[i] == '=')
-		{
-			equal = NO;
-			break ;
-		}
-		i++;
-	}
-	return (equal);
+	temp = *s1;
+	*s1 = *s2;
+	*s2 = temp;
 }
-
-void	builtin_env(char **options)
-{
-	env_var_print();
-}
-
-	// if (*options != NULL)
-	// in case of options should I print?   env: options: No such file or directory

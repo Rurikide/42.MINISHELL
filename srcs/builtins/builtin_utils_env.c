@@ -6,15 +6,51 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 16:04:19 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/12 16:49:16 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/16 17:11:31 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-// function return the whole env var. ex HOME=usr/
-char	*env_var_get_key_value(char *key, size_t size)
+int	env_var_key_len(char *key)
 {
+	int	len;
+
+	len = 0;
+	while (key[len] != '=' && key[len] != '\0')
+	{
+		len++;
+	}
+	return (len);
+}
+
+int	env_var_matching_key(char *option)
+{
+	t_minishell	*minishell;
+	int			i;
+	int			key_len;
+	int			option_len;
+
+	i = 0;
+	option_len = env_var_key_len(option);
+	minishell = get_minishell();
+	while (minishell->env[i] != NULL)
+	{
+		key_len = env_var_key_len(minishell->env[i]);
+		if (key_len == option_len)
+		{
+			if (ft_strncmp(minishell->env[i], option, key_len) == SUCCESS)
+				return (i);
+		}
+		i++;
+	}
+	return (FAIL);
+}
+
+// function return the whole env var. ex HOME=usr/
+char	*env_var_get_key_value(char *key)
+{
+	// key is just the KEY no '='
 	t_minishell *ms;
 
 	ms = get_minishell();
@@ -24,9 +60,11 @@ char	*env_var_get_key_value(char *key, size_t size)
 
 	while (*ms->env != NULL)
 	{
-		if (ft_strncmp(*ms->env, key, size) == SUCCESS)
+		//printf("whats the key ? %s\n", key);
+		if (env_var_matching_key(key) == SUCCESS)
+		//if (ft_strncmp(*ms->env, key, size) == SUCCESS)
 		{
-			printf("%s\n", *ms->env);
+			//printf("%s\n", *ms->env);
 			return (*ms->env);
 		}
 		else
@@ -55,6 +93,7 @@ int	env_var_get_key_index(char *key, size_t size)
 // function retrieves the value of the key env m
 char	*env_var_get_value(char *key, size_t size)
 {
+	// key is the KEY with the '='
 	t_minishell *ms;
 
 	ms = get_minishell();
@@ -71,21 +110,6 @@ char	*env_var_get_value(char *key, size_t size)
 			ms->env++;
 	}
 	return (NULL);
-}
-
-// function prints the list of the env variable not in alphabetical order
-void	env_var_print(void)
-{
-	t_minishell *minishell;
-	size_t i;
-
-	i = 0;
-	minishell = get_minishell();
-	while (minishell->env[i] != NULL)
-	{
-		printf("%s\n", minishell->env[i]);
-		i++;
-	}
 }
 
 // function allocates memory for minishell->env and strdup the env from the main
@@ -106,7 +130,7 @@ void	init_env(char **env)
 		minishell->env[nb] = ft_strdup(env[nb]);
 		nb++;
 	}
-	env_var_update("SHLVL=", 6, ft_itoa(minishell->shlvl));
+	env_var_update("SHLVL", ft_itoa(minishell->shlvl));
 	
 	minishell->env[nb] = NULL;
 }

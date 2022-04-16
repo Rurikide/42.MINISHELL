@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 13:56:02 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/15 14:55:24 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/16 13:29:54 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ int		ft_table_len(char **tab);
 int		ft_is_space_tab(char c);
 int		ft_is_dash_comma_dot(char c);
 void	ft_skip_space_tab(char *line, int *i);
+void	ft_swap(char **s1, char **s2);
 
 #endif
