@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 16:04:19 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/16 17:11:31 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/18 15:15:06 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,23 +52,21 @@ char	*env_var_get_key_value(char *key)
 {
 	// key is just the KEY no '='
 	t_minishell *ms;
+	int i;
 
+	i = 0;
 	ms = get_minishell();
-
-	if (*ms->env == NULL)
-		return (NULL);
-
-	while (*ms->env != NULL)
+	while (ms->env[i] != NULL)
 	{
 		//printf("whats the key ? %s\n", key);
 		if (env_var_matching_key(key) == SUCCESS)
 		//if (ft_strncmp(*ms->env, key, size) == SUCCESS)
 		{
 			//printf("%s\n", *ms->env);
-			return (*ms->env);
+			return (ms->env[i]);
 		}
 		else
-			ms->env++;
+			i++;
 	}
 	return (NULL);
 }
@@ -95,19 +93,17 @@ char	*env_var_get_value(char *key, size_t size)
 {
 	// key is the KEY with the '='
 	t_minishell *ms;
+	int i;
 
+	i = 0;
 	ms = get_minishell();
-
-	if (ms->env == NULL)
-		return (NULL);
-
-	while (ms->env != NULL)
+	while (ms->env[i] != NULL)
 	{
-		if (ft_strncmp(*ms->env, key, size) == SUCCESS)
-			return (&(*ms->env)[size]);
+		if (ft_strncmp(ms->env[i], key, size) == SUCCESS)
+			return (&(ms->env[i])[size]);
 			// return the value after the '='
 		else
-			ms->env++;
+			i++;
 	}
 	return (NULL);
 }
@@ -117,6 +113,8 @@ void	init_env(char **env)
 {
 	t_minishell *minishell;
 	size_t nb;
+	char *sh;
+	int lvl;
 
 	nb = 0;
 	while (env[nb] != NULL)
@@ -130,7 +128,9 @@ void	init_env(char **env)
 		minishell->env[nb] = ft_strdup(env[nb]);
 		nb++;
 	}
-	env_var_update("SHLVL", ft_itoa(minishell->shlvl));
 	
+	sh = env_var_get_value("SHLVL=", 6);
+	lvl = (ft_atoi(sh) + 1);
+	env_var_update("SHLVL", ft_itoa(lvl));
 	minishell->env[nb] = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 11:10:52 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/16 15:45:15 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/18 13:57:02 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,4 @@ void	builtin_unset(char **options)
 		}
 		i++;
 	}
-	env_var_print();
 }

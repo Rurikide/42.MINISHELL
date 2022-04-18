@@ -8,6 +8,9 @@
 # include <readline/history.h>
 # include "libft.h"
 
+# define TOO_MANY_ARG 1 // bash: exit: too many arguments
+# define NON_NUMERIC 255 // bash: exit: var: numeric argument required
+
 typedef enum s_status
 {
 	FAIL = -1,
@@ -26,6 +29,7 @@ typedef	struct s_minishell
 	int		shlvl;
 	char	**env;
 	int		env_size;
+	int		exit_nb;
 }t_minishell;
 
 t_minishell	*get_minishell(void);

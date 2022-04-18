@@ -8,25 +8,16 @@ t_minishell	*get_minishell(void)
 	if (minishell.init != 1)
 	{
 		minishell.init = 1;
-		minishell.shlvl = 2;
+		minishell.shlvl = 1;
 		minishell.env = NULL;
 		minishell.env_size = 0;
+		minishell.exit_nb = 0;
 	}
 	return (&minishell);
 }
 
-int	main(int argc, char **argv, char **env)
+void	scan_builtins(char **options)
 {
-	t_minishell *minishell;
-	char *str;
-	char **options;
-
-	init_env(env);
-	minishell = get_minishell();
-	if (argc < 2)
-		return (0);
-	str = argv[1];
-	options = ft_split(str, ' ');
 	if (ft_is_a_match("echo", options[0]) == YES)
 		builtin_echo(&options[1]);
 	else if (ft_is_a_match("cd", options[0]) == YES)
@@ -39,17 +30,31 @@ int	main(int argc, char **argv, char **env)
 		builtin_unset(&options[1]);
 	else if (ft_is_a_match("env", options[0]) == YES)
 		builtin_env(&options[1]);
+}
+
+int	main(int argc, char **argv, char **env)
+{
+	t_minishell *minishell;
+	char *str;
+	char **options;
+
+	init_env(env);
+	minishell = get_minishell();
+
+	while (1)
+	{
+		str = readline("minishell> ");
+		add_history(str);
+	// ALEX VA PARSER STR
+
+		options = ft_split(str, ' ');
+		scan_builtins(options);
+
+		//printf("%s\n", str);
+	}
 
 	ft_free_table(options);
-
-
-	// while (1)
-	// {
-	// 	char *str = readline("minishell> ");
-	// 	printf("%s\n", str);
-	// 	add_history(str);
-	// }
-
 	// readline il faut free
+	// ne pas oublier de free str
 	return (0);
 }

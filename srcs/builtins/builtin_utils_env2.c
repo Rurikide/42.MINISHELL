@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 16:15:40 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/16 17:40:52 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/18 14:35:16 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,6 @@ void	env_var_update(char *key, char *update)
 {
 	int i;
 
-	i = 0;
-
-	// FAIRE UN CHECK SI LA VARIABLE NEXISTE PAS
-	//i = env_var_get_key_index(key, size);
 	i = env_var_matching_key(key);
 	if (i == FAIL)
 		env_var_add(key, update);
@@ -55,7 +51,6 @@ void	env_var_update(char *key, char *update)
 		get_minishell()->env[i] = ft_strjoin_symbol(key, '=', update);
 }
 
-// function who adds a new env var
 void	env_var_add(char *key, char *update)
 {
 	t_minishell *minishell;

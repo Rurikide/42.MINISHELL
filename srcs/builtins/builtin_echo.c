@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 12:00:31 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/12 12:09:30 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/18 13:56:35 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ t_answer	ft_is_option(char valid, char *list)
 	size_t	i;
 
 	i = 0;
+	if (list[i] == '\0')
+		return (NO);
 	while (list[i] != '\0')
 	{
 		if (valid == list[i])
@@ -37,21 +39,19 @@ t_answer	ft_is_option(char valid, char *list)
 void	builtin_echo(char **options)
 {
 	t_answer	remove_nl;
-	t_answer	is_option;
 	int			i;
 
 	i = 0;
-	is_option = YES;
-	if (options[i] == NULL)
-		return ;
-	if (*options[i] == '-')
-		remove_nl = ft_is_option('n', &(options[i])[1]);
-	while (options[i] != NULL && is_option == YES)
+	remove_nl = NO;
+	// if (*options[i] == '-')
+	// 	remove_nl = ft_is_option('n', &(options[i])[1]);
+	while (options[i] != NULL && *options[i] == '-')
 	{
-		if (*options[i] == '-')
-			is_option = ft_is_option('n', &(options[i])[1]);
-		if (is_option == YES)
-			i++;
+		if (ft_is_option('n', &(options[i])[1]) == YES)
+			remove_nl = YES;
+		else
+			break ;
+		i++;
 	}
 	while (options[i] != NULL)
 	{

@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 17:15:15 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/16 17:50:56 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/18 13:57:18 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,8 @@ void	builtin_export(char **options)
 		i++;
 	}
 	//
-	env_var_print();
-	printf("==================TEST=================\n");
+	// env_var_print();
+	// printf("==================TEST=================\n");
 	env_var_print_in_order(get_minishell(), 0, 0);
 }
 
