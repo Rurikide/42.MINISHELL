@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 11:10:52 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/18 13:57:02 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/20 11:48:52 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_answer	is_only_key_identifier(char *option)
 		return (NO);
 	while (option[i] != '\0')
 	{
-		if (!ft_isalnum(option[i]) && option[i] == '=')
+		if (!ft_isalnum(option[i]) && option[i] != '_')
 			return (NO);
 		i++;
 	}
@@ -41,11 +41,15 @@ void	builtin_unset(char **options)
 	int		env_index;
 
 	i = 0;
+	get_minishell()->exit_nb = SUCCESS;
 	while (options[i] != NULL)
 	{
 		if (is_only_key_identifier(options[i]) == NO)
 		{
+			// a ameliorer???
 			printf("unset: %s: not a valid identifier\n", options[i]);
+			//
+			get_minishell()->exit_nb = ERROR_1;
 		}
 		else
 		{
@@ -61,3 +65,9 @@ void	builtin_unset(char **options)
 		i++;
 	}
 }
+
+// unset met ERROR_1 dès qu'il y a une invalid key
+
+
+// bash-3.2$ unset __(
+//bash: syntax error near unexpected token `('

@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 17:15:15 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/18 13:57:18 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/20 12:13:35 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,7 @@ int	evaluate_export_type(char *option)
 	i = 1;
 	equal = NO;
 	if (!ft_isalpha(option[0]) && option[0] != '_')
-	{
-		printf("FAIL ici\n");
 		return (FAIL);
-	}
 	while (option[i])
 	{
 		if (option[i] == '=')
@@ -64,7 +61,6 @@ int	evaluate_export_type(char *option)
 			else 
 				return (3);
 		}
-		// CHECK UP POUR UNE VALID KEY
 		if (!ft_isalnum(option[i]) && option[i] != '_' && equal == NO)
 		{
 			printf("incorrect key\n ");
@@ -85,9 +81,10 @@ void	builtin_export(char **options)
 	int i;
 	int type;
 	int pos;
+	int	printer;
 	
 	i = 0;
-	// If there are no options, EXPORT print env is alpha order
+	get_minishell()->exit_nb = SUCCESS;
 	if (options[i] == NULL)
 	{
 		env_var_print_in_order(get_minishell(), 0, 0);
@@ -95,6 +92,12 @@ void	builtin_export(char **options)
 	}
 	while (options[i])
 	{
+		if (is_only_key_identifier(options[i]) == NO)
+		{
+			printf("unset: %s: not a valid identifier\n", options[i]);
+			printer = NO;
+			get_minishell()->exit_nb = ERROR_1;
+		}
 		type = evaluate_export_type(options[i]);
 		// TYPE1: KEY ONLY    TYPE2: KEY=  TYPE3: KEY=VALUE
 		pos = env_var_matching_key(options[i]);
@@ -109,10 +112,8 @@ void	builtin_export(char **options)
 			env_var_export_update(options[i], pos, YES);
 		i++;
 	}
-	//
-	// env_var_print();
-	// printf("==================TEST=================\n");
-	env_var_print_in_order(get_minishell(), 0, 0);
+	if (printer != NO)
+		env_var_print_in_order(get_minishell(), 0, 0);
 }
 
 // POOURRQUOI   ./minishell "export type=shadoow TERM= ZSH=ciaobye LESS _=/R" ??? le dernier print avant le type=shadoow

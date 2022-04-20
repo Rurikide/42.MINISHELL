@@ -15,6 +15,8 @@ typedef enum s_status
 {
 	FAIL = -1,
 	SUCCESS = 0,
+	ERROR_1 = 1,
+	ERROR_127 = 127  // bash: 0: command not found == 127
 }t_status;
 
 typedef enum s_answer

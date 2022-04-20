@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 15:44:44 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/18 10:58:02 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/20 11:05:09 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,16 @@ void	builtin_cd(char **options)
 	char	s[PATH_MAX];
 	char	*home;
 
+	env_var_update("OLDPWD", getcwd(s, PATH_MAX));
 	home = env_var_get_value("HOME=", 5);
-	if (home == NULL)
-		printf("ERROR? no home variable\n");
-	printf("\033[1;33mINITIAL FOLDER is: %s\033[0m\n", getcwd(s, 100));
 	if (*options == NULL)
 	{
+		if (home == NULL)
+		{
+			ft_putstr_fd("minishell: cd: HOME not set\n", STDERR_FILENO);
+			get_minishell()->exit_nb = ERROR_1;
+			return ;
+		}
 		chdir(home);
 	}
 	else if (chdir(*options) == FAIL)
@@ -56,13 +60,10 @@ void	builtin_cd(char **options)
 		ft_putstr_fd("cd: ", STDERR_FILENO);
 		ft_putstr_fd(*options, STDERR_FILENO);
 		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		get_minishell()->exit_nb = ERROR_1;
 		return ;
 	}
-	env_var_print();
-	printf("\033[1;34m------TESTOTOTEST---------\033[0m\n");
-	getcwd(s, PATH_MAX);
-	env_var_update("OLDPWD", s);
-	getcwd(s, PATH_MAX);
-	env_var_update("PWD", s);
-	env_var_print();
+	chdir(*options);
+	env_var_update("PWD", getcwd(s, PATH_MAX));
+	get_minishell()->exit_nb = SUCCESS;
 }

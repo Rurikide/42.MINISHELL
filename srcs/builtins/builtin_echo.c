@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 12:00:31 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/18 13:56:35 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/20 12:07:40 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,12 @@ void	builtin_echo(char **options)
 
 	i = 0;
 	remove_nl = NO;
-	// if (*options[i] == '-')
-	// 	remove_nl = ft_is_option('n', &(options[i])[1]);
+	if (*options == NULL)
+	{
+		write(1, "\n", 1);
+		get_minishell()->exit_nb = SUCCESS;
+		return ;
+	}
 	while (options[i] != NULL && *options[i] == '-')
 	{
 		if (ft_is_option('n', &(options[i])[1]) == YES)
@@ -55,10 +59,23 @@ void	builtin_echo(char **options)
 	}
 	while (options[i] != NULL)
 	{
-		write(1, options[i], ft_strlen(options[i]));
+		if (options[i][0] == '$' && options[i][1] == '?')
+		{
+			ft_putstr_fd(ft_itoa(get_minishell()->exit_nb), STDIN_FILENO);
+			if (options[i][2] != '\0')
+				write(1, &options[i][2], ft_strlen(&options[i][2]));
+
+		}
+		else
+			write(1, options[i], ft_strlen(options[i]));
 		if (options[++i] != NULL)
 			write(1, " ", 1);
 	}
 	if (remove_nl == NO)
 		write(1, "\n", 1);
+	get_minishell()->exit_nb = SUCCESS;
 }
+
+// echo $?? , bash print le deuxieme ? comme un char normal.
+// echo renvoi 0 on success
+// echo renvoi 127 
