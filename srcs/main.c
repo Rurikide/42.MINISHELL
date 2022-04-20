@@ -12,6 +12,8 @@ t_minishell	*get_minishell(void)
 		minishell.env = NULL;
 		minishell.env_size = 0;
 		minishell.exit_nb = 0;
+		minishell.user_input = NULL;
+		minishell.options = NULL;
 	}
 	return (&minishell);
 }
@@ -30,31 +32,26 @@ void	scan_builtins(char **options)
 		builtin_unset(&options[1]);
 	else if (ft_is_a_match("env", options[0]) == YES)
 		builtin_env(&options[1]);
+	else if (ft_is_a_match("exit", options[0]) == YES)
+		builtin_exit(&options[1]);
 }
 
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell *minishell;
-	char *str;
 	char **options;
 
+	(void)argv;
 	init_env(env);
 	minishell = get_minishell();
 
-	while (1)
+	while (true)
 	{
-		str = readline("minishell> ");
-		add_history(str);
-	// ALEX VA PARSER STR
-
-		options = ft_split(str, ' ');
+		minishell->user_input = readline("minishell> ");
+		add_history(minishell->user_input);
+		options = ft_split(minishell->user_input, ' ');
+		minishell->options = options;
 		scan_builtins(options);
-
-		//printf("%s\n", str);
 	}
-
-	ft_free_table(options);
-	// readline il faut free
-	// ne pas oublier de free str
 	return (0);
 }

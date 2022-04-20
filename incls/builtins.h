@@ -32,6 +32,9 @@ typedef	struct s_minishell
 	char	**env;
 	int		env_size;
 	int		exit_nb;
+	char *user_input;
+	char	**options;
+
 }t_minishell;
 
 t_minishell	*get_minishell(void);

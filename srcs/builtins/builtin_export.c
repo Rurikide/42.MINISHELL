@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 17:15:15 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/20 12:13:35 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/20 17:06:51 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,15 @@ void	builtin_export(char **options)
 	}
 	while (options[i])
 	{
-		if (is_only_key_identifier(options[i]) == NO)
-		{
-			printf("unset: %s: not a valid identifier\n", options[i]);
-			printer = NO;
-			get_minishell()->exit_nb = ERROR_1;
-		}
+		// if (is_only_key_identifier(options[i]) == NO)
+		// {
+		// 	printf("export: %s: not a valid identifier\n", options[i]);
+		// 	printer = NO;
+		// 	get_minishell()->exit_nb = ERROR_1;
+		// }
+		//
+		//
+
 		type = evaluate_export_type(options[i]);
 		// TYPE1: KEY ONLY    TYPE2: KEY=  TYPE3: KEY=VALUE
 		pos = env_var_matching_key(options[i]);
@@ -112,8 +115,9 @@ void	builtin_export(char **options)
 			env_var_export_update(options[i], pos, YES);
 		i++;
 	}
-	if (printer != NO)
-		env_var_print_in_order(get_minishell(), 0, 0);
+	// if (printer != NO)
+	//env_var_print_in_order(get_minishell(), 0, 0);
+	//
 }
 
 // POOURRQUOI   ./minishell "export type=shadoow TERM= ZSH=ciaobye LESS _=/R" ??? le dernier print avant le type=shadoow

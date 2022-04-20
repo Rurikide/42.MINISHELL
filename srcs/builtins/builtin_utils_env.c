@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 16:04:19 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/18 15:15:06 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/20 17:38:19 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,25 +112,43 @@ char	*env_var_get_value(char *key, size_t size)
 void	init_env(char **env)
 {
 	t_minishell *minishell;
-	size_t nb;
-	char *sh;
+	int nb;
+	char *shlvl;
 	int lvl;
 
 	nb = 0;
 	while (env[nb] != NULL)
+	{
+		// printf("\033[1;32m before nb = %d str =  %s \033[0m \n", nb, env[nb]);
 		nb++;
+	}
+	printf("AAA nb = %d\n", nb);
 	minishell = get_minishell();
 	minishell->env_size = nb + 1;
-	minishell->env = ft_calloc((nb + 1), sizeof(char *));
+	printf("\033[1;32m init env_size == %d \033[0m \n", minishell->env_size);
+	minishell->env = ft_calloc(minishell->env_size, sizeof(char *));
 	nb = 0;
 	while (env[nb] != NULL)
 	{
 		minishell->env[nb] = ft_strdup(env[nb]);
+		printf("\033[1;36m init env nb = %d str = %s \033[0m \n", nb, env[nb]);
+		printf("\033[1;34m init env nb = %d str = %s \033[0m \n", nb, minishell->env[nb]);
 		nb++;
 	}
+	minishell->env[nb] = NULL;
+	printf("BBB nb = %d\n", nb);
 	
-	sh = env_var_get_value("SHLVL=", 6);
-	lvl = (ft_atoi(sh) + 1);
-	env_var_update("SHLVL", ft_itoa(lvl));
+	shlvl = env_var_get_value("SHLVL=", 6);
+	if (shlvl == NULL)
+	{
+		//printf("SHLVL is NULL\n");
+		lvl = 1;
+	}
+	else
+		lvl = (ft_atoi(shlvl) + 1);
+	shlvl = ft_itoa(lvl);
+//	printf("shlvl= %s\n", shlvl);
+	env_var_update("SHLVL", shlvl);
+	free(shlvl);
 	minishell->env[nb] = NULL;
 }

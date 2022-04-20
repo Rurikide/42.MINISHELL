@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 15:13:05 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/18 15:36:19 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/20 15:07:57 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,21 @@
 
 void    builtin_exit(char **options)
 {
+    t_minishell *minishell;
+    
+    minishell = get_minishell();
     int i;
 
     i = 0;
     ft_putendl_fd("exit", STDOUT_FILENO);
-    if (options[i] != NULL)
-    {
+    // if (options[i] != NULL)
+    // {
         
-    }
-    // FREE ALL MALLOC , function
+    // }
+    
+   ft_free_table(minishell->env);
+   ft_free_table(minishell->options);
+   free(minishell->user_input);
+   // rl_clear_history();
     exit(get_minishell()->exit_nb);
 }
