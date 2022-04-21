@@ -6,12 +6,13 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 16:04:19 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/20 17:38:19 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/21 12:27:43 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
+// len of the KEY only, not KEY=VALUE
 int	env_var_key_len(char *key)
 {
 	int	len;
@@ -24,6 +25,7 @@ int	env_var_key_len(char *key)
 	return (len);
 }
 
+// returns the index position of the matching key
 int	env_var_matching_key(char *option)
 {
 	t_minishell	*minishell;
@@ -108,47 +110,40 @@ char	*env_var_get_value(char *key, size_t size)
 	return (NULL);
 }
 
+void	init_shlvl(void)
+{
+	char	*shlvl;
+	int		lvl;
+	
+	shlvl = env_var_get_value("SHLVL=", 6);
+	if (shlvl == NULL)
+		lvl = 1;
+	else
+		lvl = (ft_atoi(shlvl) + 1);
+	shlvl = ft_itoa(lvl);
+	env_var_update("SHLVL", shlvl);
+	free(shlvl);
+}
+
 // function allocates memory for minishell->env and strdup the env from the main
 void	init_env(char **env)
 {
 	t_minishell *minishell;
 	int nb;
-	char *shlvl;
-	int lvl;
 
 	nb = 0;
 	while (env[nb] != NULL)
-	{
-		// printf("\033[1;32m before nb = %d str =  %s \033[0m \n", nb, env[nb]);
 		nb++;
-	}
-	printf("AAA nb = %d\n", nb);
 	minishell = get_minishell();
 	minishell->env_size = nb + 1;
-	printf("\033[1;32m init env_size == %d \033[0m \n", minishell->env_size);
 	minishell->env = ft_calloc(minishell->env_size, sizeof(char *));
 	nb = 0;
 	while (env[nb] != NULL)
 	{
 		minishell->env[nb] = ft_strdup(env[nb]);
-		printf("\033[1;36m init env nb = %d str = %s \033[0m \n", nb, env[nb]);
-		printf("\033[1;34m init env nb = %d str = %s \033[0m \n", nb, minishell->env[nb]);
 		nb++;
 	}
+	// IMPORTANT METTRE NULL avant la fonction init_shlvl
 	minishell->env[nb] = NULL;
-	printf("BBB nb = %d\n", nb);
-	
-	shlvl = env_var_get_value("SHLVL=", 6);
-	if (shlvl == NULL)
-	{
-		//printf("SHLVL is NULL\n");
-		lvl = 1;
-	}
-	else
-		lvl = (ft_atoi(shlvl) + 1);
-	shlvl = ft_itoa(lvl);
-//	printf("shlvl= %s\n", shlvl);
-	env_var_update("SHLVL", shlvl);
-	free(shlvl);
-	minishell->env[nb] = NULL;
+	init_shlvl();
 }

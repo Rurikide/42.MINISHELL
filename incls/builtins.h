@@ -63,4 +63,5 @@ int			evaluate_export_type(char *option);
 void		env_var_export_update(char *update, int i, int new);
 void		env_var_export_update(char *update, int pos, int new);
 int			env_var_is_key_only(char *option);
+void		init_shlvl(void);
 #endif
