@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 12:00:31 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/20 12:07:40 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/21 15:47:53 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	builtin_echo(char **options)
 			ft_putstr_fd(ft_itoa(get_minishell()->exit_nb), STDIN_FILENO);
 			if (options[i][2] != '\0')
 				write(1, &options[i][2], ft_strlen(&options[i][2]));
-
 		}
 		else
 			write(1, options[i], ft_strlen(options[i]));

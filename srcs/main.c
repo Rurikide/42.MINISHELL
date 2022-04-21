@@ -47,8 +47,12 @@ int	main(int argc, char **argv, char **env)
 
 	while (true)
 	{
+		if (minishell->user_input != NULL)
+			free(minishell->user_input);
 		minishell->user_input = readline("minishell> ");
 		add_history(minishell->user_input);
+		if (minishell->options != NULL)
+			ft_free_table(minishell->options);
 		options = ft_split(minishell->user_input, ' ');
 		minishell->options = options;
 		scan_builtins(options);

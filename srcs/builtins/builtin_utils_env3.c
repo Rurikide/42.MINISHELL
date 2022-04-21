@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:13:07 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/20 17:03:58 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/21 17:18:13 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,16 @@ void	env_var_print(void)
 void	env_var_print_in_order(t_minishell *ms, int i, int j)
 {
 	char **table;
-
+	
 	table = ft_calloc(ms->env_size, sizeof(char *));
 	while (ms->env[i] != NULL)
 	{
+		printf("print in order segfaults???\n");
 		table[i] = ft_strdup(ms->env[i]);
 		i++;
 	}
 	i = 0;
-	while (table[i] != NULL)
+	while (ms->env[i] != NULL)
 	{
 		j = i + 1;
 		while (table[j] != NULL)

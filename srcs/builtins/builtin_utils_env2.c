@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 16:15:40 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/21 12:59:36 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/21 17:24:20 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,12 @@ void	env_var_export_update(char *update, int pos, int new)
 	back_up = minishell->env;
 	if (new == NO)
 	{
+		printf("env_var_export_update pos = %d\n", pos);
+		printf("env_var_export_update update = %s\n", minishell->env[pos]);
 		free(minishell->env[pos]);
 		minishell->env[pos] = ft_strdup(update);
+		printf("env_var_export_update pos = %d\n", pos);
+		printf("env_var_export_update update = %s\n", minishell->env[pos]);
 	}
 	else if (new == YES)
 	{
