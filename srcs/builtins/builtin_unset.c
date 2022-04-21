@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 11:10:52 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/20 11:48:52 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/21 14:22:47 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,7 @@ void	builtin_unset(char **options)
 	{
 		if (is_only_key_identifier(options[i]) == NO)
 		{
-			// a ameliorer???
 			printf("unset: %s: not a valid identifier\n", options[i]);
-			//
 			get_minishell()->exit_nb = ERROR_1;
 		}
 		else
