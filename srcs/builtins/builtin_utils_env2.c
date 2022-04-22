@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 16:15:40 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/21 17:24:20 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/22 17:05:32 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,15 @@ void	env_var_export_update(char *update, int pos, int new)
 	t_minishell *minishell;
 	char **back_up;
 	int nb;
-
+	
+	nb = 0;
 	minishell = get_minishell();
-	back_up = minishell->env;
+	back_up = ft_calloc(minishell->env_size, sizeof(char *));
+	while (minishell->env[nb] != NULL)
+	{
+		back_up[nb] = ft_strdup(minishell->env[nb]);
+		nb++;
+	}
 	if (new == NO)
 	{
 		printf("env_var_export_update pos = %d\n", pos);
@@ -67,8 +73,17 @@ void	env_var_add(char *key, char *update)
 	int nb;
 	
 	minishell = get_minishell();
-	back_up = minishell->env;
+	// CAUSE DES SEGFAULTS!! back_up = minishell->env;
 	minishell->env_size++;
+
+	nb = 0;
+	back_up = ft_calloc(minishell->env_size, sizeof(char *));
+	while (minishell->env[nb] != NULL)
+	{
+		back_up[nb] = ft_strdup(minishell->env[nb]);
+		nb++;
+	}
+
 	minishell->env = ft_calloc(minishell->env_size, sizeof(char *));
 	nb = 0;
 	while (back_up[nb] != NULL)
@@ -87,12 +102,22 @@ void	env_var_del(int env_index)
 	char **back_up;
 	int i;
 	int j;
+	int nb;
 	
 	i = 0;
 	j = 0;
+	nb = 0;
+	
 	minishell = get_minishell();
 	minishell->env_size--;
-	back_up = minishell->env;
+
+	back_up = ft_calloc(minishell->env_size, sizeof(char *));
+	while (minishell->env[nb] != NULL)
+	{
+		back_up[nb] = ft_strdup(minishell->env[nb]);
+		nb++;
+	}
+
 	minishell->env = ft_calloc(minishell->env_size, sizeof(char *));
 	while (i < minishell->env_size - 1)
 	{
