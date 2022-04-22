@@ -25,6 +25,14 @@ typedef enum s_answer
 	YES = 1,
 }t_answer;
 
+typedef struct s_node
+{
+	char	*value;
+	char	type;
+	struct  s_node *next;
+
+}t_node; 
+
 typedef	struct s_minishell
 {
 	int		init;
@@ -34,7 +42,7 @@ typedef	struct s_minishell
 	int		exit_nb;
 	char *user_input;
 	char	**options;
-
+	t_node *head;
 }t_minishell;
 
 t_minishell	*get_minishell(void);

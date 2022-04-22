@@ -14,6 +14,7 @@ t_minishell	*get_minishell(void)
 		minishell.exit_nb = 0;
 		minishell.user_input = NULL;
 		minishell.options = NULL;
+		minishell.head = NULL;
 	}
 	return (&minishell);
 }

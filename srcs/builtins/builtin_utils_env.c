@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 16:04:19 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/21 17:03:47 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/22 16:15:21 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	env_var_matching_key(char *option)
 	minishell = get_minishell();
 	while (minishell->env[i] != NULL)
 	{
-		printf("matching key str = %s\n", minishell->env[i]);
+		//printf("matching key str = %s\n", minishell->env[i]);
 		key_len = env_var_key_len(minishell->env[i]);
 		if (key_len == option_len)
 		{
@@ -102,7 +102,7 @@ char	*env_var_get_value(char *key, size_t size)
 	ms = get_minishell();
 	while (ms->env[i] != NULL)
 	{
-		if (ft_strncmp(ms->env[i], key, size) == SUCCESS)
+		if (env_var_matching_key(key) == SUCCESS)
 			return (&(ms->env[i])[size]);
 			// return the value after the '='
 		else
