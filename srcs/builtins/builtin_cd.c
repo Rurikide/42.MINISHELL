@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 15:44:44 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/21 13:01:46 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/22 21:16:18 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,21 @@ void	builtin_cd(char **options)
 	char	*home;
 
 	env_var_update("OLDPWD", getcwd(s, PATH_MAX));
-	home = env_var_get_value("HOME=", 5);
+	home = env_var_get_value("HOME", 5);
+	printf("builtin CD HOME is  %s\n", home);
 	if (*options == NULL)
 	{
 		if (home == NULL)
 		{
 			ft_putstr_fd("minishell: cd: HOME not set\n", STDERR_FILENO);
 			get_minishell()->exit_nb = ERROR_1;
-			return ;
 		}
-		chdir(home);
+		else
+		{
+			printf("HERE\n");
+			chdir(home);
+			env_var_update("PWD", getcwd(s, PATH_MAX));
+		}
 	}
 	else if (chdir(*options) == FAIL)
 	{
@@ -61,9 +66,11 @@ void	builtin_cd(char **options)
 		ft_putstr_fd(*options, STDERR_FILENO);
 		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
 		get_minishell()->exit_nb = ERROR_1;
-		return ;
 	}
-	chdir(*options);
-	env_var_update("PWD", getcwd(s, PATH_MAX));
-	get_minishell()->exit_nb = SUCCESS;
+	else
+	{
+		chdir(*options);
+		env_var_update("PWD", getcwd(s, PATH_MAX));
+		get_minishell()->exit_nb = SUCCESS;
+	}
 }

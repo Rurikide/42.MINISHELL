@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 17:15:15 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/22 16:34:48 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/22 19:50:24 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,38 +102,35 @@ void	builtin_export(char **options)
 	while (options[i])
 	{
 		// TYPE1: KEY ONLY    TYPE2: KEY=  TYPE3: KEY=VALUE
-		// if ()
-		// {
-		// 	printf("export: %s: not a valid identifier\n", options[i]);
-		// 	get_minishell()->exit_nb = ERROR_1;
-	// }
 		type = evaluate_export_type(options[i]);
-		pos = env_var_matching_key(options[i]);
-		printf("type = %d and pos = %d\n", type, pos);
-		
-		// if la var existe deja et de type 2 ou 3
-		if ((type == 2 || type == 3) && pos != FAIL)
+		if (type == FAIL)
 		{
-			printf("premier if\n");
-			env_var_export_update(options[i], pos, NO);
+			printf("export: %s: not a valid identifier\n", options[i]);
+			get_minishell()->exit_nb = ERROR_1;
 		}
-		
-		
-		// else if new var de type 2 ou 3
-		else if ((type == 2 || type == 3) && pos == FAIL)
+		else
 		{
-			printf("else if 1\n");
-			env_var_export_update(options[i], pos, YES);
+			pos = env_var_matching_key(options[i]);
+		//	printf("type = %d and pos = %d\n", type, pos);
+			// if la var existe deja et de type 2 ou 3
+			if ((type == 2 || type == 3) && pos != FAIL)
+			{
+		//		printf("premier if\n");
+				env_var_export_update(options[i], pos, NO);
+			}
+			// else if new var de type 2 ou 3
+			else if ((type == 2 || type == 3) && pos == FAIL)
+			{
+		//		printf("else if 1\n");
+				env_var_export_update(options[i], pos, YES);
+			}
+			// else if its a new variable!!!
+			else if (type == 1 && pos == FAIL)
+			{
+		//		printf("else if 2\n");
+				env_var_export_update(options[i], pos, YES);
+			}
 		}
-		
-		
-		// else if its a new variable!!!
-		else if (type == 1 && pos == FAIL)
-		{
-			printf("else if 2\n");
-			env_var_export_update(options[i], pos, YES);
-		}
-
 		i++;
 	}
 }
