@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 15:44:44 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/22 22:27:46 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/23 15:14:26 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ void	builtin_cd(char **options)
 	char	*home;
 
 	env_var_update("OLDPWD", getcwd(s, sizeof(s)));
-	home = env_var_get_value("HOME", 5);
-	//printf("builtin CD HOME is  %s\n", home);
+	home = env_var_get_value("HOME", 4);
 	if (*options == NULL)
 	{
 		if (home == NULL)
@@ -55,8 +54,11 @@ void	builtin_cd(char **options)
 		}
 		else
 		{
+		//	printf("home value is %s\n", home);
 			chdir(home);
 			env_var_update("PWD", home);
+			// getcwd(s, sizeof(s));
+			// printf("s value is %s\n", s);
 		}
 	}
 	else if (chdir(*options) == FAIL)
@@ -68,9 +70,6 @@ void	builtin_cd(char **options)
 	}
 	else
 	{
-		// cd .. ne fonctionne pas!!!
-		printf("what is options ::: %s\n", *options);
-		chdir(*options);
 		env_var_update("PWD", getcwd(s, sizeof(s)));
 		get_minishell()->exit_nb = SUCCESS;
 	}

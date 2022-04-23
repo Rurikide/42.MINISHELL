@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 16:05:56 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/20 11:19:47 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/23 16:07:14 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int		env_var_is_key_only(char *option)
 
 void	builtin_env(char **options)
 {
-	// what should I do if someone puts an option ex. -LP
 	if (*options != NULL && *options[0] != '-')
 	{
 		ft_putstr_fd("env: ", STDERR_FILENO);
