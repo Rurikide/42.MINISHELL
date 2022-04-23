@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 15:44:44 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/22 21:16:18 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/22 22:27:46 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ void	builtin_cd(char **options)
 	char	s[PATH_MAX];
 	char	*home;
 
-	env_var_update("OLDPWD", getcwd(s, PATH_MAX));
+	env_var_update("OLDPWD", getcwd(s, sizeof(s)));
 	home = env_var_get_value("HOME", 5);
-	printf("builtin CD HOME is  %s\n", home);
+	//printf("builtin CD HOME is  %s\n", home);
 	if (*options == NULL)
 	{
 		if (home == NULL)
@@ -55,9 +55,8 @@ void	builtin_cd(char **options)
 		}
 		else
 		{
-			printf("HERE\n");
 			chdir(home);
-			env_var_update("PWD", getcwd(s, PATH_MAX));
+			env_var_update("PWD", home);
 		}
 	}
 	else if (chdir(*options) == FAIL)
@@ -69,8 +68,10 @@ void	builtin_cd(char **options)
 	}
 	else
 	{
+		// cd .. ne fonctionne pas!!!
+		printf("what is options ::: %s\n", *options);
 		chdir(*options);
-		env_var_update("PWD", getcwd(s, PATH_MAX));
+		env_var_update("PWD", getcwd(s, sizeof(s)));
 		get_minishell()->exit_nb = SUCCESS;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 16:04:19 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/22 21:07:18 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/22 22:05:58 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,22 @@ char	*env_var_get_key_value(char *key)
 	t_minishell *ms;
 	int i;
 
-	i = 0;
+	i = env_var_matching_key(key);
 	ms = get_minishell();
-	while (ms->env[i] != NULL)
-	{
-		//printf("whats the key ? %s\n", key);
-		if (env_var_matching_key(key) == SUCCESS)
-		//if (ft_strncmp(*ms->env, key, size) == SUCCESS)
-		{
-			//printf("%s\n", *ms->env);
-			return (ms->env[i]);
-		}
-		else
-			i++;
-	}
+	if (i != FAIL)
+		return (ms->env[i]);
+	// while (ms->env[i] != NULL)
+	// {
+	// 	//printf("whats the key ? %s\n", key);
+	// 	if (env_var_matching_key(key) == SUCCESS)
+	// 	//if (ft_strncmp(*ms->env, key, size) == SUCCESS)
+	// 	{
+	// 		//printf("%s\n", *ms->env);
+	// 		return (ms->env[i]);
+	// 	}
+	// 	else
+	// 		i++;
+	// }
 	return (NULL);
 }
 
@@ -99,19 +101,18 @@ char	*env_var_get_value(char *key, int size)
 	// key is the KEY with the '='
 	t_minishell *ms;
 	int i;
-	int match;
 
-	i = 0;
+
+	i = env_var_matching_key(key);
 	ms = get_minishell();
-	match = env_var_matching_key(key);
 //	printf("KEY is %s and size is %d\n", key, size);
 
-	if (match != FAIL)
+	if (i != FAIL)
 	{
 	//	printf("found a matching key at index %d!!!\n", match);
 	//	printf("THE VALUE IS %s\n", &(ms->env[match])[size + 1]);
 		// size + 1 pour skipper le '='
-		return (&(ms->env[match])[size + 1]);
+		return (&(ms->env[i])[size + 1]);
 	}
 	// while (ms->env[i] != NULL)
 	// {
