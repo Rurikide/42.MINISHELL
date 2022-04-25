@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 13:56:02 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/16 13:29:54 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/25 15:23:33 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <limits.h>
 
 typedef enum e_bool
 {
@@ -64,6 +65,7 @@ double	ft_absolute_decimal(double nb);
 void	ft_free_table(char **table);
 t_bool	ft_strdouble(char *s1, char *s2);
 double	ft_atod(const char *str);
+long long	ft_atoll(const char *str);
 double	ft_power(double nb, int exponent);
 double	ft_square_root(double nb);
 int		ft_isspace(char c);
@@ -72,5 +74,7 @@ int		ft_is_space_tab(char c);
 int		ft_is_dash_comma_dot(char c);
 void	ft_skip_space_tab(char *line, int *i);
 void	ft_swap(char **s1, char **s2);
+int		ft_isllong(char *str);
+int		ft_is_str_digit_only(char *str);
 
 #endif

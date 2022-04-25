@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 11:10:52 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/21 14:22:47 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/25 11:29:10 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,4 @@ void	builtin_unset(char **options)
 
 
 // bash-3.2$ unset __(
-//bash: syntax error near unexpected token `('
+//bash: syntax error near unexpected token `env('

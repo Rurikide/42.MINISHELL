@@ -16,7 +16,8 @@ typedef enum s_status
 	FAIL = -1,
 	SUCCESS = 0,
 	ERROR_1 = 1,
-	ERROR_127 = 127  // bash: 0: command not found == 127
+	ERROR_127 = 127,
+	ERROR_255 = 255
 }t_status;
 
 typedef enum s_answer
@@ -72,4 +73,5 @@ void		env_var_export_update(char *update, int i, int new);
 void		env_var_export_update(char *update, int pos, int new);
 int			env_var_is_key_only(char *option);
 void		init_shlvl(void);
+void		env_var_print_quotes(char **table, int i, int j, int equal);
 #endif

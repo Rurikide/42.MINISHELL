@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 16:15:40 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/23 16:33:47 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/25 11:30:37 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,15 @@ void	env_var_export_update(char *update, int pos, int new)
 
 void	env_var_update(char *key, char *update)
 {
-	int i;
+	int nb;
 
-	i = env_var_matching_key(key);
-	if (i == FAIL)
+	nb = env_var_matching_key(key);
+	if (nb == FAIL)
 		env_var_add(key, update);
 	else	
 	{
-		free(get_minishell()->env[i]);
-		get_minishell()->env[i] = ft_strjoin_symbol(key, '=', update);
+		free(get_minishell()->env[nb]);
+		get_minishell()->env[nb] = ft_strjoin_symbol(key, '=', update);
 	}
 }
 
@@ -84,19 +84,15 @@ void	env_var_del(int env_index)
 	char **back_up;
 	int i;
 	int j;
-	int nb;
 	
-	i = 0;
-	j = 0;
-	nb = 0;
 	minishell = get_minishell();
 	minishell->env_size--;
-	back_up = ft_calloc(minishell->env_size, sizeof(char *));
-	while (minishell->env[nb] != NULL)
-	{
-		back_up[nb] = ft_strdup(minishell->env[nb]);
-		nb++;
-	}
+	i = -1;
+	back_up = ft_calloc(minishell->env_size + 1, sizeof(char *));
+	while (minishell->env[++i] != NULL)
+		back_up[i] = ft_strdup(minishell->env[i]);
+	i = 0;
+	j = 0;
 	minishell->env = ft_calloc(minishell->env_size, sizeof(char *));
 	while (i < minishell->env_size - 1)
 	{
@@ -104,7 +100,6 @@ void	env_var_del(int env_index)
 			j++;
 		minishell->env[i++] = ft_strdup(back_up[j++]);
 	}
+	minishell->env[i] = NULL;
 	ft_free_table(back_up);
 }
-
-	// Je crois que ce n'est pas nécessaire de mettre un NULL, mais à reverifier

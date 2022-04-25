@@ -43,6 +43,7 @@ int	main(int argc, char **argv, char **env)
 	char **options;
 
 	(void)argv;
+	(void)argc;
 	init_env(env);
 	minishell = get_minishell();
 

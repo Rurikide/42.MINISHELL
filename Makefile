@@ -4,7 +4,7 @@ AR= ar rc
 RM= rm -rf
 
 CC= gcc
-CFLAGS= -Wall -Werrror -Wextra -g -c
+CFLAGS= -Wall -Werror -Wextra -g -c
 
 SDIR= srcs
 ODIR= objs
@@ -29,7 +29,7 @@ VPATH= $(SDIR) $(BDIR) $(VDIR)
 all: $(NAME)
 
 $(ODIR)/%.o: %.c
-			$(CC) $(CFLAGS) -I./libft/libsrcs -I./incls -I./readline $< -o $@
+			$(CC) $(CFLAGS) -I./libft/libsrcs -I./incls -I. $< -o $@
 
 $(ODIR):
 		mkdir -p $(ODIR)
