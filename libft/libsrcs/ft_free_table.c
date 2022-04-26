@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free_table.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tshimoda <marvin@42quebec.com>             +#+  +:+       +#+        */
+/*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 09:43:55 by tshimoda          #+#    #+#             */
-/*   Updated: 2021/12/02 09:49:26 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/26 17:05:02 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,6 @@ void	ft_free_table(char **table)
 	while (table[i])
 		free(table[i++]);
 	free(table);
+	//
+	printf("ici dans ft_free_Table!!!\n");
 }

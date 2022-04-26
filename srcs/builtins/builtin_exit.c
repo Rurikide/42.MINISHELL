@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 15:13:05 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/25 16:05:24 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/26 16:50:25 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ void	free_minishell(void)
 {
 	t_minishell *minishell;
 	
+	//
+	printf("dans FREE MINISHELL\n");
+	//
 	minishell = get_minishell();
 	if (minishell->env != NULL)
 		ft_free_table(minishell->env);
@@ -53,7 +56,9 @@ void    builtin_exit(char **options)
 			get_minishell()->exit_nb = nb_options;
 		}
 	}
+	//
 	printf("EXIT NB = %d\n", get_minishell()->exit_nb);
+	//
 	free_minishell();
 	exit(get_minishell()->exit_nb);
 }

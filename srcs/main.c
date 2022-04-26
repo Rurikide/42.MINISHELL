@@ -49,9 +49,14 @@ int	main(int argc, char **argv, char **env)
 
 	while (true)
 	{
+		//
+		set_signals();
+		//
 		if (minishell->user_input != NULL)
 			free(minishell->user_input);
 		minishell->user_input = readline("minishell> ");
+		if (minishell->user_input == CTRL_D)
+			ctrl_d_exit();
 		add_history(minishell->user_input);
 		if (minishell->options != NULL)
 			ft_free_table(minishell->options);

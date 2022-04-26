@@ -13,7 +13,7 @@ VDIR= srcs/vector_array
 
 SRCS= main.c
 
-BUILTINS=  builtin_echo.c builtin_cd.c builtin_pwd.c builtin_export.c builtin_unset.c builtin_utils_env.c builtin_utils_env2.c builtin_utils_env3.c builtin_env.c builtin_exit.c env_init.c
+BUILTINS=  builtin_echo.c builtin_cd.c builtin_pwd.c builtin_export.c builtin_unset.c builtin_utils_env.c builtin_utils_env2.c builtin_utils_env3.c builtin_env.c builtin_exit.c env_init.c signals.c
 VECTOR_ARRAY= vector_array.c vector_utils.c
 
 OBJS= $(SRCS:.c=.o) $(BUILTINS:.c=.o) $(VECTOR_ARRAY:.c=.o)
@@ -50,5 +50,11 @@ fclean: clean
 
 re: clean all
 
+
+lea: all
+	leaks --atEXit -- ./minishell
+	
+val: all
+	valgrind ./minishell --leak-check-full --track-origins=yes -s --trace-children=yes --show-leak-kinds=all --show-reachable=yes
 
 .PHONY: all clean fclean re

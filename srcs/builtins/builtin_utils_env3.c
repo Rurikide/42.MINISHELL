@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:13:07 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/25 10:57:39 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/26 12:22:44 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	env_var_print(void)
 	while (minishell->env[i] != NULL)
 	{
 		if (env_var_is_key_only(minishell->env[i]) == NO)
-			printf("i = %d and str = %s\n", i, minishell->env[i]);
-			//ft_putendl_fd(minishell->env[i], STDOUT_FILENO);
+			//printf("i = %d and str = %s\n", i, minishell->env[i]);
+			ft_putendl_fd(minishell->env[i], STDOUT_FILENO);
 		i++;
 	}
 }

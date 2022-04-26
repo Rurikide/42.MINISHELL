@@ -10,6 +10,7 @@
 
 # define TOO_MANY_ARG 1 // bash: exit: too many arguments
 # define NON_NUMERIC 255 // bash: exit: var: numeric argument required
+# define CTRL_D NULL
 
 typedef enum s_status
 {
@@ -74,4 +75,9 @@ void		env_var_export_update(char *update, int pos, int new);
 int			env_var_is_key_only(char *option);
 void		init_shlvl(void);
 void		env_var_print_quotes(char **table, int i, int j, int equal);
+void		ctrl_c_handler(int signal);
+void		signals(void);
+void		ctrl_d_exit(void);
+void	free_minishell(void);
+void set_signals(void);
 #endif
