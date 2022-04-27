@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 16:04:19 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/23 16:28:13 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/27 16:02:57 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,7 @@ int	env_var_matching_key(char *option)
 	return (FAIL);
 }
 
-// int	env_var_get_key_index(char *key, int size)
-// {
-// 	t_minishell	*minishell;
-// 	int			i;
-
-// 	i = 0;
-// 	minishell = get_minishell();
-// 	while (minishell->env[i] != NULL)
-// 	{
-// 		if (ft_strncmp(minishell->env[i], key, size) == SUCCESS)
-// 			return (i);
-// 		i++;
-// 	}
-// 	return (FAIL);
-// }
-
-char	*env_var_get_key_value(char *key)
+char	*env_var_get_key_n_value(char *key)
 {
 	t_minishell	*minishell;
 	int			i;

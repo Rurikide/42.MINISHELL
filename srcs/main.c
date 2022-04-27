@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/27 16:10:03 by tshimoda          #+#    #+#             */
+/*   Updated: 2022/04/27 16:13:25 by tshimoda         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "builtins.h"
 
 t_minishell	*get_minishell(void)
 {
-	static t_minishell minishell;
+	static t_minishell	minishell;
 
 	if (minishell.init != 1)
 	{
@@ -39,19 +50,17 @@ void	scan_builtins(char **options)
 
 int	main(int argc, char **argv, char **env)
 {
-	t_minishell *minishell;
-	char **options;
+	t_minishell	*minishell;
+	char		**options;
 
 	(void)argv;
-	(void)argc;
+	if (argc != 1)
+		return (0);
 	init_env(env);
 	minishell = get_minishell();
-
+	set_signals();
 	while (true)
 	{
-		//
-		set_signals();
-		//
 		if (minishell->user_input != NULL)
 			free(minishell->user_input);
 		minishell->user_input = readline("minishell> ");

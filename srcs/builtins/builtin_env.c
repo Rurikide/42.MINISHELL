@@ -6,29 +6,25 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 16:05:56 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/23 16:07:14 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/27 16:52:04 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int		env_var_is_key_only(char *option)
+void	env_var_print(void)
 {
-	int i;
-	int equal;
+	t_minishell	*minishell;
+	int			i;
 
 	i = 0;
-	equal = YES;
-	while (option[i])
+	minishell = get_minishell();
+	while (minishell->env[i] != NULL)
 	{
-		if (option[i] == '=')
-		{
-			equal = NO;
-			break ;
-		}
+		if (env_var_is_key_only(minishell->env[i]) == NO)
+			ft_putendl_fd(minishell->env[i], STDOUT_FILENO);
 		i++;
 	}
-	return (equal);
 }
 
 void	builtin_env(char **options)

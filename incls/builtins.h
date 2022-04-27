@@ -32,7 +32,6 @@ typedef struct s_node
 	char	*value;
 	char	type;
 	struct  s_node *next;
-
 }t_node; 
 
 typedef	struct s_minishell
@@ -42,7 +41,7 @@ typedef	struct s_minishell
 	char	**env;
 	int		env_size;
 	int		exit_nb;
-	char *user_input;
+	char	*user_input;
 	char	**options;
 	t_node *head;
 }t_minishell;
@@ -56,10 +55,11 @@ void		env_var_update(char *key, char *update);
 void		env_var_add(char *key, char *update);
 void		env_var_del(int env_index);
 int			env_var_get_key_index(char *key, int size);
-char		*env_var_get_key_value(char *key);
+char		*env_var_get_key_n_value(char *key);
 char		*env_var_get_value(char *key, int size);
 void		builtin_echo(char **options);
 void		builtin_cd(char **options);
+void	builtin_cd_error(char *option);
 void		builtin_pwd(char **options);
 void		builtin_export(char **options);
 void		builtin_unset(char **options);
@@ -75,9 +75,12 @@ void		env_var_export_update(char *update, int pos, int new);
 int			env_var_is_key_only(char *option);
 void		init_shlvl(void);
 void		env_var_print_quotes(char **table, int i, int j, int equal);
-void		ctrl_c_handler(int signal);
-void		signals(void);
+void		ctrl_c_prompt(int signal);
 void		ctrl_d_exit(void);
-void	free_minishell(void);
-void set_signals(void);
+void		free_minishell(void);
+void		set_signals(void);
+void		mute_signals(void);
+void		void_signal(int signal);
+char		**ft_table_add(char **table, const char *new);
+void		ft_table_del(char **table, int index);
 #endif

@@ -6,78 +6,79 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:13:07 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/26 12:22:44 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/27 16:52:44 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-void	env_var_print(void)
+void	free_minishell(void)
 {
 	t_minishell	*minishell;
-	int			i;
 
-	i = 0;
 	minishell = get_minishell();
-	while (minishell->env[i] != NULL)
-	{
-		if (env_var_is_key_only(minishell->env[i]) == NO)
-			//printf("i = %d and str = %s\n", i, minishell->env[i]);
-			ft_putendl_fd(minishell->env[i], STDOUT_FILENO);
-		i++;
-	}
+	if (minishell->env != NULL)
+		ft_free_table(minishell->env);
+	if (minishell->options != NULL)
+		ft_free_table(minishell->options);
+	if (minishell->user_input != NULL)
+		free(minishell->user_input);
+	rl_clear_history();
 }
 
-void	env_var_print_quotes(char **table, int i, int j, int equal)
+t_answer	ft_is_a_match(char *keyword, char *input)
 {
-	while (table[i] != NULL)
-	{
-		ft_putstr_fd("declare -x ", STDOUT_FILENO);
-		j = 0;
-		equal = NO;
-		while (table[i][j] != '\0')
-		{
-			ft_putchar_fd(table[i][j], STDOUT_FILENO);
-			if (table[i][j] == '=')
-			{
-				equal = YES;
-				ft_putchar_fd('\"', STDOUT_FILENO);
-			}
-			j++;
-			if (table[i][j] == '\0')
-			{
-				if (equal == YES)
-					ft_putchar_fd('\"', STDOUT_FILENO);
-				ft_putchar_fd('\n', STDOUT_FILENO);
-			}
-		}
-		i++;
-	}
-}
+	int	i;
+	int	len;
 
-void	env_var_print_in_order(t_minishell *ms, int i, int j)
-{
-	char	**table;
-
-	table = ft_calloc(ms->env_size, sizeof(char *));
-	while (ms->env[i] != NULL)
-	{
-		table[i] = ft_strdup(ms->env[i]);
-		i++;
-	}
 	i = 0;
-	while (ms->env[i] != NULL)
+	len = ft_strlen(input);
+	if (input == NULL)
+		return (NO);
+	if (ft_strlen(keyword) != ft_strlen(input))
+		return (NO);
+	while (i < len)
 	{
-		j = i + 1;
-		while (table[j] != NULL)
+		if (keyword[i] == input[i])
+			i++;
+		else
+			return (NO);
+	}
+	return (YES);
+}
+
+t_answer	ft_is_option(char valid, char *list)
+{
+	size_t	i;
+
+	i = 0;
+	if (list[i] == '\0')
+		return (NO);
+	while (list[i] != '\0')
+	{
+		if (valid == list[i])
+			i++;
+		else
+			return (NO);
+	}
+	return (YES);
+}
+
+int	env_var_is_key_only(char *option)
+{
+	int	i;
+	int	equal;
+
+	i = 0;
+	equal = YES;
+	while (option[i])
+	{
+		if (option[i] == '=')
 		{
-			if (ft_strcmp(table[i], table[j]) > 0)
-				ft_swap(&table[i], &table[j]);
-			j++;
+			equal = NO;
+			break ;
 		}
 		i++;
 	}
-	table[i] = NULL;
-	env_var_print_quotes(table, 0, 0, NO);
-	ft_free_table(table);
+	return (equal);
 }

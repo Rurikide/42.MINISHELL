@@ -6,49 +6,65 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 17:15:15 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/26 10:57:38 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/27 16:52:30 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-// a verifier avec Alex sil enleve le backslash
+void	env_var_print_quotes(char **table, int i, int j, int equal)
+{
+	while (table[i] != NULL)
+	{
+		ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		j = 0;
+		equal = NO;
+		while (table[i][j] != '\0')
+		{
+			ft_putchar_fd(table[i][j], STDOUT_FILENO);
+			if (table[i][j] == '=')
+			{
+				equal = YES;
+				ft_putchar_fd('\"', STDOUT_FILENO);
+			}
+			j++;
+			if (table[i][j] == '\0')
+			{
+				if (equal == YES)
+					ft_putchar_fd('\"', STDOUT_FILENO);
+				ft_putchar_fd('\n', STDOUT_FILENO);
+			}
+		}
+		i++;
+	}
+}
 
-// #45 '-' #46 '.' #47 '/' #58 ':' #61 '=' #95 '_'
+void	env_var_print_in_order(t_minishell *ms, int i, int j)
+{
+	char	**table;
 
-
-// int	env_var_valid_value(char *line, int i, int j)
-// {
-// 	char	*charset;
-// 	int		valid;
-
-// 	charset = (char [7]){45, 46, 47, 58, 61, 95};
-
-// 	i = 0;
-// 	while (line[i])
-// 	{
-// 		valid = FAIL;
-// 		if (ft_isalnum(line[i]))
-// 			valid = SUCCESS;
-// 		else if (!ft_isalnum(line[i]))
-// 		{
-// 			j = 0;
-// 			while (charset[j])
-// 			{
-// 				if (line[i] == charset[j])
-// 					valid = SUCCESS;
-// 				j++;
-// 			}
-// 		}
-// 		if (valid == FAIL)
-// 		{
-// 			printf("Found invalid character");
-// 			return (FAIL);
-// 		}
-// 		i++;
-// 	}
-// 	return (SUCCESS);
-// }
+	table = ft_calloc(ms->env_size, sizeof(char *));
+	while (ms->env[i] != NULL)
+	{
+		table[i] = ft_strdup(ms->env[i]);
+		i++;
+	}
+	i = 0;
+	while (ms->env[i] != NULL)
+	{
+		j = i + 1;
+		while (table[j] != NULL)
+		{
+			if (ft_strcmp(table[i], table[j]) > 0)
+				ft_swap(&table[i], &table[j]);
+			j++;
+		}
+		i++;
+	}
+	table[i] = NULL;
+	env_var_print_quotes(table, 0, 0, NO);
+	ft_free_table(table);
+}
 
 int	evaluate_export_type(char *option)
 {
@@ -57,9 +73,7 @@ int	evaluate_export_type(char *option)
 
 	i = 1;
 	equal = NO;
-
 	// TYPEFAIL INVALID KEY, TYPE1: KEY ONLY,    TYPE2: KEY=,  TYPE3: KEY=VALUE
-
 	if (!ft_isalpha(option[0]) && option[0] != '_')
 		return (FAIL);
 	while (option[i])
@@ -111,25 +125,12 @@ void	builtin_export(char **options)
 		else
 		{
 			pos = env_var_matching_key(options[i]);
-		//	printf("type = %d and pos = %d\n", type, pos);
-			// if la var existe deja et de type 2 ou 3
 			if ((type == 2 || type == 3) && pos != FAIL)
-			{
-		//		printf("premier if\n");
 				env_var_export_update(options[i], pos, NO);
-			}
-			// else if new var de type 2 ou 3
 			else if ((type == 2 || type == 3) && pos == FAIL)
-			{
-		//		printf("else if 1\n");
 				env_var_export_update(options[i], pos, YES);
-			}
-			// else if its a new variable!!!
 			else if (type == 1 && pos == FAIL)
-			{
-		//		printf("else if 2\n");
 				env_var_export_update(options[i], pos, YES);
-			}
 		}
 		i++;
 	}

@@ -6,28 +6,11 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 15:13:05 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/26 16:50:25 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/27 15:16:18 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
-
-void	free_minishell(void)
-{
-	t_minishell *minishell;
-	
-	//
-	printf("dans FREE MINISHELL\n");
-	//
-	minishell = get_minishell();
-	if (minishell->env != NULL)
-		ft_free_table(minishell->env);
-	if (minishell->options != NULL)
-	   ft_free_table(minishell->options);
-	if (minishell->user_input != NULL)
-		free(minishell->user_input);
-	rl_clear_history();
-}
 
 void    builtin_exit(char **options)
 {
@@ -52,11 +35,10 @@ void    builtin_exit(char **options)
 			nb_options = ft_atoll(options[0]) % 256;
 			if (nb_options < 0 || nb_options > 255)
 				nb_options = ERROR_255;
-			// printf("options[0] = %s and atoll result = %lld\n", options[0], nb_options);
 			get_minishell()->exit_nb = nb_options;
 		}
 	}
-	//
+	// VERIFIER les exit code de CTRL-C et D
 	printf("EXIT NB = %d\n", get_minishell()->exit_nb);
 	//
 	free_minishell();

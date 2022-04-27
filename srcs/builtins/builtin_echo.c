@@ -6,31 +6,11 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 12:00:31 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/22 19:55:52 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/27 16:32:57 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
-
-// function scanning the string *list and returns a bool depending on 
-// if it only contains the valid option 'n' 
-// for the builtin_echo handled in this project.
-t_answer	ft_is_option(char valid, char *list)
-{
-	size_t	i;
-
-	i = 0;
-	if (list[i] == '\0')
-		return (NO);
-	while (list[i] != '\0')
-	{
-		if (valid == list[i])
-			i++;
-		else
-			return (NO);
-	}
-	return (YES);
-}
 
 // bash behaviour : can receive multiple -n -n -n -nnnnnnnn options
 // which remove the newline. If there is no -n as the first option, 
@@ -80,6 +60,7 @@ void	builtin_echo(char **options)
 	get_minishell()->exit_nb = SUCCESS;
 }
 
+// REVERIFIER LES ECHO $?
 // echo $?? , bash print le deuxieme ? comme un char normal.
 // echo renvoi 0 on success
 // echo renvoi 127 

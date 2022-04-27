@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 20:13:51 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/25 15:01:24 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/27 16:04:48 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,9 @@ int	ft_isdigit(int c)
 
 int	ft_is_str_digit_only(char *str)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
-
 	if (str[i] == '+' || str[i] == '-')
 		i++;
 	if (str[i] == '\0')
