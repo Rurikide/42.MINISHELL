@@ -9,18 +9,20 @@ CFLAGS= -Wall -Werror -Wextra -g -c
 SDIR= srcs
 ODIR= objs
 BDIR= srcs/builtins
+EDIR= srcs/exec
 
 SRCS= main.c
 
-BUILTINS=  builtin_echo.c builtin_cd.c builtin_pwd.c builtin_export.c builtin_unset.c builtin_utils_env.c builtin_utils_env2.c builtin_utils_env3.c builtin_env.c builtin_exit.c env_init.c signals.c
-
-OBJS= $(SRCS:.c=.o) $(BUILTINS:.c=.o)
+BUILTINS=  builtin_echo.c builtin_cd.c builtin_pwd.c builtin_export.c builtin_unset.c builtin_utils_env.c builtin_utils_env2.c builtin_utils_env3.c builtin_env.c builtin_exit.c env_init.c
+EXEC= access.c redirect.c signal.c
+OBJS= $(SRCS:.c=.o) $(BUILTINS:.c=.o) $(EXEC:.c=.o)
 
 SFIX= $(addprefix $(SDIR)/, $(SRCS))
 OFIX= $(addprefix $(ODIR)/, $(OBJS))
 BFIX= $(addprefix $(BDIR)/, $(BUILTINS)) 
+EFIX= $(addprefix $(EDIR)/, $(EXEC)) 
 
-VPATH= $(SDIR) $(BDIR)
+VPATH= $(SDIR) $(BDIR) $(EDIR)
 
 
 all: $(NAME)
@@ -48,10 +50,7 @@ fclean: clean
 re: clean all
 
 
-lea: all
-	leaks --atEXit -- ./minishell
-	
 val: all
 	valgrind ./minishell --leak-check-full --track-origins=yes -s --trace-children=yes --show-leak-kinds=all --show-reachable=yes
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re val

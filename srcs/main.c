@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:10:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/27 16:13:25 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/28 12:17:05 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ void	scan_builtins(char **options)
 		builtin_env(&options[1]);
 	else if (ft_is_a_match("exit", options[0]) == YES)
 		builtin_exit(&options[1]);
+	//
+	// else if pipex 
+	//
+
 }
 
 int	main(int argc, char **argv, char **env)
