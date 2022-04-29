@@ -6,11 +6,26 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:42:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/28 16:58:29 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/29 17:01:39 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
+
+void mise_en_abyme(char **options)
+{
+	pid_t process_id;
+
+	process_id = fork();
+
+	if (process_id == SUCCESS)
+	{
+		execve(*options, options, get_minishell()->env);
+		printf("process\n");
+	}
+	else 
+		waitpid(process_id, NULL, 0);
+}
 
 // access() doit pouvoir accepter un path dès le départ par exemple : /bin/ls
 

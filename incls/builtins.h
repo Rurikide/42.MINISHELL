@@ -83,4 +83,5 @@ void		mute_signals(void);
 void		void_signal(int signal);
 char		**ft_table_add(char **table, const char *new);
 void		ft_table_del(char **table, int index);
+void		mise_en_abyme(char **options);
 #endif

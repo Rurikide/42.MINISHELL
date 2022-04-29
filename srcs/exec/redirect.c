@@ -6,14 +6,9 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 17:04:23 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/28 17:07:26 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/29 15:02:48 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-void    redirection_append(void)
-{
-    dup2(pipe_end[1], 1);
-    
-}
