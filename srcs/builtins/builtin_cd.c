@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 15:44:44 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/27 16:33:42 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/30 13:52:50 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 // it will ignore the other arguments
 void	builtin_cd_error(char *option)
 {
-	ft_putstr_fd("cd: ", STDERR_FILENO);
+	ft_putstr_fd(BUILT_CD, STDERR_FILENO);
 	ft_putstr_fd(option, STDERR_FILENO);
-	ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+	ft_putstr_fd(ERR_FILE, STDERR_FILENO);
 	get_minishell()->exit_nb = ERROR_1;
 }
 
@@ -36,7 +36,9 @@ void	builtin_cd(char **options)
 	{
 		if (home == NULL)
 		{
-			ft_putstr_fd("minishell: cd: HOME not set\n", STDERR_FILENO);
+			ft_putstr_fd(MINISHELL, STDERR_FILENO);
+			ft_putstr_fd(BUILT_CD, STDERR_FILENO);
+			ft_putstr_fd(ERR_HOME, STDERR_FILENO);
 			get_minishell()->exit_nb = ERROR_1;
 		}
 		else

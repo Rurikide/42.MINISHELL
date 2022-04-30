@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:10:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/29 16:55:33 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/30 17:19:03 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,24 +59,29 @@ int	main(int argc, char **argv, char **env)
 	t_minishell	*minishell;
 	char		**options;
 
+	(void)argc;
 	(void)argv;
-	if (argc != 1)
-		return (0);
 	init_env(env);
 	minishell = get_minishell();
 	set_signals();
+
 	while (true)
 	{
 		if (minishell->user_input != NULL)
 			free(minishell->user_input);
 		minishell->user_input = readline("minishell> ");
+		add_history(minishell->user_input);
 		if (minishell->user_input == CTRL_D)
 			ctrl_d_exit();
-		add_history(minishell->user_input);
+
+		else if (ft_strcmp(minishell->user_input, "heredoc") == SUCCESS)
+			here_document("FIN");
+			
 		if (minishell->options != NULL)
 			ft_free_table(minishell->options);
 		options = ft_split(minishell->user_input, ' ');
 		minishell->options = options;
+		
 		scan_builtins(options);
 	}
 	return (0);

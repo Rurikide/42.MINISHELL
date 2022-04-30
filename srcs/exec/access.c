@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:42:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/29 17:01:39 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/30 17:20:58 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void mise_en_abyme(char **options)
 	if (process_id == SUCCESS)
 	{
 		execve(*options, options, get_minishell()->env);
-		printf("process\n");
+		printf("hello from child process\n");
 	}
 	else 
 		waitpid(process_id, NULL, 0);

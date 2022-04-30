@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 12:38:55 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/28 17:02:02 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/30 13:33:39 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ctrl_c_prompt(int signal)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	get_minishell()->exit_nb = 130;
+	get_minishell()->exit_nb = SIG_CTR_C;
 }
 // not sure about the exit nb
 
