@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:42:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/30 17:20:58 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/01 18:46:03 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,6 @@ t_result	ft_is_valid_command(t_container *input, int i, char *cmd)
 		nb++;
 	}
 	return (FAIL);
-}
-
-char	*ft_find_path_variable(t_container *input)
-{
-	if (input->envp == NULL)
-		return (NULL);
-	while (input->envp != NULL)
-	{
-		if (ft_strncmp(*input->envp, "PATH=", 5) == SUCCESS)
-			return (&(*input->envp)[6]);
-		else
-			input->envp++;
-	}
-	return (NULL);
 }
 
 void	ft_parse_command_line(t_container *input)
@@ -185,3 +171,152 @@ void	ft_prepare_x_process(t_container *input)
 }
 
 */
+
+
+void	execution_main(void)
+{
+	/*
+		size_t i;
+		
+		int source_fd;
+		int finale_fd;
+		
+		finale_fd = open(argument, O_RDWR | O_CREAT | O_TRUNC, 0777);
+		if (finale_fd == FAIL)
+			// Le vrai comportement de bash ignore le output des commandes précédentes et continue à executer les commandes suivantes s'il y en a.
+		source_fd = open(argument, O_RDONLY, 0777)
+		if (source_fd == FAIL)
+			// ERROR stop the execution
+		i = 1;
+		
+		execution_access();
+
+	*/
+}
+
+
+char	*get_path_value(t_minishell *minishell)
+{
+	int i;
+
+	i = 0;
+	if (minishell->env[i] == NULL)
+		return (NULL);
+	while (minishell->env[i] != NULL)
+	{
+		if (ft_strncmp(minishell->env[i], "PATH=", 5) == SUCCESS)
+			return (&(minishell->env[i])[6]);
+		i++;
+	}
+	return (NULL);
+}
+
+
+void	execution_access(void)
+{
+	t_minishell *minishell;
+	char **bins;
+
+	minishell = get_minishell();
+
+	int	i;
+
+	i = 1;
+	bins = ft_split(get_path_value(minishell), ':');
+	if (input->bins == NULL)
+	{
+		ft_printf("Error path variable is NULL\n");
+		ft_free_table(input->bins);
+		free(input->cmd);
+		exit(EXIT_FAILURE);
+	}
+	while (input->argv[i] && input->argv[i + 1])
+	{
+		input->cmd[i].param = ft_split(input->argv[i], ' ');
+		if (input->cmd[i].param == NULL)
+			ft_perror_cmd_free(input, i, "Error split cmd");
+		if (ft_is_valid_command(input, i, input->cmd[i].param[0]) == FAIL)
+		{
+			ft_printf("cmd #%d is invalid.\n", i);
+			ft_perror_cmd_free(input, i, "Error parse cmd");
+		}
+		i++;
+	}
+}
+
+
+void execution_main(char **options)
+{
+
+	// STEP
+	// int i;
+
+	// i = 0;
+	// // Regarder si on reçoit un path d'une commande. Par exemple : /bin/ls
+	// if (options[i] == NULL)
+	// {
+	// 	printf("access options == NULL\n");
+	// 	return (NULL);
+	// }
+	// if (*options[0] == '/')
+	// {
+	// 	if (access(options[0], F_OK) == SUCCESS)
+	// 	{
+	// 		printf("access command found using direct path\n");
+	// 		return ;
+	// 	}
+	// }
+	// else if (*options != NULL)
+	// {
+	// 	if (access(options[i]) == SUCCESS)
+	// 	{
+	// 		// execution_prepare_pipe();
+	// 	}
+	// }
+}
+
+void	execution_redirect_fd(void)
+{
+	/*
+		if (source_fd != STDIN_FILENO)
+		{
+			dup2(source_fd, STDIN_FILENO);
+			close(source_fd);
+		}
+		if (output_fd != STDOUT_FILENO)
+		{
+			dup2(output_fd, STDOUT_FILENO);
+			close(output_fd);
+		}
+	*/
+}
+
+void	execution_check_cmd(char **options)
+{
+	/*
+		int i;
+		int pipe_end[2];
+
+		i = 0;
+		if (PIPELINE)
+			fork();
+		
+	*/
+
+	if (ft_is_a_match("echo", options[0]) == YES)
+		builtin_echo(&options[1]);
+	else if (ft_is_a_match("cd", options[0]) == YES)
+		builtin_cd(&options[1]);
+	else if (ft_is_a_match("pwd", options[0]) == YES)
+		builtin_pwd(&options[1]);
+	else if (ft_is_a_match("export", options[0]) == YES)
+		builtin_export(&options[1]);
+	else if (ft_is_a_match("unset", options[0]) == YES)
+		builtin_unset(&options[1]);
+	else if (ft_is_a_match("env", options[0]) == YES)
+		builtin_env(&options[1]);
+	else if (ft_is_a_match("exit", options[0]) == YES)
+		builtin_exit(&options[1]);
+	//else
+		//access pipe fork child process execve cmd
+}

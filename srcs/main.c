@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:10:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/30 17:19:03 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/01 18:34:44 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,30 +28,6 @@ t_minishell	*get_minishell(void)
 		minishell.head = NULL;
 	}
 	return (&minishell);
-}
-
-void	scan_builtins(char **options)
-{
-	if (ft_is_a_match("echo", options[0]) == YES)
-		builtin_echo(&options[1]);
-	else if (ft_is_a_match("cd", options[0]) == YES)
-		builtin_cd(&options[1]);
-	else if (ft_is_a_match("pwd", options[0]) == YES)
-		builtin_pwd(&options[1]);
-	else if (ft_is_a_match("export", options[0]) == YES)
-		builtin_export(&options[1]);
-	else if (ft_is_a_match("unset", options[0]) == YES)
-		builtin_unset(&options[1]);
-	else if (ft_is_a_match("env", options[0]) == YES)
-		builtin_env(&options[1]);
-	else if (ft_is_a_match("exit", options[0]) == YES)
-		builtin_exit(&options[1]);
-	else
-		mise_en_abyme(options);
-	//
-	// else if pipex 
-	//
-
 }
 
 int	main(int argc, char **argv, char **env)
