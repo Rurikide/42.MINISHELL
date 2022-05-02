@@ -20,6 +20,7 @@
 
 # define MINISHELL "minishell: "
 # define BUILT_CD "cd: "
+# define CHILD 0
 
 typedef enum e_status
 {
@@ -29,8 +30,8 @@ typedef enum e_status
 	ERROR_2 = 2,
 	ERROR_127 = 127,
 	ERROR_255 = 255,
-	SIG_CTR_C = 130,
-	SIG_CTR_D = 131
+	SIG_CTRL_C = 130,
+	SIG_CTRL_D = 131
 }t_status;
 
 typedef enum e_answer
@@ -96,4 +97,8 @@ void		mute_signals(void);
 void		void_signal(int signal);
 void		mise_en_abyme(char **options);
 void		here_document(char *safeword);
+
+int			execution_builtins(char **options);
+int			execution_binary_cmd(char **options);
+char		*get_path_value(t_minishell *minishell);
 #endif

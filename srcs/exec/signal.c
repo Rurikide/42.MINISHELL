@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 12:38:55 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/30 13:33:39 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/02 10:02:23 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,15 @@ void	ctrl_c_prompt(int signal)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	get_minishell()->exit_nb = SIG_CTR_C;
+	get_minishell()->exit_nb = SIG_CTRL_C;
+}
+
+// for a heredoc inside the child process
+void	ctrl_c_heredoc(int signal)
+{
+	(void)signal;
+	write(1, "  \n", 3);
+	exit(SIG_CTRL_C);
 }
 // not sure about the exit nb
 

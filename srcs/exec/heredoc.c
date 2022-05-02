@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 17:04:23 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/30 17:42:22 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/02 10:40:38 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,25 +41,25 @@
 // tout le node, dans value le nom de la commande.
 
 //void	here_document(t_node *current, char *safeword)
-void	here_document(char *safeword)
-{
-	//(void)current;
-	char *hd_input;
-	char *cmd;
+// void	here_document(char *safeword)
+// {
+// 	//(void)current;
+// 	char *hd_input;
+// 	char *cmd;
 	
-	cmd = "cat";
+// 	cmd = "cat";
 	
-	hd_input = readline("> ");
-	if (ft_strcmp(hd_input, safeword) == SUCCESS)
-		return ;
-	while (ft_strcmp(hd_input, safeword) != SUCCESS)
-	{
-		//current->value = ft_strjoin_symbol(current->value, '\n', hd_input);
-		cmd = ft_strjoin_symbol(cmd, '\n', hd_input);
-		hd_input = readline("> ");
-	}
-	printf("OUTSIDE THE LOOP:::RESULT:::\v%s\n", cmd);
-}
+// 	hd_input = readline("> ");
+// 	if (ft_strcmp(hd_input, safeword) == SUCCESS)
+// 		return ;
+// 	while (ft_strcmp(hd_input, safeword) != SUCCESS)
+// 	{
+// 		//current->value = ft_strjoin_symbol(current->value, '\n', hd_input);
+// 		cmd = ft_strjoin_symbol(cmd, '\n', hd_input);
+// 		hd_input = readline("> ");
+// 	}
+// 	printf("OUTSIDE THE LOOP:::RESULT:::\v%s\n", cmd);
+// }
 
 
 // les heredocs doivent etre dans un child process
