@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:42:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/02 14:40:11 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/03 15:51:39 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,39 +26,6 @@
 // 	else 
 // 		waitpid(process_id, NULL, 0);
 // }
-
-// void	execution_access(void)
-// {
-// 	t_minishell *minishell;
-// 	char **bins;
-
-// 	minishell = get_minishell();
-
-// 	int	i;
-
-// 	i = 1;
-// 	bins = ft_split(get_path_value(minishell), ':');
-// 	if (input->bins == NULL)
-// 	{
-// 		ft_printf("Error path variable is NULL\n");
-// 		ft_free_table(input->bins);
-// 		free(input->cmd);
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	while (input->argv[i] && input->argv[i + 1])
-// 	{
-// 		input->cmd[i].param = ft_split(input->argv[i], ' ');
-// 		if (input->cmd[i].param == NULL)
-// 			ft_perror_cmd_free(input, i, "Error split cmd");
-// 		if (ft_is_valid_command(input, i, input->cmd[i].param[0]) == FAIL)
-// 		{
-// 			ft_printf("cmd #%d is invalid.\n", i);
-// 			ft_perror_cmd_free(input, i, "Error parse cmd");
-// 		}
-// 		i++;
-// 	}
-// }
-
 
 int	execution_builtins(char **options)
 {
@@ -112,20 +79,77 @@ char	*get_path_value(t_minishell *minishell)
 	return (NULL);
 }
 
+int	execution_access(char **options)
+{
+	t_minishell *minishell;
+	char **path_table;
+	int i;
 
-// // access return 0 on success and -1 on fail
-// int	execution_access(char **options)
-// {	
-// 	char **path_table;
+	i = 0;
 
-// 	if (access(options, F_OK)  == SUCCESS)
-// 	{
-// 			execution_binary_cmd(options);
-// 			// return ???
-// 	}
-// 	path_table = ft_split(get_path_value(get_minishell()), ':');
-// 	if (path_table == NULL)
-// 		//	s'il n'y a pas de path 
+	// on essaie access si options[0] est un direct path
+	minishell = get_minishell();
+	path_table = ft_split(get_path_value(minishell), ':');
+	// while loop ou non ???
+	if (access(options[i], F_OK) == SUCCESS)
+	{
+		// pipe, fork, child execve
+		// return ???
+	}
+
+	// on essaie access avec tous les paths
+	if (!path_table)
+	{
+		printf("NO PATH FOUND\n");
+		// return une erreur ou on continue???
+	}
+	// search_binary_file(path_table, cmd);
 	
-	
-// }
+	ft_free_table(path_table);
+}
+
+
+
+int	search_binary_file(char **path_table, char *cmd)
+{
+	char *test_path;
+	int i;
+
+	i = 0;
+	while(path_table[i] != NULL)
+	{
+		test_path = ft_strjoin_symbol(path_table[i], '/', cmd);
+		if (access(test_path, F_OK) == SUCCESS)
+			// execute fonction return(SUCCESS);
+		free(test_path);
+		i++;
+	}
+	return (FAIL);
+}
+
+void execution_binary_cmd(void)
+{
+	/* il faut que je pipe et fork avant???
+	pid_t id;
+	int pipe_end[2]
+	if (pipe(pipe_end) == FAIL)
+		// message d'erreur
+	dup2(in_fd, 0);
+	close(in_fd);
+
+	if (pas d'autre redirection)
+		dup2(out_fd, 1);
+	else
+		dup2(pipe_end[1], 1);
+
+	id = fork();
+	if (id == FAIL)
+		// erreur
+	if (id == CHILD)
+		execve(binary_path, cmd+params, minishell->env)
+	// PARENT
+	close(pipe)end[1];
+	waitpid(id, NULL, 0);
+
+	*/
+}
