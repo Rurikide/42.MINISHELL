@@ -6,18 +6,12 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 17:04:23 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/03 16:08:15 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/04 13:38:02 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-typedef struct s_hdinput
-{
-	struct	s_hdinput	*prev;
-	struct	s_hdinput	*next;
-	char	**hd_table;
-}	t_hdinput;
 
 /*
 	rl_on_new_line();
@@ -33,42 +27,55 @@ typedef struct s_hdinput
 	rl_line_buffer. 
 */
 
-
-//void	here_document(t_node *current, char *safeword)
-void	here_document(char *safeword)
+/*
+typedef struct s_node
 {
-	// mute signals; for both PARENT and CHILD
+	char	*value;
+	char	type;
+	int		fdI;
+	int		fdO;
+	struct  s_node *next;
 
-	/*  pid_t here_id;
-		here_id = fork();
+}t_node;
+*/
+
+void	here_document(t_node *current, char *safeword)
+{
+		pid_t here_id;
+		char *hd_input;
+		char *cmd;
 		
+		// IL FAUT FAIRE UN PIPE le child process a sa propre node et il faut qu'il partage ses infos avec le parent
+		cmd = "cat";
+		mute_signals();
+		here_id = fork();
 		if (here_id == CHILD)
 		{
-			signal(SIGINT, &ctrl_c_heredoc); //signal pour le child process seulement
-			char *hd_input;
-			char *cmd;
-			
-			cmd = "cat";
-			
+			signal(SIGINT, &ctrl_c_heredoc);
 			hd_input = readline("> ");
+			if (hd_input == CTRL_D)
+				// > bash response
 			if (ft_strcmp(hd_input, safeword) == SUCCESS)
 				return ;
+			// strategie rempli value de tous les user inputs séparé par des newline
 			while (ft_strcmp(hd_input, safeword) != SUCCESS)
 			{
 				//current->value = ft_strjoin_symbol(current->value, '\n', hd_input);
 				cmd = ft_strjoin_symbol(cmd, '\n', hd_input);
 				hd_input = readline("> ");
+				if (hd_input == CTRL_D)
+				// > bash response
+				// est-ce que je dois faire quelquechose pour le readline? utilise rl_on_new_line() rl_replace_line() rl_redisplay()
 			}
-			free(current_node->value);
-			current->node->value = ft_strdup(cmd);
-			exit status du child;
+			free(current->value);
+			current->value = ft_strdup(cmd);
+			// exit status du child;
 		}
 		else // PARENT
 		{
 			waitpid(here_id, NULL, 0);
 		}
 		set_signals();
-	*/
 }
 
 // les heredocs doivent etre dans un child process

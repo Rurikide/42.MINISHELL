@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 12:38:55 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/02 10:02:23 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/04 11:57:24 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,3 +70,21 @@ void	set_signals(void)
 	signal(SIGINT, &ctrl_c_prompt);
 	signal(SIGQUIT, SIG_IGN);
 }
+
+
+/*
+
+WIFEXITED(status)
+    returns true if the child terminated normally, that is, by calling exit(3) or _exit(2), or by returning from main(). 
+WEXITSTATUS(status)
+    returns the exit status of the child. This consists of the least significant 8 bits of the status argument that the child specified in a call to exit(3) or _exit(2) or as the argument for a return statement in main(). This macro should only be employed if WIFEXITED returned true. 
+WIFSIGNALED(status)
+    returns true if the child process was terminated by a signal. 
+
+wait() and waitpid()
+
+The wait() system call suspends execution of the calling process until one of its children terminates. The call wait(&status) is equivalent to:
+
+waitpid(-1, &status, 0);
+
+*/

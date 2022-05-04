@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:42:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/03 15:51:39 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/04 12:47:09 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	execution_access(char **options)
 		printf("NO PATH FOUND\n");
 		// return une erreur ou on continue???
 	}
-	// search_binary_file(path_table, cmd);
+	search_binary_file(path_table, cmd);
 	
 	ft_free_table(path_table);
 }

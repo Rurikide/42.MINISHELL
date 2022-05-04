@@ -22,6 +22,16 @@
 # define BUILT_CD "cd: "
 # define CHILD 0
 
+typedef struct s_node
+{
+	char	*value;
+	char	type;
+	int		fdI;
+	int		fdO;
+	struct  s_node *next;
+
+}t_node;
+
 typedef enum e_status
 {
 	FAIL = -1,
@@ -91,13 +101,13 @@ void		builtin_exit(char **options);
 int			evaluate_export_type(char *option);
 void		env_var_export_update(char *update, int pos, int new);
 void		ctrl_c_prompt(int signal);
+void		ctrl_c_heredoc(int signal);
 void		ctrl_d_exit(void);
 void		set_signals(void);
 void		mute_signals(void);
 void		void_signal(int signal);
 void		mise_en_abyme(char **options);
-void		here_document(char *safeword);
-
+void		here_document(t_node *current, char *safeword);
 int			execution_builtins(char **options);
 int			execution_binary_cmd(char **options);
 char		*get_path_value(t_minishell *minishell);
