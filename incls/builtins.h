@@ -29,7 +29,6 @@ typedef struct s_node
 	int		fdI;
 	int		fdO;
 	struct  s_node *next;
-
 }t_node;
 
 typedef enum e_status
@@ -109,6 +108,6 @@ void		void_signal(int signal);
 void		mise_en_abyme(char **options);
 void		here_document(t_node *current, char *safeword);
 int			execution_builtins(char **options);
-int			execution_binary_cmd(char **options);
+void		execution_binary_cmd(t_node *current, int read_fd, int write_fd);
 char		*get_path_value(t_minishell *minishell);
 #endif

@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:42:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/04 12:47:09 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/05 17:24:28 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,13 @@ char	*get_path_value(t_minishell *minishell)
 		{
 			if (minishell->env[i][6] != '\0')
 			{
+				//
 				printf("FOUND PATHS\n");
 				return (&(minishell->env[i])[6]);
 			}
 			else
 			{
+				//
 				printf("PATH=\n");
 				return (NULL);
 			}
@@ -79,38 +81,77 @@ char	*get_path_value(t_minishell *minishell)
 	return (NULL);
 }
 
+void execution_binary_cmd(t_node *current, int read_fd, char **options)
+{
+	pid_t id;
+	int pipe_end[2]
+	if (pipe(pipe_end) == FAIL)
+		// message d'erreur
+
+	// REDIRECTION INPUT
+	if (current->fdI != STDIN_FILENO)
+	{
+		dup2(current->fdI, STDIN_FILENO);
+		close(current->fdI); // celui d'une redirection
+	}
+	else if (read_fd != STDIN_FILENO)
+	{
+		dup2(read_fd, STDIN_FILENO);
+		close(read_fd); // soit du infile ou bien celui du pipe_end[0]
+	}
+
+	// REDIRECTION OUTPUT : soit dans le stdout, soit dans une pipe ou soit dans un outfile finale.
+	if (current->fdO != STDOUT_FILENO)
+		dup2(current->fdO, STDOUT_FILENO);
+	else if (current->next != NULL)
+		dup2(pipe_end[1], STDOUT_FILENO);
+		
+	id = fork();
+	if (id == FAIL)
+		// erreur
+	if (id == CHILD)
+	{
+		// inside the child process
+		execution_access(options);
+	}
+	else
+	{
+		close(pipe_end[1]); // car le parent n'écrit pas dans le write_end a.k.a pipe_end[1]
+		waitpid(id, NULL, 0);
+	}
+	if (current->next != NULL)
+	{
+		current = current->next;
+		return (execution_binary_cmd(current, pipe_end[0]));
+	}
+}
+
+// inside the child process
 int	execution_access(char **options)
 {
 	t_minishell *minishell;
 	char **path_table;
-	int i;
-
-	i = 0;
 
 	// on essaie access si options[0] est un direct path
 	minishell = get_minishell();
-	path_table = ft_split(get_path_value(minishell), ':');
 	// while loop ou non ???
-	if (access(options[i], F_OK) == SUCCESS)
+	if (access(options[0], F_OK) == SUCCESS)
 	{
-		// pipe, fork, child execve
-		// return ???
+		execve(options[0], options, minishell->env);
 	}
-
-	// on essaie access avec tous les paths
+	path_table = ft_split(get_path_value(minishell), ':');
 	if (!path_table)
 	{
 		printf("NO PATH FOUND\n");
 		// return une erreur ou on continue???
+		// printf command not found du child process exit
 	}
-	search_binary_file(path_table, cmd);
-	
+	// on essaie d'access avec tous les paths
+	search_binary_file(path_table, options);
 	ft_free_table(path_table);
 }
 
-
-
-int	search_binary_file(char **path_table, char *cmd)
+int	search_binary_file(char **path_table, char **options)
 {
 	char *test_path;
 	int i;
@@ -118,38 +159,14 @@ int	search_binary_file(char **path_table, char *cmd)
 	i = 0;
 	while(path_table[i] != NULL)
 	{
-		test_path = ft_strjoin_symbol(path_table[i], '/', cmd);
+		test_path = ft_strjoin_symbol(path_table[i], '/', options[0]);
 		if (access(test_path, F_OK) == SUCCESS)
-			// execute fonction return(SUCCESS);
+		{
+			execve(test_path, options, get_minishell()->env);
+		}
 		free(test_path);
 		i++;
 	}
+	// printfcommand not found);
 	return (FAIL);
-}
-
-void execution_binary_cmd(void)
-{
-	/* il faut que je pipe et fork avant???
-	pid_t id;
-	int pipe_end[2]
-	if (pipe(pipe_end) == FAIL)
-		// message d'erreur
-	dup2(in_fd, 0);
-	close(in_fd);
-
-	if (pas d'autre redirection)
-		dup2(out_fd, 1);
-	else
-		dup2(pipe_end[1], 1);
-
-	id = fork();
-	if (id == FAIL)
-		// erreur
-	if (id == CHILD)
-		execve(binary_path, cmd+params, minishell->env)
-	// PARENT
-	close(pipe)end[1];
-	waitpid(id, NULL, 0);
-
-	*/
 }
