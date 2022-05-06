@@ -6,7 +6,9 @@
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <fcntl.h>
 # include "libft.h"
+# include "parsing.h"
 
 # define TOO_MANY_ARG 1 // bash: exit: too many arguments
 # define NON_NUMERIC 255 // bash: exit: var: numeric argument required
@@ -24,14 +26,6 @@ typedef enum s_answer
 	NO = 0,
 	YES = 1,
 }t_answer;
-
-typedef struct s_node
-{
-	char	*value;
-	char	type;
-	struct  s_node *next;
-
-}t_node; 
 
 typedef	struct s_minishell
 {
@@ -55,7 +49,7 @@ void		env_var_add(char *key, char *update);
 void		env_var_del(int env_index);
 int			env_var_get_key_index(char *key, size_t size);
 char		*env_var_get_key_value(char *key);
-char		*env_var_get_value(char *key, size_t size);
+char		*env_var_get_value(char *key, int size);
 void		builtin_echo(char **options);
 void		builtin_cd(char **options);
 void		builtin_pwd(char **options);

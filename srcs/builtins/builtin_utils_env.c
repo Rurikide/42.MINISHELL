@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 16:04:19 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/22 16:15:21 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/25 12:35:04 by adubeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,22 +92,16 @@ int	env_var_get_key_index(char *key, size_t size)
 }
 
 // function retrieves the value of the key env m
-char	*env_var_get_value(char *key, size_t size)
+char	*env_var_get_value(char *key, int	size)
 {
 	// key is the KEY with the '='
-	t_minishell *ms;
-	int i;
+	t_minishell	*minishell;
+	int			i;
 
-	i = 0;
-	ms = get_minishell();
-	while (ms->env[i] != NULL)
-	{
-		if (env_var_matching_key(key) == SUCCESS)
-			return (&(ms->env[i])[size]);
-			// return the value after the '='
-		else
-			i++;
-	}
+	i = env_var_matching_key(key);
+	minishell = get_minishell();
+	if (i != FAIL)
+		return (&(minishell->env[i])[size + 1]);
 	return (NULL);
 }
 

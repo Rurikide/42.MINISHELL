@@ -40,9 +40,10 @@ void	scan_builtins(char **options)
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell *minishell;
-	char **options;
+	//char **options;
 
 	(void)argv;
+	(void)argc;
 	init_env(env);
 	minishell = get_minishell();
 
@@ -54,9 +55,10 @@ int	main(int argc, char **argv, char **env)
 		add_history(minishell->user_input);
 		if (minishell->options != NULL)
 			ft_free_table(minishell->options);
-		options = ft_split(minishell->user_input, ' ');
+		ms_parsing();
+		/*options = ft_split(minishell->user_input, ' ');
 		minishell->options = options;
-		scan_builtins(options);
+		scan_builtins(options);*/
 	}
 	return (0);
 }

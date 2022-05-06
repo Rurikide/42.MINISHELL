@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 15:13:05 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/21 16:47:56 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/04/25 12:38:25 by adubeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void    builtin_exit(char **options)
 	minishell = get_minishell();
 	int i;
 
+	(void)options;
 	i = 0;
 	ft_putendl_fd("exit", STDOUT_FILENO);
 	// if (options[i] != NULL)
