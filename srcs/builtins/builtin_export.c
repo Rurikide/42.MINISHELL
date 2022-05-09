@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 17:15:15 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/27 16:52:30 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/09 16:58:29 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	evaluate_export_type(char *option)
 	return(1);
 }
 
-void	builtin_export(char **options)
+void	builtin_export(t_node *current, char **options)
 {
 	int i;
 	int type;
@@ -119,6 +119,8 @@ void	builtin_export(char **options)
 		type = evaluate_export_type(options[i]);
 		if (type == FAIL)
 		{
+			// ft_putstr_fd("export: `", current->fd_o);
+			// ft_putstr_fd("export: `", current->fd_o);
 			printf("export: `%s': not a valid identifier\n", options[i]);
 			get_minishell()->exit_nb = ERROR_1;
 		}

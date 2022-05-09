@@ -9,20 +9,23 @@ CFLAGS= -Wall -Werror -Wextra -g -c
 SDIR= srcs
 ODIR= objs
 BDIR= srcs/builtins
-EDIR= srcs/exec
+PDIR= srcs/parsing
+EDIR= srcs/execution
 
 SRCS= main.c
 
 BUILTINS=  builtin_echo.c builtin_cd.c builtin_pwd.c builtin_export.c builtin_unset.c builtin_utils_env.c builtin_utils_env2.c builtin_utils_env3.c builtin_env.c builtin_exit.c env_init.c
-EXEC= access.c heredoc.c signal.c
-OBJS= $(SRCS:.c=.o) $(BUILTINS:.c=.o) $(EXEC:.c=.o)
+EXECUTION= access.c heredoc.c signal.c
+PARSING= parse.c split.c getfd.c nodes.c getvar.c
+OBJS= $(SRCS:.c=.o) $(BUILTINS:.c=.o) $(EXECUTION:.c=.o) $(PARSING:.c=.o)
 
 SFIX= $(addprefix $(SDIR)/, $(SRCS))
 OFIX= $(addprefix $(ODIR)/, $(OBJS))
 BFIX= $(addprefix $(BDIR)/, $(BUILTINS)) 
-EFIX= $(addprefix $(EDIR)/, $(EXEC)) 
+EFIX= $(addprefix $(EDIR)/, $(EXECUTION)) 
+PFIX= $(addprefix $(PDIR)/, $(PARSING)) 
 
-VPATH= $(SDIR) $(BDIR) $(EDIR)
+VPATH= $(SDIR) $(BDIR) $(EDIR) $(PDIR)
 
 
 all: $(NAME)

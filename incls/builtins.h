@@ -6,7 +6,9 @@
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <fcntl.h>
 # include "libft.h"
+# include "parsing.h"
 
 # define ERR_ARGS "too many arguments\n"
 # define ERR_CMD "command not found\n"
@@ -22,14 +24,14 @@
 # define BUILT_CD "cd: "
 # define CHILD 0
 
-typedef struct s_node
-{
-	char	*value;
-	char	type;
-	int		fdI;
-	int		fdO;
-	struct  s_node *next;
-}t_node;
+// typedef struct s_node
+// {
+// 	char	*value;
+// 	char	type;
+// 	int		fdI;
+// 	int		fdO;
+// 	struct  s_node *next;
+// }t_node;
 
 typedef enum e_status
 {
@@ -48,13 +50,6 @@ typedef enum e_answer
 	NO = 0,
 	YES = 1,
 }t_answer;
-
-typedef struct s_node
-{
-	char	*value;
-	char	type;
-	struct  s_node *next;
-}t_node; 
 
 typedef	struct s_minishell
 {
@@ -89,14 +84,14 @@ int			env_var_get_key_index(char *key, int size);
 char		*env_var_get_key_n_value(char *key);
 char		*env_var_get_value(char *key, int size);
 int			export_type_key_value(char *option);
-void		builtin_echo(char **options);
+void		builtin_echo(t_node *current, char **options);
 void		builtin_cd(char **options);
 void		builtin_cd_error(char *option);
-void		builtin_pwd(char **options);
-void		builtin_export(char **options);
-void		builtin_unset(char **options);
-void		builtin_env(char **options);
-void		builtin_exit(char **options);
+void		builtin_pwd(t_node *current, char **options);
+void		builtin_export(t_node *current, char **options);
+void		builtin_unset(t_node *current, char **options);
+void		builtin_env(t_node *current, char **options);
+void		builtin_exit(t_node *current, char **options);
 int			evaluate_export_type(char *option);
 void		env_var_export_update(char *update, int pos, int new);
 void		ctrl_c_prompt(int signal);
@@ -107,7 +102,9 @@ void		mute_signals(void);
 void		void_signal(int signal);
 void		mise_en_abyme(char **options);
 void		here_document(t_node *current, char *safeword);
-int			execution_builtins(char **options);
-void		execution_binary_cmd(t_node *current, int read_fd, int write_fd);
+int			execution_builtins(t_node *current, char **options);
+void		execution_binary_cmd(t_node *current, int read_fd, char **options);
 char		*get_path_value(t_minishell *minishell);
+int			execution_access(char **options);
+int	search_binary_file(char **path_table, char **options);
 #endif

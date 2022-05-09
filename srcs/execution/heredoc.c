@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 17:04:23 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/04 13:38:02 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/09 13:00:46 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ void	here_document(t_node *current, char *safeword)
 				//current->value = ft_strjoin_symbol(current->value, '\n', hd_input);
 				cmd = ft_strjoin_symbol(cmd, '\n', hd_input);
 				hd_input = readline("> ");
+				// VERIFIER LE CTRL-D DANS LE HEREDOC
 				if (hd_input == CTRL_D)
+					ctrl_d_exit();
 				// > bash response
 				// est-ce que je dois faire quelquechose pour le readline? utilise rl_on_new_line() rl_replace_line() rl_redisplay()
 			}

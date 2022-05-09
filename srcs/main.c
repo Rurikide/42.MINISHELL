@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:10:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/03 15:38:59 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/09 16:21:02 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_minishell	*get_minishell(void)
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	*minishell;
-	char		**options;
+//	char		**options;
 
 	(void)argc;
 	(void)argv;
@@ -43,25 +43,41 @@ int	main(int argc, char **argv, char **env)
 
 	while (true)
 	{
+
+
 		if (minishell->user_input != NULL)
 			free(minishell->user_input);
 		minishell->user_input = readline("minishell> ");
-		add_history(minishell->user_input);
 		if (minishell->user_input == CTRL_D)
 			ctrl_d_exit();
-
+		add_history(minishell->user_input);
 		// else if (ft_strcmp(minishell->user_input, "heredoc") == SUCCESS)
 		// 	here_document("FIN");
-			
 		if (minishell->options != NULL)
 			ft_free_table(minishell->options);
-		options = ft_split(minishell->user_input, ' ');
-		minishell->options = options;
+	//	options = ft_split(minishell->user_input, ' ');
+	//	minishell->options = options;
 
-		if (execution_builtins(options) == NO)
+
+		// PARTIE A RETRAVAILLER
+		// if (execution_builtins(options) == NO)
+		// {
+		// 	execution_binary_cmd(current, STDIN_FILENO, options);
+		// }
+		ms_parsing();
+		t_node *current;
+
+		current = minishell->head;
+		while (current != NULL)
 		{
-			execution_access(options);
+			//printf("TMP VALUE : %s\n", tmp->value);
+			if (execution_builtins(current, ft_split(current->value, ' ')) == NO)
+			{
+				execution_binary_cmd(current, STDIN_FILENO, ft_split(current->value, ' '));
+			}
+			current = current->next;
 		}
+		
 	}
 	return (0);
 }

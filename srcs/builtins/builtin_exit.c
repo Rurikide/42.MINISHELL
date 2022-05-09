@@ -6,13 +6,13 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 15:13:05 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/27 15:16:18 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/09 16:16:15 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-void    builtin_exit(char **options)
+void    builtin_exit(t_node *current, char **options)
 {
 	long long nb_options;
 

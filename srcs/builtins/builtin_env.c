@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 16:05:56 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/27 16:52:04 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/09 16:16:09 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	env_var_print(void)
 	}
 }
 
-void	builtin_env(char **options)
+void	builtin_env(t_node *current, char **options)
 {
 	if (*options != NULL && *options[0] != '-')
 	{

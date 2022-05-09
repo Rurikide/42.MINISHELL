@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:42:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/05 17:24:28 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/09 16:52:02 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,27 @@
 // 		waitpid(process_id, NULL, 0);
 // }
 
-int	execution_builtins(char **options)
+
+// RETURNS a BOOLEAN INT but ALSO perform the builtin is there is a match!!!
+int	execution_builtins(t_node *current, char **options)
 {
 	int is_builtin;
-
+	
 	is_builtin = YES;
 	if (ft_is_a_match("echo", options[0]) == YES)
-		builtin_echo(&options[1]);
+		builtin_echo(current, &options[1]);
 	else if (ft_is_a_match("cd", options[0]) == YES)
 		builtin_cd(&options[1]);
 	else if (ft_is_a_match("pwd", options[0]) == YES)
-		builtin_pwd(&options[1]);
+		builtin_pwd(current, &options[1]);
 	else if (ft_is_a_match("export", options[0]) == YES)
-		builtin_export(&options[1]);
+		builtin_export(current, &options[1]);
 	else if (ft_is_a_match("unset", options[0]) == YES)
-		builtin_unset(&options[1]);
+		builtin_unset(current, &options[1]);
 	else if (ft_is_a_match("env", options[0]) == YES)
-		builtin_env(&options[1]);
+		builtin_env(current, &options[1]);
 	else if (ft_is_a_match("exit", options[0]) == YES)
-		builtin_exit(&options[1]);
+		builtin_exit(current, &options[1]);
 	else
 		is_builtin = NO;
 	return (is_builtin);
@@ -81,13 +83,15 @@ char	*get_path_value(t_minishell *minishell)
 	return (NULL);
 }
 
+
+// prepare PIPE, FD, puis FORK. 
 void execution_binary_cmd(t_node *current, int read_fd, char **options)
 {
 	pid_t id;
-	int pipe_end[2]
+	int pipe_end[2];
 	if (pipe(pipe_end) == FAIL)
-		// message d'erreur
-
+		printf("PIPE FAILED\n");
+		
 	// REDIRECTION INPUT
 	if (current->fdI != STDIN_FILENO)
 	{
@@ -102,31 +106,36 @@ void execution_binary_cmd(t_node *current, int read_fd, char **options)
 
 	// REDIRECTION OUTPUT : soit dans le stdout, soit dans une pipe ou soit dans un outfile finale.
 	if (current->fdO != STDOUT_FILENO)
+	{
 		dup2(current->fdO, STDOUT_FILENO);
+	}
 	else if (current->next != NULL)
+	{
 		dup2(pipe_end[1], STDOUT_FILENO);
-		
+	}
 	id = fork();
+	
 	if (id == FAIL)
-		// erreur
+	{
+		printf("forked == fail\n");
+	}
+
+	
 	if (id == CHILD)
 	{
 		// inside the child process
 		execution_access(options);
 	}
-	else
-	{
-		close(pipe_end[1]); // car le parent n'écrit pas dans le write_end a.k.a pipe_end[1]
-		waitpid(id, NULL, 0);
-	}
+	close(pipe_end[1]); // car le parent n'écrit pas dans le write_end a.k.a pipe_end[1]
+	waitpid(id, NULL, 0);
 	if (current->next != NULL)
 	{
 		current = current->next;
-		return (execution_binary_cmd(current, pipe_end[0]));
+		return (execution_binary_cmd(current, pipe_end[0], options));
 	}
 }
 
-// inside the child process
+// inside the child process. called from execution_binary_cmd
 int	execution_access(char **options)
 {
 	t_minishell *minishell;
@@ -146,11 +155,15 @@ int	execution_access(char **options)
 		// return une erreur ou on continue???
 		// printf command not found du child process exit
 	}
-	// on essaie d'access avec tous les paths
+	// on essaie d'access avec tous les paths; EXECVE
 	search_binary_file(path_table, options);
 	ft_free_table(path_table);
+
+	//
+	return (0);
 }
 
+// EXCEVE 
 int	search_binary_file(char **path_table, char **options)
 {
 	char *test_path;
