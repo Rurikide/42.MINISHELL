@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/09 16:08:44 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/09 17:51:02 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ t_node	*new_node(char *str, char *sym)
 	t_node	*new =ft_calloc(1, sizeof(t_node));
 	new->value = ms_strip(str, 0, 0);
 	new->type = get_type(str, sym);
-	new->fdI = get_fdI(new, 0, 0);
-	new->fdO = get_fdO(new, 0, 0, 1);
+	new->fd_i = get_fdI(new, 0, 0);
+	new->fd_o = get_fdO(new, 0, 0, 1);
 	new->next = NULL;
 	return new;
 }

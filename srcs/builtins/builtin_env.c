@@ -6,13 +6,13 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 16:05:56 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/09 16:16:09 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/09 17:43:51 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-void	env_var_print(void)
+void	env_var_print(t_node *current)
 {
 	t_minishell	*minishell;
 	int			i;
@@ -22,7 +22,7 @@ void	env_var_print(void)
 	while (minishell->env[i] != NULL)
 	{
 		if (env_var_is_key_only(minishell->env[i]) == NO)
-			ft_putendl_fd(minishell->env[i], STDOUT_FILENO);
+			ft_putendl_fd(minishell->env[i], current->fd_o);
 		i++;
 	}
 }
@@ -31,14 +31,14 @@ void	builtin_env(t_node *current, char **options)
 {
 	if (*options != NULL && *options[0] != '-')
 	{
-		ft_putstr_fd("env: ", STDERR_FILENO);
-		ft_putstr_fd(*options, STDERR_FILENO);
-		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		ft_putstr_fd("env: ", current->fd_o);
+		ft_putstr_fd(*options, current->fd_o);
+		ft_putstr_fd(": No such file or directory\n", current->fd_o);
 		get_minishell()->exit_nb = ERROR_127;
 	}
 	else
 	{
-		env_var_print();
+		env_var_print(current);
 		get_minishell()->exit_nb = SUCCESS;
 	}
 }

@@ -6,40 +6,44 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 17:15:15 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/09 16:58:29 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/09 17:41:38 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-void	env_var_print_quotes(char **table, int i, int j, int equal)
+void	env_var_print_quotes(char **table, t_node *current, int equal)
 {
+	int i;
+	int j;
+
+	i = 0;
 	while (table[i] != NULL)
 	{
-		ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		ft_putstr_fd("declare -x ", current->fd_o);
 		j = 0;
 		equal = NO;
 		while (table[i][j] != '\0')
 		{
-			ft_putchar_fd(table[i][j], STDOUT_FILENO);
+			ft_putchar_fd(table[i][j], current->fd_o);
 			if (table[i][j] == '=')
 			{
 				equal = YES;
-				ft_putchar_fd('\"', STDOUT_FILENO);
+				ft_putchar_fd('\"', current->fd_o);
 			}
 			j++;
 			if (table[i][j] == '\0')
 			{
 				if (equal == YES)
-					ft_putchar_fd('\"', STDOUT_FILENO);
-				ft_putchar_fd('\n', STDOUT_FILENO);
+					ft_putchar_fd('\"', current->fd_o);
+				ft_putchar_fd('\n', current->fd_o);
 			}
 		}
 		i++;
 	}
 }
 
-void	env_var_print_in_order(t_minishell *ms, int i, int j)
+void	env_var_print_in_order(t_minishell *ms, t_node *current, int i, int j)
 {
 	char	**table;
 
@@ -62,7 +66,7 @@ void	env_var_print_in_order(t_minishell *ms, int i, int j)
 		i++;
 	}
 	table[i] = NULL;
-	env_var_print_quotes(table, 0, 0, NO);
+	env_var_print_quotes(table, current, NO);
 	ft_free_table(table);
 }
 
@@ -110,7 +114,7 @@ void	builtin_export(t_node *current, char **options)
 	get_minishell()->exit_nb = SUCCESS;
 	if (options[i] == NULL)
 	{
-		env_var_print_in_order(get_minishell(), 0, 0);
+		env_var_print_in_order(get_minishell(), current, 0, 0);
 		return ;
 	}
 	while (options[i])
@@ -119,9 +123,11 @@ void	builtin_export(t_node *current, char **options)
 		type = evaluate_export_type(options[i]);
 		if (type == FAIL)
 		{
-			// ft_putstr_fd("export: `", current->fd_o);
-			// ft_putstr_fd("export: `", current->fd_o);
-			printf("export: `%s': not a valid identifier\n", options[i]);
+			ft_putstr_fd("export: `", current->fd_o);
+			ft_putstr_fd(options[i], current->fd_o);
+			ft_putstr_fd("': not a valid identifier\n", current->fd_o);
+
+			//printf("export: `%s': not a valid identifier\n", options[i]);
 			get_minishell()->exit_nb = ERROR_1;
 		}
 		else

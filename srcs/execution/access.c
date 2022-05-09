@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:42:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/09 16:52:02 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/09 17:50:20 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,10 @@ void execution_binary_cmd(t_node *current, int read_fd, char **options)
 		printf("PIPE FAILED\n");
 		
 	// REDIRECTION INPUT
-	if (current->fdI != STDIN_FILENO)
+	if (current->fd_i != STDIN_FILENO)
 	{
-		dup2(current->fdI, STDIN_FILENO);
-		close(current->fdI); // celui d'une redirection
+		dup2(current->fd_i, STDIN_FILENO);
+		close(current->fd_i); // celui d'une redirection
 	}
 	else if (read_fd != STDIN_FILENO)
 	{
@@ -105,9 +105,9 @@ void execution_binary_cmd(t_node *current, int read_fd, char **options)
 	}
 
 	// REDIRECTION OUTPUT : soit dans le stdout, soit dans une pipe ou soit dans un outfile finale.
-	if (current->fdO != STDOUT_FILENO)
+	if (current->fd_o != STDOUT_FILENO)
 	{
-		dup2(current->fdO, STDOUT_FILENO);
+		dup2(current->fd_o, STDOUT_FILENO);
 	}
 	else if (current->next != NULL)
 	{
@@ -117,6 +117,7 @@ void execution_binary_cmd(t_node *current, int read_fd, char **options)
 	
 	if (id == FAIL)
 	{
+		//
 		printf("forked == fail\n");
 	}
 
