@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:24 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/09 15:50:45 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/10 15:00:34 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static unsigned int	ft_get_nb_strs(char const *s, char sym)
 	if (!s[0])
 		return (0);
 	i = 0;
-	nb_strs = 0;
+	nb_strs = 1;
 	while (s[i])
 	{
 		if (s[i] == '"')
@@ -78,7 +78,7 @@ static unsigned int	ft_get_nb_strs(char const *s, char sym)
 			nb_strs++;
 		i++;
 	}
-	return (nb_strs + 1);
+	return (nb_strs);
 }
 
 static void	ft_get_next_str(char **next_str, unsigned int *next_str_len,
@@ -141,24 +141,30 @@ char check_qm (char *str, int i, int s, int d)
 		if (str[i] == '\'')
 		{
 			s *= -1;
-			i++;
+			//i++;
 			while (str[i] && str[i + 1] != '\'')
 				i++;
 		}
 		else if (str[i] == '"')
 		{
 			d *= -1;
-			i++;
-			while (str[i + 1] && str[i + 1] != '"')
+			//i++;
+			while (str[i] && str[i + 1] != '"')
 				i++;
 		}
 	}
-	if (s < 0)
+	if (s < 0) {
+		printf("s < 0\n");
 		return ('\'');
-	else if (d < 0)
+	}
+	else if (d < 0) {
+		printf("d < 0\n");
 		return ('"');
-	else
+	}
+	else {
+		//printf("0\n");
 		return (0);
+	}
 }
 
 char	**ms_split(char const *s, char sym)
@@ -167,18 +173,15 @@ char	**ms_split(char const *s, char sym)
 	char			*next_str;
 	unsigned int	next_str_len;
 	unsigned int	nb_strs;
-	unsigned int	i;
+	unsigned int	i = 0;
 
-	// printf("allo FROM ms_split!\n");
-	if (!s)
-		return (NULL);
-	// printf("after allo from ms_split\n");
-
-
-	
+	if (ft_strlen(s) == 0)
+		return (char **)s;
 	nb_strs = ft_get_nb_strs(s, sym);
+	//printf("nb_str = %d\n", nb_strs);
 	tab = (char **)malloc(sizeof(char *) * (nb_strs + 1));
-//	printf("nb_str = %d\n", nb_strs);
+	if (!tab || !s)
+		return (NULL);
 	i = 0;
 	next_str = (char *)s;
 	next_str_len = 0;

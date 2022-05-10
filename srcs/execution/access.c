@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:42:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/09 17:50:20 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/10 13:51:14 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ char	*get_path_value(t_minishell *minishell)
 			if (minishell->env[i][6] != '\0')
 			{
 				//
-				printf("FOUND PATHS\n");
+				//printf("FOUND PATHS\n");
+				//
 				return (&(minishell->env[i])[6]);
 			}
 			else
@@ -88,10 +89,10 @@ char	*get_path_value(t_minishell *minishell)
 void execution_binary_cmd(t_node *current, int read_fd, char **options)
 {
 	pid_t id;
-	int pipe_end[2];
-	if (pipe(pipe_end) == FAIL)
-		printf("PIPE FAILED\n");
-		
+	//
+	if (pipe(current->pipe_end) == FAIL)
+		printf("PIPE FAILED from execution_binary_cmd\n");
+	//	
 	// REDIRECTION INPUT
 	if (current->fd_i != STDIN_FILENO)
 	{
@@ -111,7 +112,7 @@ void execution_binary_cmd(t_node *current, int read_fd, char **options)
 	}
 	else if (current->next != NULL)
 	{
-		dup2(pipe_end[1], STDOUT_FILENO);
+		dup2(current->pipe_end[1], STDOUT_FILENO);
 	}
 	id = fork();
 	
@@ -120,24 +121,22 @@ void execution_binary_cmd(t_node *current, int read_fd, char **options)
 		//
 		printf("forked == fail\n");
 	}
-
-	
 	if (id == CHILD)
 	{
 		// inside the child process
-		execution_access(options);
+		execution_access(current, options);
 	}
-	close(pipe_end[1]); // car le parent n'écrit pas dans le write_end a.k.a pipe_end[1]
+	close(current->pipe_end[1]); // car le parent n'écrit pas dans le write_end a.k.a pipe_end[1]
 	waitpid(id, NULL, 0);
 	if (current->next != NULL)
 	{
 		current = current->next;
-		return (execution_binary_cmd(current, pipe_end[0], options));
+		return (execution_binary_cmd(current, current->pipe_end[0], options));
 	}
 }
 
 // inside the child process. called from execution_binary_cmd
-int	execution_access(char **options)
+int	execution_access(t_node *current, char **options)
 {
 	t_minishell *minishell;
 	char **path_table;
@@ -152,7 +151,11 @@ int	execution_access(char **options)
 	path_table = ft_split(get_path_value(minishell), ':');
 	if (!path_table)
 	{
-		printf("NO PATH FOUND\n");
+		// cat écrit permission denied 
+		ft_putstr_fd("minishell: ", current->fd_o);
+		ft_putstr_fd(*options, current->fd_o);
+		ft_putstr_fd(": No such file or directory\n", current->fd_o);
+		printf("NO PATH FOUND from execution_access\n");
 		// return une erreur ou on continue???
 		// printf command not found du child process exit
 	}
@@ -177,10 +180,17 @@ int	search_binary_file(char **path_table, char **options)
 		if (access(test_path, F_OK) == SUCCESS)
 		{
 			execve(test_path, options, get_minishell()->env);
+			strerror(errno);
+			get_minishell()->exit_nb = 127;
+			exit(127);
 		}
 		free(test_path);
 		i++;
 	}
+	// NOT SURE ABOUT THAT
+	get_minishell()->exit_nb = 127;
+	exit(127);
+	// que faire lorsqu'il le child ne trouve pas de path???
 	// printfcommand not found);
 	return (FAIL);
 }

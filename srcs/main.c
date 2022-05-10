@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:10:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/09 16:21:02 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/10 15:03:41 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,12 @@ int	main(int argc, char **argv, char **env)
 		current = minishell->head;
 		while (current != NULL)
 		{
-			//printf("TMP VALUE : %s\n", tmp->value);
 			if (execution_builtins(current, ft_split(current->value, ' ')) == NO)
 			{
 				execution_binary_cmd(current, STDIN_FILENO, ft_split(current->value, ' '));
 			}
 			current = current->next;
 		}
-		
 	}
 	return (0);
 }

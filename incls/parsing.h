@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:50:49 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/09 16:53:47 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/10 13:56:23 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,15 @@ struct node
 	char	type;
 	int		fd_i;
 	int		fd_o;
+	int 	*pipe_end;
 	struct  node *next;
 
 };
 
 typedef struct node t_node;
 
+void ms_freeList(struct node* head);
+int ms_sanitize(char *input);
 char check_qm (char *str, int i, int s, int d);
 int		get_fdI(t_node *current, int i, int j);
 int		get_fdO(t_node *current, int i, int j, int fd);

@@ -2,8 +2,10 @@
 # define BUILTINS_H
 
 # include <stdio.h>
+# include <string.h>
 # include <limits.h>
 # include <unistd.h>
+# include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
@@ -23,15 +25,6 @@
 # define MINISHELL "minishell: "
 # define BUILT_CD "cd: "
 # define CHILD 0
-
-// typedef struct s_node
-// {
-// 	char	*value;
-// 	char	type;
-// 	int		fdI;
-// 	int		fdO;
-// 	struct  s_node *next;
-// }t_node;
 
 typedef enum e_status
 {
@@ -105,6 +98,6 @@ void		here_document(t_node *current, char *safeword);
 int			execution_builtins(t_node *current, char **options);
 void		execution_binary_cmd(t_node *current, int read_fd, char **options);
 char		*get_path_value(t_minishell *minishell);
-int			execution_access(char **options);
-int	search_binary_file(char **path_table, char **options);
+int			execution_access(t_node *current, char **options);
+int			search_binary_file(char **path_table, char **options);
 #endif

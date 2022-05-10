@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 12:00:31 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/09 16:55:06 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/10 13:21:45 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	builtin_echo(t_node *current, char **options)
 			return ;
 		}
 		else
-			write(1, options[i], ft_strlen(options[i]));
+			write(current->fd_o, options[i], ft_strlen(options[i]));
 		if (options[++i] != NULL)
 			write(current->fd_o, " ", 1);
 	}

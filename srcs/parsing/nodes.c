@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/09 17:51:02 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/10 14:58:29 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,45 @@
 char *ms_strip(char *str, int i, int j)
 {
 	char *tmp = ft_calloc(ft_strlen(str), sizeof(char));
-	char s = check_qm(str, -1, 1, 1);
-	char d = check_qm(str, -1, 1, 1);
 
-	if (str[i] == ' ')
+	if (!str)
+		return NULL;
+	//check_qm(str, -1, 1, 1);
+	if (!(ft_isprint(str[i])))
 		i++;
-	//printf("i = %d, 1st char = %d\n", i, (int)str[i]);
+//printf("i = %d, 1st char = %d\n", i, (int)str[i]);
 	while (str[i])
 	{
-		if (s == 0 && str[i] == '\'')
+		/*if (s == 0 && str[i] == '\'')
 			i++;
 		else if (d == 0 && str[i] == '"')
-			i++;
-		tmp[j++] = str[i++];
+			i++;*/
+		if (str[i] == '\'')
+		{
+			while (str[++i] && str[i] != '\'')
+				tmp[j++] = str[i];
+		}
+		else if (str[i] == '"')
+		{
+			while (str[++i] && str[i] != '"')
+				tmp[j++] = str[i];
+		}
+		else
+			tmp[j++] = str[i++];
 	}
-	free(str);
+	if (str)
+		free(str);
 	return (tmp);
 }
 
 t_node	*new_node(char *str, char *sym)
 {
-	t_node	*new =ft_calloc(1, sizeof(t_node));
+	t_node	*new = malloc(sizeof(t_node));
 	new->value = ms_strip(str, 0, 0);
 	new->type = get_type(str, sym);
 	new->fd_i = get_fdI(new, 0, 0);
 	new->fd_o = get_fdO(new, 0, 0, 1);
+	new->pipe_end = NULL;
 	new->next = NULL;
 	return new;
 }
