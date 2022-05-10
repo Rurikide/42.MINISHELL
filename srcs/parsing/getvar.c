@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/10 14:59:04 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/10 16:47:59 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char *ms_expand(char *str, int i)
 	while(str[i + j] && str[i + j] != ' ' && str[i + j] != '$' && str[i + j] != '\'' && str[i+j] != '"')
 		j++;
 	var = env_var_get_value(ft_substr(str, i, j), j);
-	printf("i = %d, j = %d\n", i, j);
+	//printf("i = %d, j = %d\n", i, j);
 	tmp = ft_substr(str, 0, i - 1);
 	if (var == NULL)
 		res = ft_strjoin(tmp, &str[i + j]);

@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:42:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/10 13:51:14 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/10 17:13:49 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 int	execution_builtins(t_node *current, char **options)
 {
 	int is_builtin;
-	
+
 	is_builtin = YES;
 	if (ft_is_a_match("echo", options[0]) == YES)
 		builtin_echo(current, &options[1]);
@@ -88,51 +88,54 @@ char	*get_path_value(t_minishell *minishell)
 // prepare PIPE, FD, puis FORK. 
 void execution_binary_cmd(t_node *current, int read_fd, char **options)
 {
-	pid_t id;
+	(void)read_fd;
 	//
-	if (pipe(current->pipe_end) == FAIL)
-		printf("PIPE FAILED from execution_binary_cmd\n");
-	//	
-	// REDIRECTION INPUT
-	if (current->fd_i != STDIN_FILENO)
-	{
-		dup2(current->fd_i, STDIN_FILENO);
-		close(current->fd_i); // celui d'une redirection
-	}
-	else if (read_fd != STDIN_FILENO)
-	{
-		dup2(read_fd, STDIN_FILENO);
-		close(read_fd); // soit du infile ou bien celui du pipe_end[0]
-	}
-
-	// REDIRECTION OUTPUT : soit dans le stdout, soit dans une pipe ou soit dans un outfile finale.
-	if (current->fd_o != STDOUT_FILENO)
-	{
-		dup2(current->fd_o, STDOUT_FILENO);
-	}
-	else if (current->next != NULL)
-	{
-		dup2(current->pipe_end[1], STDOUT_FILENO);
-	}
-	id = fork();
 	
-	if (id == FAIL)
-	{
-		//
-		printf("forked == fail\n");
-	}
-	if (id == CHILD)
+	// if (pipe(current->pipe_end) == FAIL)
+	// 	printf("PIPE FAILED from execution_binary_cmd\n");
+	// //	
+	// // REDIRECTION INPUT
+	// if (current->fd_i != STDIN_FILENO)
+	// {
+	// 	dup2(current->fd_i, STDIN_FILENO);
+	// 	close(current->fd_i); // celui d'une redirection
+	// }
+	// else if (read_fd != STDIN_FILENO)
+	// {
+	// 	dup2(read_fd, STDIN_FILENO);
+	// 	close(read_fd); // soit du infile ou bien celui du pipe_end[0]
+	// }
+	
+	// // REDIRECTION OUTPUT : soit dans le stdout, soit dans une pipe ou soit dans un outfile finale.
+	// if (current->fd_o != STDOUT_FILENO)
+	// {
+	// 	dup2(current->fd_o, STDOUT_FILENO);
+	// }
+	// else if (current->next != NULL)
+	// {
+	// 	dup2(current->pipe_end[1], STDOUT_FILENO);
+	// }
+	// id = fork();
+	
+	// if (id == FAIL)
+	// {
+	// 	//
+	// 	printf("forked == fail\n");
+	// }
+	if (current->id == CHILD)
 	{
 		// inside the child process
 		execution_access(current, options);
 	}
-	close(current->pipe_end[1]); // car le parent n'écrit pas dans le write_end a.k.a pipe_end[1]
-	waitpid(id, NULL, 0);
-	if (current->next != NULL)
-	{
-		current = current->next;
-		return (execution_binary_cmd(current, current->pipe_end[0], options));
-	}
+	
+	// close(current->pipe_end[1]); // car le parent n'écrit pas dans le write_end a.k.a pipe_end[1]
+	// waitpid(current->id, NULL, 0);
+
+	// if (current->next != NULL)
+	// {
+	// 	current = current->next;
+	// 	return (execution_binary_cmd(current, current->pipe_end[0], options));
+	// }
 }
 
 // inside the child process. called from execution_binary_cmd

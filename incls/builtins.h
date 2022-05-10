@@ -100,4 +100,7 @@ void		execution_binary_cmd(t_node *current, int read_fd, char **options);
 char		*get_path_value(t_minishell *minishell);
 int			execution_access(t_node *current, char **options);
 int			search_binary_file(char **path_table, char **options);
+void		pipeline_open(t_minishell *minishell);
+void	fd_redirection(t_minishell *minishell);
+
 #endif

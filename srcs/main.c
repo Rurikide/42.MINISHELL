@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:10:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/10 15:03:41 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/10 17:26:38 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ int	main(int argc, char **argv, char **env)
 
 	while (true)
 	{
-
-
 		if (minishell->user_input != NULL)
 			free(minishell->user_input);
 		minishell->user_input = readline("minishell> ");
@@ -68,12 +66,43 @@ int	main(int argc, char **argv, char **env)
 		t_node *current;
 
 		current = minishell->head;
+		pipeline_open(minishell);
 		while (current != NULL)
 		{
-			if (execution_builtins(current, ft_split(current->value, ' ')) == NO)
+			fd_redirection(minishell);
+
+			if (current->next != NULL && current->prev != NULL)
+				current->id = fork();
+			if (current->id == FAIL)
 			{
-				execution_binary_cmd(current, STDIN_FILENO, ft_split(current->value, ' '));
+				//
+				printf("forked == fail\n");
 			}
+			
+			if (current->id == CHILD)
+			{
+				//
+				printf("inside child process\n");
+				//
+				if (execution_builtins(current, ft_split(current->value, ' ')) == NO)
+				{
+					printf("trying execution_binary_cmd\n");
+					execution_binary_cmd(current, STDIN_FILENO, ft_split(current->value, ' '));
+				}
+				//
+				printf("after\n");
+				//
+
+			}
+			else
+			{
+				printf("allo du parent process\n");
+			}
+			close(current->fd_i);
+			close(current->fd_o);
+			close(current->pipe_end[1]); // car le parent n'écrit pas dans le write_end a.k.a pipe_end[1]
+			waitpid(current->id, NULL, 0);
+			// close(current->pipe_end[1]);
 			current = current->next;
 		}
 	}

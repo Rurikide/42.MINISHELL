@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 11:19:38 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/10 14:59:29 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/10 16:47:53 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int ms_check_pipes(char *input, int i)
 	}
 	if (r < 2)
 		printf("syntax error near unexpected token `|'\n");
-	printf("r = %d\n", r);
+	//printf("r = %d\n", r);
 	return (r);
 }
 
