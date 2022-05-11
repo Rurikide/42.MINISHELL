@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:50:49 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/10 17:22:01 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/11 11:51:15 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ struct node
 	char	type;
 	int		fd_i;
 	int		fd_o;
-	int		bu_stdin;
-	int		bu_stdout;
 	int 	pipe_end[2];
 	struct  node *prev;
 	struct  node *next;

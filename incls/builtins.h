@@ -51,6 +51,9 @@ typedef	struct s_minishell
 	char	**env;
 	int		env_size;
 	int		exit_nb;
+	int		bu_fd_in;
+	int		bu_fd_out;
+	int		in_pipeline;
 	char	*user_input;
 	char	**options;
 	t_node *head;
@@ -101,6 +104,8 @@ char		*get_path_value(t_minishell *minishell);
 int			execution_access(t_node *current, char **options);
 int			search_binary_file(char **path_table, char **options);
 void		pipeline_open(t_minishell *minishell);
-void	fd_redirection(t_minishell *minishell);
+void		fd_redirection(t_minishell *minishell);
+int			is_a_builtin(char **options);
+void		pipeline_fork(t_node *current, int read_fd);
 
 #endif

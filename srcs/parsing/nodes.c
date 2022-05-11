@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/10 17:22:37 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/11 11:51:31 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ t_node	*new_node(char *str, char *sym)
 	new->type = get_type(str, sym);
 	new->fd_i = get_fdI(new, 0, 0);
 	new->fd_o = get_fdO(new, 0, 0, 1);
-	new->bu_stdin = dup(0);
-	new->bu_stdout = dup(1);
 	new->prev = NULL;
 	new->next = NULL;
 	return new;

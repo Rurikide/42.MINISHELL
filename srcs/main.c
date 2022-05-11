@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:10:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/10 17:26:38 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/11 17:24:18 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ t_minishell	*get_minishell(void)
 		minishell.env = NULL;
 		minishell.env_size = 0;
 		minishell.exit_nb = 0;
+		minishell.bu_fd_in = dup(0);
+		minishell.bu_fd_out = dup(1);
+		minishell.in_pipeline = NO;
 		minishell.user_input = NULL;
 		minishell.options = NULL;
 		minishell.head = NULL;
@@ -49,74 +52,109 @@ int	main(int argc, char **argv, char **env)
 		if (minishell->user_input == CTRL_D)
 			ctrl_d_exit();
 		add_history(minishell->user_input);
-		// else if (ft_strcmp(minishell->user_input, "heredoc") == SUCCESS)
-		// 	here_document("FIN");
 		if (minishell->options != NULL)
 			ft_free_table(minishell->options);
 	//	options = ft_split(minishell->user_input, ' ');
 	//	minishell->options = options;
-
-
-		// PARTIE A RETRAVAILLER
-		// if (execution_builtins(options) == NO)
-		// {
-		// 	execution_binary_cmd(current, STDIN_FILENO, options);
-		// }
 		ms_parsing();
 		t_node *current;
 
 		current = minishell->head;
-		pipeline_open(minishell);
-		while (current != NULL)
+		// pipeline_open(minishell);
+		if (current->next == NULL && is_a_builtin(ft_split(current->value, ' ')) == YES)
 		{
-			fd_redirection(minishell);
-
-			if (current->next != NULL && current->prev != NULL)
-				current->id = fork();
-			if (current->id == FAIL)
+			printf("inside one node IF\n");
+			if (current->fd_i != 0)
 			{
-				//
-				printf("forked == fail\n");
+				dup2(current->fd_i, 0);
+				close(current->fd_i);
 			}
-			
-			if (current->id == CHILD)
+			printf("current->fd_o is %d\n", current->fd_o);
+			if (current->fd_o != 1)
 			{
-				//
-				printf("inside child process\n");
-				//
-				if (execution_builtins(current, ft_split(current->value, ' ')) == NO)
-				{
-					printf("trying execution_binary_cmd\n");
-					execution_binary_cmd(current, STDIN_FILENO, ft_split(current->value, ' '));
-				}
-				//
-				printf("after\n");
-				//
-
+				printf("redirection current->fd_o is %d\n", current->fd_o);
+				dup2(current->fd_o, 1);
+				close(current->fd_o);
 			}
-			else
-			{
-				printf("allo du parent process\n");
-			}
-			close(current->fd_i);
-			close(current->fd_o);
-			close(current->pipe_end[1]); // car le parent n'écrit pas dans le write_end a.k.a pipe_end[1]
-			waitpid(current->id, NULL, 0);
-			// close(current->pipe_end[1]);
-			current = current->next;
+			execution_builtins(current, (ft_split(current->value, ' ')));
 		}
+			// sois un binary cmd OU BIEN pipeline
+		else 
+			pipeline_fork(current, 0);
 	}
 	return (0);
 }
 
 
-/* minishell_loop planning
-	set_signals prealablement
-	user_input = readline
-	t_node = parsing
-	heredoc remplace la value qui est un char *
+void	pipeline_fork(t_node *current, int read_fd)
+{
+	int pipe_end[2];
+	pid_t id;
+
+	pipe(pipe_end);
+	if (pipe(pipe_end) == FAIL)
+		printf("error pipe didn't work\n");
 	
+	if (current->fd_i != 0)
+	{
+		dup2(current->fd_i, 0);
+		close(current->fd_i);
+	}
+	else
+	{
+		dup2(read_fd, 0);
+	}
 
+	if (current->fd_o != 1)
+	{
+		// printf("current->fd_o is %d\n", current->fd_o);
+		// write(current->fd_o, "hi\n", 3);
+		dup2(current->fd_o, 1);
+		close(current->fd_o);
+	}
+	else if (current->next != NULL)
+	{
+		// printf("pipe_end is %d\n", pipe_end[1]);
+		dup2(pipe_end[1], 1);
+	}
 
+	// if (current->fd_i == STDIN_FILENO)
+	// {
+	// 	dup2(fd_i, STDIN_FILENO);
+	// 	close(fd_i);
+	// }
+	// else
+	// {
+	// 	dup2(current->fd_i, STDIN_FILENO);
+	// 	close(current->fd_i);
+	// }
 
-*/
+	// if (current->fd_o == STDOUT_FILENO)
+	// {
+	// 	dup2(pipe_end[1], STDOUT_FILENO);
+	// }
+	// else
+	// {
+	// 	dup2(current->fd_o, STDOUT_FILENO);
+	// 	close(current->fd_o);
+	// }
+	
+	id = fork();
+	if (id == FAIL)
+		printf("FORK DIDNT WORK\n");
+	
+	if (id == CHILD)
+	{
+		if (execution_builtins(current, ft_split(current->value, ' ')) == NO)
+		{
+			execution_access(current, ft_split(current->value, ' '));
+		}
+		exit(0);
+	}
+	waitpid(id, NULL, 0);
+	close(pipe_end[1]);
+	dup2(get_minishell()->bu_fd_in, STDIN_FILENO);
+	dup2(get_minishell()->bu_fd_out, STDOUT_FILENO);
+	if (current->next != NULL)
+		return (pipeline_fork(current->next, pipe_end[0]));
+}

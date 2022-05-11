@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:42:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/10 17:13:49 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/11 15:36:10 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,31 @@
 
 
 // RETURNS a BOOLEAN INT but ALSO perform the builtin is there is a match!!!
+
+int	is_a_builtin(char **options)
+{
+	int is_builtin;
+
+	if (ft_is_a_match("echo", options[0]) == YES)
+		is_builtin = YES;
+	else if (ft_is_a_match("cd", options[0]) == YES)
+		is_builtin = YES;
+	else if (ft_is_a_match("pwd", options[0]) == YES)
+		is_builtin = YES;
+	else if (ft_is_a_match("export", options[0]) == YES)
+		is_builtin = YES;
+	else if (ft_is_a_match("unset", options[0]) == YES)
+		is_builtin = YES;
+	else if (ft_is_a_match("env", options[0]) == YES)
+		is_builtin = YES;
+	else if (ft_is_a_match("exit", options[0]) == YES)
+		is_builtin = YES;
+	else
+		is_builtin = NO;
+	ft_free_table(options);
+	return (is_builtin);
+}
+
 int	execution_builtins(t_node *current, char **options)
 {
 	int is_builtin;

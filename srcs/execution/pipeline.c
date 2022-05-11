@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 10:03:13 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/10 17:24:23 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/11 11:54:44 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ void	fd_redirection(t_minishell *minishell)
 		dup2(current->pipe_end[0], STDIN_FILENO);
 		close(current->pipe_end[0]); // soit du infile ou bien celui du pipe_end[0]
 	}
-	else
-		dup2(current->bu_stdin, STDIN_FILENO);
+	// else
+	// 	dup2(current->bu_stdin, STDIN_FILENO);
 	
 	// REDIRECTION OUTPUT : soit dans le stdout, soit dans une pipe ou soit dans un outfile finale.
 	if (current->fd_o != STDOUT_FILENO)
@@ -80,6 +80,6 @@ void	fd_redirection(t_minishell *minishell)
 		dup2(current->pipe_end[1], STDOUT_FILENO);
 		close(current->pipe_end[1]);
 	}
-	else
-		dup2(current->bu_stdout, STDOUT_FILENO);
+	// else
+	// 	dup2(current->bu_stdout, STDOUT_FILENO);
 }
