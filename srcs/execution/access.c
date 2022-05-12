@@ -6,29 +6,11 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:42:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/11 15:36:10 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/12 13:47:53 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
-
-// void mise_en_abyme(char **options)
-// {
-// 	pid_t process_id;
-
-// 	process_id = fork();
-
-// 	if (process_id == SUCCESS)
-// 	{
-// 		execve(*options, options, get_minishell()->env);
-// 		printf("hello from child process\n");
-// 	}
-// 	else 
-// 		waitpid(process_id, NULL, 0);
-// }
-
-
-// RETURNS a BOOLEAN INT but ALSO perform the builtin is there is a match!!!
 
 int	is_a_builtin(char **options)
 {
@@ -50,7 +32,7 @@ int	is_a_builtin(char **options)
 		is_builtin = YES;
 	else
 		is_builtin = NO;
-	ft_free_table(options);
+	//ft_free_table(options);
 	return (is_builtin);
 }
 
@@ -58,6 +40,10 @@ int	execution_builtins(t_node *current, char **options)
 {
 	int is_builtin;
 
+	//
+	printf("\033[1;32mINSIDE EXECUTION BUILTIN\033[0m\n");
+	//
+	
 	is_builtin = YES;
 	if (ft_is_a_match("echo", options[0]) == YES)
 		builtin_echo(current, &options[1]);
@@ -75,6 +61,7 @@ int	execution_builtins(t_node *current, char **options)
 		builtin_exit(current, &options[1]);
 	else
 		is_builtin = NO;
+	
 	return (is_builtin);
 }
 
@@ -109,60 +96,6 @@ char	*get_path_value(t_minishell *minishell)
 	return (NULL);
 }
 
-
-// prepare PIPE, FD, puis FORK. 
-void execution_binary_cmd(t_node *current, int read_fd, char **options)
-{
-	(void)read_fd;
-	//
-	
-	// if (pipe(current->pipe_end) == FAIL)
-	// 	printf("PIPE FAILED from execution_binary_cmd\n");
-	// //	
-	// // REDIRECTION INPUT
-	// if (current->fd_i != STDIN_FILENO)
-	// {
-	// 	dup2(current->fd_i, STDIN_FILENO);
-	// 	close(current->fd_i); // celui d'une redirection
-	// }
-	// else if (read_fd != STDIN_FILENO)
-	// {
-	// 	dup2(read_fd, STDIN_FILENO);
-	// 	close(read_fd); // soit du infile ou bien celui du pipe_end[0]
-	// }
-	
-	// // REDIRECTION OUTPUT : soit dans le stdout, soit dans une pipe ou soit dans un outfile finale.
-	// if (current->fd_o != STDOUT_FILENO)
-	// {
-	// 	dup2(current->fd_o, STDOUT_FILENO);
-	// }
-	// else if (current->next != NULL)
-	// {
-	// 	dup2(current->pipe_end[1], STDOUT_FILENO);
-	// }
-	// id = fork();
-	
-	// if (id == FAIL)
-	// {
-	// 	//
-	// 	printf("forked == fail\n");
-	// }
-	if (current->id == CHILD)
-	{
-		// inside the child process
-		execution_access(current, options);
-	}
-	
-	// close(current->pipe_end[1]); // car le parent n'écrit pas dans le write_end a.k.a pipe_end[1]
-	// waitpid(current->id, NULL, 0);
-
-	// if (current->next != NULL)
-	// {
-	// 	current = current->next;
-	// 	return (execution_binary_cmd(current, current->pipe_end[0], options));
-	// }
-}
-
 // inside the child process. called from execution_binary_cmd
 int	execution_access(t_node *current, char **options)
 {
@@ -189,7 +122,7 @@ int	execution_access(t_node *current, char **options)
 	}
 	// on essaie d'access avec tous les paths; EXECVE
 	search_binary_file(path_table, options);
-	ft_free_table(path_table);
+	//ft_free_table(path_table);
 
 	//
 	return (0);
@@ -208,17 +141,17 @@ int	search_binary_file(char **path_table, char **options)
 		if (access(test_path, F_OK) == SUCCESS)
 		{
 			execve(test_path, options, get_minishell()->env);
-			strerror(errno);
-			get_minishell()->exit_nb = 127;
-			exit(127);
+			// strerror(errno);
+			// get_minishell()->exit_nb = 127;
+			// exit(127);
 		}
 		free(test_path);
 		i++;
 	}
-	// NOT SURE ABOUT THAT
+	// NOT SURE ABOUT THAT(
+	printf("--- No such file or directory found\n");
 	get_minishell()->exit_nb = 127;
 	exit(127);
 	// que faire lorsqu'il le child ne trouve pas de path???
-	// printfcommand not found);
 	return (FAIL);
 }

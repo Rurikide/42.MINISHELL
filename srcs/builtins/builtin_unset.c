@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 11:10:52 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/09 17:36:09 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/12 13:20:26 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_answer	is_only_key_identifier(char *option)
 
 void	builtin_unset(t_node *current, char **options)
 {
+	(void)current;
 	int		i;
 	int		env_index;
 
@@ -46,9 +47,9 @@ void	builtin_unset(t_node *current, char **options)
 	{
 		if (is_only_key_identifier(options[i]) == NO)
 		{
-			ft_putstr_fd("minishell: unset: `", current->fd_o);
-			ft_putstr_fd(options[i], current->fd_o);
-			ft_putstr_fd("': not a valid identifier\n", current->fd_o);
+			ft_putstr_fd("minishell: unset: `",  STDOUT_FILENO);
+			ft_putstr_fd(options[i],  STDOUT_FILENO);
+			ft_putstr_fd("': not a valid identifier\n",  STDOUT_FILENO);
 		//	printf("minishell: unset: `%s': not a valid identifier\n", options[i]);
 			get_minishell()->exit_nb = ERROR_1;
 		}

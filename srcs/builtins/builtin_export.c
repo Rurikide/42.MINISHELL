@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 17:15:15 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/09 17:41:38 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/12 13:20:13 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,30 @@
 
 void	env_var_print_quotes(char **table, t_node *current, int equal)
 {
+	(void)current;
 	int i;
 	int j;
 
 	i = 0;
 	while (table[i] != NULL)
 	{
-		ft_putstr_fd("declare -x ", current->fd_o);
+		ft_putstr_fd("declare -x ",  STDOUT_FILENO);
 		j = 0;
 		equal = NO;
 		while (table[i][j] != '\0')
 		{
-			ft_putchar_fd(table[i][j], current->fd_o);
+			ft_putchar_fd(table[i][j],  STDOUT_FILENO);
 			if (table[i][j] == '=')
 			{
 				equal = YES;
-				ft_putchar_fd('\"', current->fd_o);
+				ft_putchar_fd('\"',  STDOUT_FILENO);
 			}
 			j++;
 			if (table[i][j] == '\0')
 			{
 				if (equal == YES)
-					ft_putchar_fd('\"', current->fd_o);
-				ft_putchar_fd('\n', current->fd_o);
+					ft_putchar_fd('\"',  STDOUT_FILENO);
+				ft_putchar_fd('\n',  STDOUT_FILENO);
 			}
 		}
 		i++;
@@ -45,6 +46,7 @@ void	env_var_print_quotes(char **table, t_node *current, int equal)
 
 void	env_var_print_in_order(t_minishell *ms, t_node *current, int i, int j)
 {
+	(void)current;
 	char	**table;
 
 	table = ft_calloc(ms->env_size, sizeof(char *));
@@ -106,6 +108,7 @@ int	evaluate_export_type(char *option)
 
 void	builtin_export(t_node *current, char **options)
 {
+	(void)current;
 	int i;
 	int type;
 	int pos;
@@ -123,9 +126,9 @@ void	builtin_export(t_node *current, char **options)
 		type = evaluate_export_type(options[i]);
 		if (type == FAIL)
 		{
-			ft_putstr_fd("export: `", current->fd_o);
-			ft_putstr_fd(options[i], current->fd_o);
-			ft_putstr_fd("': not a valid identifier\n", current->fd_o);
+			ft_putstr_fd("export: `",  STDOUT_FILENO);
+			ft_putstr_fd(options[i],  STDOUT_FILENO);
+			ft_putstr_fd("': not a valid identifier\n",  STDOUT_FILENO);
 
 			//printf("export: `%s': not a valid identifier\n", options[i]);
 			get_minishell()->exit_nb = ERROR_1;

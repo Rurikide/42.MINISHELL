@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 16:05:56 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/09 17:43:51 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/12 13:20:50 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	env_var_print(t_node *current)
 {
+	(void)current;
+
 	t_minishell	*minishell;
 	int			i;
 
@@ -22,18 +24,20 @@ void	env_var_print(t_node *current)
 	while (minishell->env[i] != NULL)
 	{
 		if (env_var_is_key_only(minishell->env[i]) == NO)
-			ft_putendl_fd(minishell->env[i], current->fd_o);
+			ft_putendl_fd(minishell->env[i], STDOUT_FILENO);
 		i++;
 	}
 }
 
 void	builtin_env(t_node *current, char **options)
 {
+	(void)current;
+	
 	if (*options != NULL && *options[0] != '-')
 	{
-		ft_putstr_fd("env: ", current->fd_o);
-		ft_putstr_fd(*options, current->fd_o);
-		ft_putstr_fd(": No such file or directory\n", current->fd_o);
+		ft_putstr_fd("env: ",  STDOUT_FILENO);
+		ft_putstr_fd(*options,  STDOUT_FILENO);
+		ft_putstr_fd(": No such file or directory\n",  STDOUT_FILENO);
 		get_minishell()->exit_nb = ERROR_127;
 	}
 	else

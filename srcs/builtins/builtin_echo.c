@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 12:00:31 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/11 16:55:41 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/12 11:42:59 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	builtin_echo(t_node *current, char **options)
 	remove_nl = NO;
 	if (*options == NULL)
 	{
-		write(1, "\n", 1);
+		write(STDOUT_FILENO, "\n", 1);
 		get_minishell()->exit_nb = SUCCESS;
 		return ;
 	}
@@ -43,7 +43,7 @@ void	builtin_echo(t_node *current, char **options)
 		{
 			ft_putstr_fd(ft_itoa(get_minishell()->exit_nb), current->fd_o);
 			if (options[i][2] != '\0')
-				write(1, &options[i][2], ft_strlen(&options[i][2]));
+				write(STDOUT_FILENO, &options[i][2], ft_strlen(&options[i][2]));
 		}
 		else if (options[i][0] == '~' && options[i][1] == '\0')
 		{
@@ -51,12 +51,12 @@ void	builtin_echo(t_node *current, char **options)
 			return ;
 		}
 		else
-			write(1, options[i], ft_strlen(options[i]));
+			write(STDOUT_FILENO, options[i], ft_strlen(options[i]));
 		if (options[++i] != NULL)
 			write(1, " ", 1);
 	}
 	if (remove_nl == NO)
-		write(1, "\n", 1);
+		write(STDOUT_FILENO, "\n", 1);
 	get_minishell()->exit_nb = SUCCESS;
 }
 
