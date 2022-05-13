@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/11 11:51:31 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/13 18:36:18 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,15 @@ char *ms_strip(char *str, int i, int j)
 		else
 			tmp[j++] = str[i++];
 	}
-	if (str)
-		free(str);
+	// if (str)
+	// 	free(str);
 	return (tmp);
 }
 
 t_node	*new_node(char *str, char *sym)
 {
 	t_node	*new = malloc(sizeof(t_node));
-	new->value = ms_strip(str, 0, 0);
+	new->value = str; //ms_strip(str, 0, 0);
 	new->type = get_type(str, sym);
 	new->fd_i = get_fdI(new, 0, 0);
 	new->fd_o = get_fdO(new, 0, 0, 1);

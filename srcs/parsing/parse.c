@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/10 14:57:59 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/13 18:38:14 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	get_type(char *str, char *sym)
 // 	}
 // }
 
-int ms_parsing(void)
+int  ms_parsing(void)
 {
 	t_minishell *minishell;
 	t_node *list;
@@ -86,12 +86,18 @@ int ms_parsing(void)
 			return 0;
 		int i = 1;
 		minishell->head = new_node(arg[0], sym);
-		while (arg[i] != NULL) {
+		while (arg[i] != NULL)
+		{
 			list = new_node(arg[i], sym);
+			// //
+			// printf("arg[0] == %s\n", arg[0]);
+			// printf("arg[1] == %s\n", arg[1]);
+			// //
 			add_at_end(&minishell->head, list);
 			i++;
 		}
-		free(arg);
+		// free(arg);
+	//	ft_free_table(arg);
 		tmp = minishell->head;
 		//printlist(tmp);
 		// ft_to_do(tmp, sym);

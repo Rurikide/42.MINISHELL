@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 17:04:23 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/09 13:00:46 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/13 17:21:09 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,6 @@
 	rl_redisplay();
 	Change what's displayed on the screen to reflect the current contents of 
 	rl_line_buffer. 
-*/
-
-/*
-typedef struct s_node
-{
-	char	*value;
-	char	type;
-	int		fdI;
-	int		fdO;
-	struct  s_node *next;
-
-}t_node;
 */
 
 void	here_document(t_node *current, char *safeword)

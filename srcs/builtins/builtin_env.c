@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 16:05:56 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/12 13:20:50 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/13 12:33:42 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	env_var_print(t_node *current)
 
 	t_minishell	*minishell;
 	int			i;
-
 	i = 0;
 	minishell = get_minishell();
 	while (minishell->env[i] != NULL)
@@ -32,7 +31,6 @@ void	env_var_print(t_node *current)
 void	builtin_env(t_node *current, char **options)
 {
 	(void)current;
-	
 	if (*options != NULL && *options[0] != '-')
 	{
 		ft_putstr_fd("env: ",  STDOUT_FILENO);

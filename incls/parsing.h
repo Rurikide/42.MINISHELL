@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:50:49 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/11 11:51:15 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/13 18:46:49 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,6 @@ void	ft_to_do(t_node *head, char *sym);
 int ms_parsing();
 int	ft_is_present(char c, char *sym);
 char	**ms_split(char const *s, char sym);
+void	ms_freelist(t_node *head);
 
 #endif

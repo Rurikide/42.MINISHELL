@@ -102,10 +102,13 @@ int			execution_builtins(t_node *current, char **options);
 void		execution_binary_cmd(t_node *current, int read_fd, char **options);
 char		*get_path_value(t_minishell *minishell);
 int			execution_access(t_node *current, char **options);
-int			search_binary_file(char **path_table, char **options);
+void		search_binary_file(char **path_table, char **options);
 void		pipeline_open(t_minishell *minishell);
 void		fd_redirection(t_minishell *minishell);
 int			is_a_builtin(char **options);
 void		pipeline_fork(t_node *current, int read_fd);
+void		execution_main(t_node *current);
+void		prepare_exec_one_builtin(t_node *current, char **options);
+void		pipeline_redirection(t_node *current, int read_fd, int *pipe_end);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:42:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/12 13:47:53 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/13 18:39:35 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	execution_builtins(t_node *current, char **options)
 	int is_builtin;
 
 	//
-	printf("\033[1;32mINSIDE EXECUTION BUILTIN\033[0m\n");
+	 printf("\033[1;32mINSIDE EXECUTION BUILTIN\033[0m\n");
 	//
 	
 	is_builtin = YES;
@@ -87,7 +87,7 @@ char	*get_path_value(t_minishell *minishell)
 			else
 			{
 				//
-				printf("PATH=\n");
+				// printf("PATH=\n");
 				return (NULL);
 			}
 		}
@@ -101,37 +101,41 @@ int	execution_access(t_node *current, char **options)
 {
 	t_minishell *minishell;
 	char **path_table;
+	char *msg_err;
+	
+	(void)current;
 
-	// on essaie access si options[0] est un direct path
 	minishell = get_minishell();
-	// while loop ou non ???
 	if (access(options[0], F_OK) == SUCCESS)
 	{
 		execve(options[0], options, minishell->env);
+		msg_err = strerror(errno);
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(*options, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd(msg_err, STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+		get_minishell()->exit_nb = 126;
+		exit(126);
 	}
 	path_table = ft_split(get_path_value(minishell), ':');
 	if (!path_table)
 	{
-		// cat écrit permission denied 
-		ft_putstr_fd("minishell: ", current->fd_o);
-		ft_putstr_fd(*options, current->fd_o);
-		ft_putstr_fd(": No such file or directory\n", current->fd_o);
-		printf("NO PATH FOUND from execution_access\n");
-		// return une erreur ou on continue???
-		// printf command not found du child process exit
-	}
-	// on essaie d'access avec tous les paths; EXECVE
-	search_binary_file(path_table, options);
-	//ft_free_table(path_table);
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(*options, STDERR_FILENO);
+		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
 
-	//
+	}
+	search_binary_file(path_table, options);
+	// ft_free_table(path_table);
 	return (0);
 }
 
 // EXCEVE 
-int	search_binary_file(char **path_table, char **options)
+void	search_binary_file(char **path_table, char **options)
 {
 	char *test_path;
+	char *msg_err;
 	int i;
 
 	i = 0;
@@ -141,17 +145,19 @@ int	search_binary_file(char **path_table, char **options)
 		if (access(test_path, F_OK) == SUCCESS)
 		{
 			execve(test_path, options, get_minishell()->env);
-			// strerror(errno);
-			// get_minishell()->exit_nb = 127;
-			// exit(127);
+			msg_err = strerror(errno);
+			ft_putstr_fd("minishell: ", STDERR_FILENO);
+			ft_putstr_fd(*options, STDERR_FILENO);
+			ft_putstr_fd(msg_err, STDERR_FILENO);
+			get_minishell()->exit_nb = 126;
+			exit(126);
 		}
 		free(test_path);
 		i++;
 	}
-	// NOT SURE ABOUT THAT(
-	printf("--- No such file or directory found\n");
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(*options, STDERR_FILENO);
+	ft_putstr_fd(": command not found\n", STDERR_FILENO);
 	get_minishell()->exit_nb = 127;
 	exit(127);
-	// que faire lorsqu'il le child ne trouve pas de path???
-	return (FAIL);
 }
