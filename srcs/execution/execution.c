@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:40:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/13 18:56:53 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/13 19:10:01 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,16 @@ void execution_main(t_node *current)
 
 void	prepare_exec_one_builtin(t_node *current, char **options)
 {
+	int bu_fd_in;
+	int bu_fd_out;
+
+	bu_fd_in = dup(STDIN_FILENO);
+	bu_fd_out = dup(STDOUT_FILENO);
+	
 	if (current->fd_i != STDIN_FILENO)
 	{
 		//
-		printf("redirecting std_IN for current->fd_in #%d\n", current->fd_i);
+	//	printf("redirecting std_IN for current->fd_in #%d\n", current->fd_i);
 		//
 		dup2(current->fd_i, STDIN_FILENO);
 		close(current->fd_i);
@@ -45,12 +51,16 @@ void	prepare_exec_one_builtin(t_node *current, char **options)
 	if (current->fd_o != STDOUT_FILENO)
 	{
 		//
-		printf("redirecting std_OUT for current->fd_out #%d\n", current->fd_o);
+	//	printf("redirecting std_OUT for current->fd_out #%d\n", current->fd_o);
 		//
 		dup2(current->fd_o, STDOUT_FILENO);
 		close(current->fd_o);
 	}
 	execution_builtins(current, options);
+	dup2(bu_fd_in, STDIN_FILENO);
+	dup2(bu_fd_out, STDOUT_FILENO);
+	close(bu_fd_in);
+	close(bu_fd_out);
 }
 
 void	pipeline_fork(t_node *current, int read_fd)

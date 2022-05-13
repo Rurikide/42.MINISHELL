@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:50:49 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/13 18:46:49 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/13 19:03:09 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void ms_freeList(struct node* head);
 int ms_sanitize(char *input);
 char check_qm (char *str, int i, int s, int d);
 int		get_fdI(t_node *current, int i, int j);
-int		get_fdO(t_node *current, int i, int j, int fd);
+int		get_fdO(t_node *current, char *value, int i, int j, int fd);
 char 	*get_var(char *str, int quote, int i);
 t_node	*add_at_head(t_node **head, t_node *new);
 void	*add_at_end(t_node **head, t_node *new);

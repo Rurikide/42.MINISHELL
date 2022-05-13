@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:42:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/13 18:39:35 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/13 19:05:10 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	execution_builtins(t_node *current, char **options)
 	int is_builtin;
 
 	//
-	 printf("\033[1;32mINSIDE EXECUTION BUILTIN\033[0m\n");
+//	 printf("\033[1;32mINSIDE EXECUTION BUILTIN\033[0m\n");
 	//
 	
 	is_builtin = YES;
