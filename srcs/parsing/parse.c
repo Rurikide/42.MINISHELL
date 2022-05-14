@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/13 18:38:14 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/13 20:50:25 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ char	get_type(char *str, char *sym)
 			if (str[ft_is_present('>', str) + 1] == '>')
 				return 'a';
 	}
-	else if (str[0] == (char)NULL)
+	//else if (str[0] == (char)NULL)
+	else if (str[0] == '\0')
 			return 'e';
 	return 'c';
 }

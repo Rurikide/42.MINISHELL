@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/13 19:11:46 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/13 20:52:42 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	get_fdO(t_node *current, char *value, int i, int j, int fd)
 	char *file;
 	char *tmp;
 	char type;
-	printf("HI\n");
 	while (value[i])
 	{
 	//	printf("fdo current->value:%s, i=%d, char =%c\n", value, i, value[i]);
