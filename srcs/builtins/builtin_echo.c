@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 12:00:31 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/12 11:42:59 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/14 13:36:09 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,46 @@
 // which remove the newline. If there is no -n as the first option, 
 // it will treat the everything as text input.
 // this function receive the array after the echo.
-void	builtin_echo(t_node *current, char **options)
+
+void	builtin_echo_empty(void)
+{
+	write(STDOUT_FILENO, "\n", 1);
+	get_minishell()->exit_nb = SUCCESS;
+}
+
+void	builtin_echo_exit_nb(char **options, int i)
+{
+	ft_putstr_fd(ft_itoa(get_minishell()->exit_nb), STDOUT_FILENO);
+	if (options[i][2] != '\0')
+		write(STDOUT_FILENO, &options[i][2], ft_strlen(&options[i][2]));
+}
+
+void	builtin_echo_echo(char **options, int i)
+{
+	while (options[i] != NULL)
+	{
+		if (options[i][0] == '$' && options[i][1] == '?')
+			builtin_echo_exit_nb(options, i);
+		else if (options[i][0] == '~' && options[i][1] == '\0')
+		{
+			builtin_pwd(NULL);
+			return ;
+		}
+		else
+			write(STDOUT_FILENO, options[i], ft_strlen(options[i]));
+		if (options[++i] != NULL)
+			write(1, " ", 1);
+	}
+}
+
+void	builtin_echo(char **options, int i)
 {
 	t_answer	remove_nl;
-	int			i;
 
-	i = 0;
 	remove_nl = NO;
 	if (*options == NULL)
 	{
-		write(STDOUT_FILENO, "\n", 1);
-		get_minishell()->exit_nb = SUCCESS;
+		builtin_echo_empty();
 		return ;
 	}
 	while (options[i] != NULL && *options[i] == '-')
@@ -37,24 +66,7 @@ void	builtin_echo(t_node *current, char **options)
 			break ;
 		i++;
 	}
-	while (options[i] != NULL)
-	{
-		if (options[i][0] == '$' && options[i][1] == '?')
-		{
-			ft_putstr_fd(ft_itoa(get_minishell()->exit_nb), current->fd_o);
-			if (options[i][2] != '\0')
-				write(STDOUT_FILENO, &options[i][2], ft_strlen(&options[i][2]));
-		}
-		else if (options[i][0] == '~' && options[i][1] == '\0')
-		{
-			builtin_pwd(current, NULL);
-			return ;
-		}
-		else
-			write(STDOUT_FILENO, options[i], ft_strlen(options[i]));
-		if (options[++i] != NULL)
-			write(1, " ", 1);
-	}
+	builtin_echo_echo(options, i);
 	if (remove_nl == NO)
 		write(STDOUT_FILENO, "\n", 1);
 	get_minishell()->exit_nb = SUCCESS;

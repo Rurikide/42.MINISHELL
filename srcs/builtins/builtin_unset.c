@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 11:10:52 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/12 13:20:26 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/14 13:37:55 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,8 @@ t_answer	is_only_key_identifier(char *option)
 	return (YES);
 }
 
-void	builtin_unset(t_node *current, char **options)
+void	builtin_unset(char **options)
 {
-	(void)current;
 	int		i;
 	int		env_index;
 

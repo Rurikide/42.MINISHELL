@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 15:44:44 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/09 16:52:22 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/14 13:17:09 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,14 @@
 // if the input is only "cd", chdir will go to the HOME
 // BASH BEHAVIOUR if there are more than 1 path
 // it will ignore the other arguments
+void	builtin_cd_homeless(void)
+{
+	ft_putstr_fd(MINISHELL, STDERR_FILENO);
+	ft_putstr_fd(BUILT_CD, STDERR_FILENO);
+	ft_putstr_fd(ERR_HOME, STDERR_FILENO);
+	get_minishell()->exit_nb = ERROR_1;
+}
+
 void	builtin_cd_error(char *option)
 {
 	ft_putstr_fd(BUILT_CD, STDERR_FILENO);
@@ -35,12 +43,7 @@ void	builtin_cd(char **options)
 	if (*options == NULL)
 	{
 		if (home == NULL)
-		{
-			ft_putstr_fd(MINISHELL, STDERR_FILENO);
-			ft_putstr_fd(BUILT_CD, STDERR_FILENO);
-			ft_putstr_fd(ERR_HOME, STDERR_FILENO);
-			get_minishell()->exit_nb = ERROR_1;
-		}
+			builtin_cd_homeless();
 		else
 		{
 			chdir(home);

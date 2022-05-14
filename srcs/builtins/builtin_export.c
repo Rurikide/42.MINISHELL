@@ -6,15 +6,14 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 17:15:15 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/12 13:20:13 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/14 13:40:04 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-void	env_var_print_quotes(char **table, t_node *current, int equal)
+void	env_var_print_quotes(char **table, int equal)
 {
-	(void)current;
 	int i;
 	int j;
 
@@ -44,9 +43,8 @@ void	env_var_print_quotes(char **table, t_node *current, int equal)
 	}
 }
 
-void	env_var_print_in_order(t_minishell *ms, t_node *current, int i, int j)
+void	env_var_print_in_order(t_minishell *ms, int i, int j)
 {
-	(void)current;
 	char	**table;
 
 	table = ft_calloc(ms->env_size, sizeof(char *));
@@ -68,7 +66,7 @@ void	env_var_print_in_order(t_minishell *ms, t_node *current, int i, int j)
 		i++;
 	}
 	table[i] = NULL;
-	env_var_print_quotes(table, current, NO);
+	env_var_print_quotes(table, NO);
 	ft_free_table(table);
 }
 
@@ -106,9 +104,8 @@ int	evaluate_export_type(char *option)
 	return(1);
 }
 
-void	builtin_export(t_node *current, char **options)
+void	builtin_export(char **options)
 {
-	(void)current;
 	int i;
 	int type;
 	int pos;
@@ -117,7 +114,7 @@ void	builtin_export(t_node *current, char **options)
 	get_minishell()->exit_nb = SUCCESS;
 	if (options[i] == NULL)
 	{
-		env_var_print_in_order(get_minishell(), current, 0, 0);
+		env_var_print_in_order(get_minishell(), 0, 0);
 		return ;
 	}
 	while (options[i])

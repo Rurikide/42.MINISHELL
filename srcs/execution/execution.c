@@ -6,40 +6,36 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:40:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/13 21:00:45 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/14 13:24:11 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "builtins.h"
+#include "builtins.h"
 
-void execution_main(t_node *current)
+void	execution_main(t_node *current)
 {
-    char **options;
-	int i;
+	char	**options;
+	int		i;
 
 	i = 0;
-//	printf("node value = %s\n", current->value);
 	options = ft_split(current->value, ' ');
-//	printf("option0 = %s\n", options[0]);
-//	printf("option1 = %s\n", options[1]);
-    if (current->next == NULL && is_a_builtin(options) == YES)
+	if (current->next == NULL && is_a_builtin(options) == YES)
 	{
-		prepare_exec_one_builtin(current, options);
+		one_builtin_redirection(current, options);
 	}
-	else if(current != NULL)
+	else if (current != NULL)
 	{
 		pipeline_fork(current, current->fd_i);
 	}
 }
 
-void	prepare_exec_one_builtin(t_node *current, char **options)
+void	one_builtin_redirection(t_node *current, char **options)
 {
-	int bu_fd_in;
-	int bu_fd_out;
+	int	bu_fd_in;
+	int	bu_fd_out;
 
 	bu_fd_in = dup(STDIN_FILENO);
 	bu_fd_out = dup(STDOUT_FILENO);
-	
 	if (current->fd_i != STDIN_FILENO)
 	{
 		dup2(current->fd_i, STDIN_FILENO);
@@ -50,7 +46,7 @@ void	prepare_exec_one_builtin(t_node *current, char **options)
 		dup2(current->fd_o, STDOUT_FILENO);
 		close(current->fd_o);
 	}
-	execution_builtins(current, options);
+	execution_builtins(options);
 	dup2(bu_fd_in, STDIN_FILENO);
 	dup2(bu_fd_out, STDOUT_FILENO);
 	close(bu_fd_in);
@@ -59,10 +55,10 @@ void	prepare_exec_one_builtin(t_node *current, char **options)
 
 void	pipeline_fork(t_node *current, int read_fd)
 {
-	int pipe_end[2];
-	char **options;
-	pid_t id;
-	
+	char	**options;
+	int		pipe_end[2];
+	pid_t	id;
+
 	if (pipe(pipe_end) == FAIL)
 		printf("Error creating pipe\n");
 	id = fork();
@@ -72,8 +68,8 @@ void	pipeline_fork(t_node *current, int read_fd)
 	{
 		pipeline_redirection(current, read_fd, pipe_end);
 		options = ft_split(current->value, ' ');
-		if (execution_builtins(current, options) == NO)
-			execution_access(current, options);
+		if (execution_builtins(options) == NO)
+			execution_access(get_minishell(), options);
 		exit(get_minishell()->exit_nb);
 	}
 	waitpid(id, NULL, 0);

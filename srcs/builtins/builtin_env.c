@@ -6,15 +6,14 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 16:05:56 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/13 12:33:42 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/14 13:39:48 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-void	env_var_print(t_node *current)
+void	env_var_print(void)
 {
-	(void)current;
 
 	t_minishell	*minishell;
 	int			i;
@@ -28,9 +27,8 @@ void	env_var_print(t_node *current)
 	}
 }
 
-void	builtin_env(t_node *current, char **options)
+void	builtin_env(char **options)
 {
-	(void)current;
 	if (*options != NULL && *options[0] != '-')
 	{
 		ft_putstr_fd("env: ",  STDOUT_FILENO);
@@ -40,7 +38,7 @@ void	builtin_env(t_node *current, char **options)
 	}
 	else
 	{
-		env_var_print(current);
+		env_var_print();
 		get_minishell()->exit_nb = SUCCESS;
 	}
 }

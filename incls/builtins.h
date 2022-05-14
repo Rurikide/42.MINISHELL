@@ -68,9 +68,10 @@ void		init_shlvl(void);
 void		free_minishell(void);
 void		ft_table_del(char **table, int index);
 char		**ft_table_add(char **table, const char *new);
-void		env_var_print(t_node *current);
-void		env_var_print_in_order(t_minishell *ms, t_node *current, int i, int j);
-void		env_var_print_quotes(char **table, t_node *current, int equal);
+
+void		env_var_print(void);
+void		env_var_print_in_order(t_minishell *ms, int i, int j);
+void		env_var_print_quotes(char **table, int equal);
 void		env_var_update(char *key, char *update);
 void		env_var_add(char *key, char *update);
 void		env_var_del(int env_index);
@@ -80,35 +81,40 @@ int			env_var_get_key_index(char *key, int size);
 char		*env_var_get_key_n_value(char *key);
 char		*env_var_get_value(char *key, int size);
 int			export_type_key_value(char *option);
-void		builtin_echo(t_node *current, char **options);
+
+void		builtin_echo(char **options, int i);
+void		builtin_echo_echo(char **options, int i);
+void		builtin_echo_empty(void);
+void		builtin_echo_exit_nb(char **options, int i);
 void		builtin_cd(char **options);
 void		builtin_cd_error(char *option);
-void		builtin_pwd(t_node *current, char **options);
-void		builtin_export(t_node *current, char **options);
-void		builtin_unset(t_node *current, char **options);
-void		builtin_env(t_node *current, char **options);
-void		builtin_exit(t_node *current, char **options);
+void		builtin_cd_homeless(void);
+void		builtin_pwd(char **options);
+void		builtin_export(char **options);
+void		builtin_unset(char **options);
+void		builtin_env(char **options);
+void		builtin_exit(char **options);
+
 int			evaluate_export_type(char *option);
 void		env_var_export_update(char *update, int pos, int new);
+
 void		ctrl_c_prompt(int signal);
 void		ctrl_c_heredoc(int signal);
 void		ctrl_d_exit(void);
 void		set_signals(void);
 void		mute_signals(void);
+
 void		void_signal(int signal);
-void		mise_en_abyme(char **options);
 void		here_document(t_node *current, char *safeword);
-int			execution_builtins(t_node *current, char **options);
-void		execution_binary_cmd(t_node *current, int read_fd, char **options);
-char		*get_path_value(t_minishell *minishell);
-int			execution_access(t_node *current, char **options);
-void		search_binary_file(char **path_table, char **options);
-void		pipeline_open(t_minishell *minishell);
-void		fd_redirection(t_minishell *minishell);
-int			is_a_builtin(char **options);
-void		pipeline_fork(t_node *current, int read_fd);
+
+int			execution_builtins(char **options);
 void		execution_main(t_node *current);
-void		prepare_exec_one_builtin(t_node *current, char **options);
+int			is_a_builtin(char **options);
+void		one_builtin_redirection(t_node *current, char **options);
+void		pipeline_fork(t_node *current, int read_fd);
 void		pipeline_redirection(t_node *current, int read_fd, int *pipe_end);
+void		execution_access(t_minishell *minishell, char **options);
+void		search_binary_file(char **path_table, char **options, int i);
+char		*get_path_value(t_minishell *minishell);
 
 #endif

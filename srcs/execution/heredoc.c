@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 17:04:23 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/13 17:21:09 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/14 12:48:30 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	here_document(t_node *current, char *safeword)
 		char *hd_input;
 		char *cmd;
 		
-		// IL FAUT FAIRE UN PIPE le child process a sa propre node et il faut qu'il partage ses infos avec le parent
 		cmd = "cat";
 		mute_signals();
 		here_id = fork();
@@ -61,10 +60,7 @@ void	here_document(t_node *current, char *safeword)
 			current->value = ft_strdup(cmd);
 			// exit status du child;
 		}
-		else // PARENT
-		{
-			waitpid(here_id, NULL, 0);
-		}
+		waitpid(here_id, NULL, 0);
 		set_signals();
 }
 

@@ -6,16 +6,14 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 15:13:05 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/12 13:20:59 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/14 13:40:15 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-void    builtin_exit(t_node *current, char **options)
+void    builtin_exit(char **options)
 {
-	(void)current;
-	
 	long long nb_options;
 
 	ft_putendl_fd("exit",  STDOUT_FILENO);

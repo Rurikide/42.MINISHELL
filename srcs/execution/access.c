@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:42:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/13 21:02:56 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/14 13:30:53 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_a_builtin(char **options)
 {
-	int is_builtin;
+	int	is_builtin;
 
 	if (ft_is_a_match("echo", options[0]) == YES)
 		is_builtin = YES;
@@ -32,42 +32,38 @@ int	is_a_builtin(char **options)
 		is_builtin = YES;
 	else
 		is_builtin = NO;
-	//ft_free_table(options);
 	return (is_builtin);
 }
+	//ft_free_table(options);
 
-int	execution_builtins(t_node *current, char **options)
+int	execution_builtins(char **options)
 {
-	int is_builtin;
+	int	is_builtin;
 
-	//
-//	 printf("\033[1;32mINSIDE EXECUTION BUILTIN\033[0m\n");
-	//
 	is_builtin = YES;
 	if (ft_is_a_match("echo", options[0]) == YES)
-		builtin_echo(current, &options[1]);
+		builtin_echo(&options[1], 0);
 	else if (ft_is_a_match("cd", options[0]) == YES)
 		builtin_cd(&options[1]);
 	else if (ft_is_a_match("pwd", options[0]) == YES)
-		builtin_pwd(current, &options[1]);
+		builtin_pwd(&options[1]);
 	else if (ft_is_a_match("export", options[0]) == YES)
-		builtin_export(current, &options[1]);
+		builtin_export(&options[1]);
 	else if (ft_is_a_match("unset", options[0]) == YES)
-		builtin_unset(current, &options[1]);
+		builtin_unset(&options[1]);
 	else if (ft_is_a_match("env", options[0]) == YES)
-		builtin_env(current, &options[1]);
+		builtin_env(&options[1]);
 	else if (ft_is_a_match("exit", options[0]) == YES)
-		builtin_exit(current, &options[1]);
+		builtin_exit(&options[1]);
 	else
 		is_builtin = NO;
-	
 	return (is_builtin);
 }
 
-// returns the value of PATH or NULL is PATH is unset
+// returns the value of PATH; returns NULL if PATH is unset
 char	*get_path_value(t_minishell *minishell)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (minishell->env[i] == NULL)
@@ -81,19 +77,16 @@ char	*get_path_value(t_minishell *minishell)
 			else
 				return (NULL);
 		}
-		i++;	
+		i++;
 	}
 	return (NULL);
 }
 
-// inside the child process. called from execution_binary_cmd
-int	execution_access(t_node *current, char **options)
+void	execution_access(t_minishell *minishell, char **options)
 {
-	t_minishell *minishell;
-	char **path_table;
-	char *msg_err;
-	(void)current;
-	minishell = get_minishell();
+	char		**path_table;
+	char		*msg_err;
+
 	if (access(options[0], F_OK) == SUCCESS)
 	{
 		execve(options[0], options, minishell->env);
@@ -103,7 +96,7 @@ int	execution_access(t_node *current, char **options)
 		ft_putstr_fd(": ", STDERR_FILENO);
 		ft_putstr_fd(msg_err, STDERR_FILENO);
 		ft_putstr_fd("\n", STDERR_FILENO);
-		get_minishell()->exit_nb = 126;
+		minishell->exit_nb = 126;
 		exit(126);
 	}
 	path_table = ft_split(get_path_value(minishell), ':');
@@ -112,22 +105,17 @@ int	execution_access(t_node *current, char **options)
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(*options, STDERR_FILENO);
 		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
-
 	}
-	search_binary_file(path_table, options);
-	// ft_free_table(path_table);
-	return (0);
+	search_binary_file(path_table, options, 0);
 }
+// ft_free_table(path_table);
 
-// EXCEVE 
-void	search_binary_file(char **path_table, char **options)
+void	search_binary_file(char **path_table, char **options, int i)
 {
-	char *test_path;
-	char *msg_err;
-	int i;
+	char	*test_path;
+	char	*msg_err;
 
-	i = 0;
-	while(path_table[i] != NULL)
+	while (path_table[i] != NULL)
 	{
 		test_path = ft_strjoin_symbol(path_table[i], '/', options[0]);
 		if (access(test_path, F_OK) == SUCCESS)
