@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 12:38:55 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/14 12:46:48 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/16 13:35:58 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ void	ctrl_c_prompt(int signal)
 }
 
 // for a heredoc inside the child process
+// zsh and updated version of bash exit_code is 130
 void	ctrl_c_heredoc(int signal)
 {
 	(void)signal;
 	write(1, "  \n", 3);
 	exit(SIG_CTRL_C);
 }
-// not sure about the exit nb
 
 void	ctrl_d_exit(void)
 {
@@ -52,7 +52,12 @@ void	ctrl_d_exit(void)
 	free_minishell();
 	exit(get_minishell()->exit_nb);
 }
-// not sure about the exit nb
+
+// On BASH ctrl-D inside a heredoc does : > bash prompt
+void	ctrl_d_heredoc_exit(void)
+{
+	exit(get_minishell()->exit_nb);
+}
 
 void	void_signal(int signal)
 {

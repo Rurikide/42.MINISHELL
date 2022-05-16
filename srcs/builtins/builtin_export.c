@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 17:15:15 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/14 13:40:04 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/16 10:57:26 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	env_var_print_in_order(t_minishell *ms, int i, int j)
 	ft_free_table(table);
 }
 
+	// TYPEFAIL INVALID KEY, TYPE1: KEY ONLY,    TYPE2: KEY=,  TYPE3: KEY=VALUE
 int	evaluate_export_type(char *option)
 {
 	int i;
@@ -77,23 +78,17 @@ int	evaluate_export_type(char *option)
 
 	i = 1;
 	equal = NO;
-	// TYPEFAIL INVALID KEY, TYPE1: KEY ONLY,    TYPE2: KEY=,  TYPE3: KEY=VALUE
 	if (!ft_isalpha(option[0]) && option[0] != '_')
 		return (FAIL);
 	while (option[i])
 	{
-		// IF THERE IS AN EQUAL SYMBOL
 		if (option[i] == '=')
 		{
 			equal = YES;
 			if (option[i + 1] == '\0')
 				return (2);
 			else 
-			{
-				// if 	(env_var_valid_value(&option[i], 0, 0) == FAIL)
-				// 	return (FAIL);
 				return (3);
-			}
 		}
 		if (!ft_isalnum(option[i]) && option[i] != '_' && equal == NO)
 			return (FAIL);
@@ -104,13 +99,19 @@ int	evaluate_export_type(char *option)
 	return(1);
 }
 
-void	builtin_export(char **options)
+void	builtin_export_invalid_key(char **options, int i)
 {
-	int i;
+	ft_putstr_fd("export: `",  STDOUT_FILENO);
+	ft_putstr_fd(options[i],  STDOUT_FILENO);
+	ft_putstr_fd("': not a valid identifier\n",  STDOUT_FILENO);
+	get_minishell()->exit_nb = ERROR_1;
+}
+
+void	builtin_export(char **options, int i)
+{
 	int type;
 	int pos;
 
-	i = 0;
 	get_minishell()->exit_nb = SUCCESS;
 	if (options[i] == NULL)
 	{
@@ -119,17 +120,9 @@ void	builtin_export(char **options)
 	}
 	while (options[i])
 	{
-		// TYPE1: KEY ONLY    TYPE2: KEY=  TYPE3: KEY=VALUE
 		type = evaluate_export_type(options[i]);
 		if (type == FAIL)
-		{
-			ft_putstr_fd("export: `",  STDOUT_FILENO);
-			ft_putstr_fd(options[i],  STDOUT_FILENO);
-			ft_putstr_fd("': not a valid identifier\n",  STDOUT_FILENO);
-
-			//printf("export: `%s': not a valid identifier\n", options[i]);
-			get_minishell()->exit_nb = ERROR_1;
-		}
+			builtin_export_invalid_key(options, i);
 		else
 		{
 			pos = env_var_matching_key(options[i]);
@@ -143,5 +136,3 @@ void	builtin_export(char **options)
 		i++;
 	}
 }
-
-// POOURRQUOI   ./minishell "export type=shadoow TERM= ZSH=ciaobye LESS _=/R" ??? le dernier print avant le type=shadoow

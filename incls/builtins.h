@@ -32,6 +32,7 @@ typedef enum e_status
 	SUCCESS = 0,
 	ERROR_1 = 1,
 	ERROR_2 = 2,
+	ERROR_126 = 126,
 	ERROR_127 = 127,
 	ERROR_255 = 255,
 	SIG_CTRL_C = 130,
@@ -90,7 +91,8 @@ void		builtin_cd(char **options);
 void		builtin_cd_error(char *option);
 void		builtin_cd_homeless(void);
 void		builtin_pwd(char **options);
-void		builtin_export(char **options);
+void		builtin_export(char **options, int i);
+void		builtin_export_invalid_key(char **options, int i);
 void		builtin_unset(char **options);
 void		builtin_env(char **options);
 void		builtin_exit(char **options);
@@ -101,11 +103,13 @@ void		env_var_export_update(char *update, int pos, int new);
 void		ctrl_c_prompt(int signal);
 void		ctrl_c_heredoc(int signal);
 void		ctrl_d_exit(void);
+void		ctrl_d_heredoc_exit(void);
 void		set_signals(void);
 void		mute_signals(void);
-
 void		void_signal(int signal);
-void		here_document(t_node *current, char *safeword);
+
+void		heredoc_preparation(t_node *current, char *safeword);
+void		here_document(t_node *current, int *pipe_end, char *safeword);
 
 int			execution_builtins(char **options);
 void		execution_main(t_node *current);

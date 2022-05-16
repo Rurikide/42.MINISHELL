@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:42:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/14 13:30:53 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/16 10:50:03 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	execution_builtins(char **options)
 	else if (ft_is_a_match("pwd", options[0]) == YES)
 		builtin_pwd(&options[1]);
 	else if (ft_is_a_match("export", options[0]) == YES)
-		builtin_export(&options[1]);
+		builtin_export(&options[1], 0);
 	else if (ft_is_a_match("unset", options[0]) == YES)
 		builtin_unset(&options[1]);
 	else if (ft_is_a_match("env", options[0]) == YES)

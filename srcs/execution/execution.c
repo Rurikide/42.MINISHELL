@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:40:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/14 13:24:11 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/16 13:33:11 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ void	pipeline_fork(t_node *current, int read_fd)
 	pid_t	id;
 
 	if (pipe(pipe_end) == FAIL)
-		printf("Error creating pipe\n");
+		ft_putstr_fd("Error at pipe()\n", STDERR_FILENO);
 	id = fork();
 	if (id == FAIL)
-		printf("Error making fork\n");
+		ft_putstr_fd("Error at fork()\n", STDERR_FILENO);
 	if (id == CHILD)
 	{
 		pipeline_redirection(current, read_fd, pipe_end);
