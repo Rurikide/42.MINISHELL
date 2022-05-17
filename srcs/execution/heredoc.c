@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 17:04:23 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/16 13:55:41 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/17 11:47:49 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ waitpid(-1, &status, 0);
 // Fonction après avoir trouver un '<<'
 // Comment le parsing gère un et plusieurs heredocs???
 
-void	heredoc_preparation(t_node *current, char *safeword)
+void	heredoc_preparation(t_node *current)
 {
 	pid_t	id;
 	int		pipe_end[2];
@@ -60,11 +60,21 @@ void	heredoc_preparation(t_node *current, char *safeword)
 		ft_putendl_fd("Error at heredoc fork", STDERR_FILENO);
 	if (id == CHILD)
 	{
-		heredoc_execution(current, pipe_end, safeword);
+		heredoc_execution(current, pipe_end);
 	}
+	waitpid(id, &wstatus, 0);
+	set_signals();
+	if (WIFEXITED(wstatus))
+		get_minishell()->exit_nb = WEXITSTATUS(wstatus);
+	close(pipe_end[0]);
+	close(pipe_end[1]);
+	if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == SIG_CTRL_C)
+		get_minishell()->exit_nb = ERROR_1;
+	else 
+		get_minishell()->exit_nb = SUCCESS;
 }
 
-void	heredoc_execution(t_node *current, int *pipe_end, char *safeword)
+void	heredoc_execution(t_node *current, int *pipe_end)
 {
 	char *heredoc_input;
 	
@@ -74,18 +84,40 @@ void	heredoc_execution(t_node *current, int *pipe_end, char *safeword)
 		heredoc_input = readline("> ");
 		if (heredoc_input == CTRL_D)
 			ctrl_d_heredoc_exit();
-		if (ft_strcmp(heredoc_input, safeword) == SUCCESS)
+		if (matching_strings(heredoc_input, current->eof) == SUCCESS)
 		{
-			close(pipe_end[0]);
+			dup2(pipe_end[1], current->fd_i);
 			close(pipe_end[1]);
+			close(pipe_end[0]);
 			break ;
 		}
 		ft_putendl_fd(heredoc_input, pipe_end[1]);
 		free(heredoc_input);
 	}
-
+	get_minishell()->exit_nb = SUCCESS;
+	exit(SUCCESS);
 }
 
+int	matching_strings(char *s1, char *s2)
+{
+	int		s1_len;
+	int		s2_len;
+
+	s1_len = ft_strlen(s1) - 1;
+	s2_len = ft_strlen(s2) - 1;
+	if (s1_len != s2_len)
+		return (FAIL);
+	while (s1[s1_len] && s2[s2_len])
+	{
+		if (s1[s1_len] != s2[s2_len])
+			return (FAIL);
+		s1_len--;
+		s2_len--;
+	}
+	return (SUCCESS);
+}
+
+// OTHER VERSION
 // void	here_document(t_node *current, char *safeword)
 // {
 // 		pid_t here_id;
@@ -121,34 +153,3 @@ void	heredoc_execution(t_node *current, int *pipe_end, char *safeword)
 // 		waitpid(here_id, NULL, 0);
 // 		set_signals();
 // }
-
-// les heredocs doivent etre dans un child process
-// il faut une fonction signal pour le child qui s'intterompt dans un heredoc
-// child process exit normally WIFEXITED AND WIFEXITEDSTATUS
-
-
-
-
-/*
-int    redir_heredoc(char *limiter, int fd, t_job *job)
-{
-	int        new_fd[2];
-	pid_t    pid;
-	int        wstatus;
-
-	signal(SIGINT, nothing);
-	pipe(new_fd);
-	pid = fork();
-	if (pid == 0)
-		heredoc(limiter, new_fd, job);
-	waitpid(pid, &wstatus, 0);
-	signal(SIGINT, newline);
-	if (WIFEXITED(wstatus))
-		g_msh.ret_exit = WEXITSTATUS(wstatus);
-	dup2(new_fd[0], fd);
-	close(new_fd[1]);
-	close(new_fd[0]);
-	if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == 130)
-		return (1);
-	return (0);
-}

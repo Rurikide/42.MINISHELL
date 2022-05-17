@@ -108,7 +108,8 @@ void		set_signals(void);
 void		mute_signals(void);
 void		void_signal(int signal);
 
-void		heredoc_preparation(t_node *current, char *safeword);
+void		heredoc_preparation(t_node *current);
+void		heredoc_execution(t_node *current, int *pipe_end);
 void		here_document(t_node *current, int *pipe_end, char *safeword);
 
 int			execution_builtins(char **options);
@@ -120,5 +121,5 @@ void		pipeline_redirection(t_node *current, int read_fd, int *pipe_end);
 void		execution_access(t_minishell *minishell, char **options);
 void		search_binary_file(char **path_table, char **options, int i);
 char		*get_path_value(t_minishell *minishell);
-
+int			matching_strings(char *s1, char *s2);
 #endif
