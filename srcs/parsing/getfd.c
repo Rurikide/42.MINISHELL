@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/17 12:06:50 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/17 12:33:35 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,11 @@ int	get_fdO(t_node *current, char *value, int i, int j, int fd)
 			value = tmp;
 		//	printf("current->value:%s\n", value);
 			tmp = NULL;
-			//if (type == 'c')
+			if (type == 'c')
 				fd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0777);
-				file=NULL;
-			//else
-			//	fd = open(file, O_RDWR | O_CREAT | O_APPEND, 0777);
+			else
+				fd = open(file, O_RDWR | O_CREAT | O_APPEND, 0777);
+			free(file);
 			/*if (ft_is_present('>', value))
 				return (get_fdO(value, 0, 0, fd));
 			else
