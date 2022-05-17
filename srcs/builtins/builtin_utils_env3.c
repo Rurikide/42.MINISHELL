@@ -6,25 +6,11 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:13:07 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/27 16:52:44 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/17 15:03:24 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
-
-void	free_minishell(void)
-{
-	t_minishell	*minishell;
-
-	minishell = get_minishell();
-	if (minishell->env != NULL)
-		ft_free_table(minishell->env);
-	if (minishell->options != NULL)
-		ft_free_table(minishell->options);
-	if (minishell->user_input != NULL)
-		free(minishell->user_input);
-	rl_clear_history();
-}
 
 t_answer	ft_is_a_match(char *keyword, char *input)
 {
@@ -64,21 +50,31 @@ t_answer	ft_is_option(char valid, char *list)
 	return (YES);
 }
 
-int	env_var_is_key_only(char *option)
+char	**ft_table_add(char **table, const char *new)
 {
-	int	i;
-	int	equal;
+	char	**deepcopy;
+	int		i;
 
-	i = 0;
-	equal = YES;
-	while (option[i])
+	i = -1;
+	deepcopy = ft_calloc(ft_table_len(table) + 2, sizeof(char *));
+	if (deepcopy == NULL)
+		return (NULL);
+	while (table[++i] != NULL)
+		deepcopy[i] = ft_strdup(table[i]);
+	deepcopy[i] = ft_strdup(new);
+	deepcopy[i + 1] = NULL;
+	ft_free_table(table);
+	return (deepcopy);
+}
+
+void	ft_table_del(char **table, int index)
+{
+	if (index >= ft_table_len(table))
+		return ;
+	free(table[index]);
+	while (table[index] != NULL)
 	{
-		if (option[i] == '=')
-		{
-			equal = NO;
-			break ;
-		}
-		i++;
+		table[index] = table[index + 1];
+		index++;
 	}
-	return (equal);
 }

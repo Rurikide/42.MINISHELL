@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 16:05:56 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/14 13:39:48 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/17 14:47:19 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	env_var_print(void)
 {
-
 	t_minishell	*minishell;
 	int			i;
+
 	i = 0;
 	minishell = get_minishell();
 	while (minishell->env[i] != NULL)
@@ -31,9 +31,9 @@ void	builtin_env(char **options)
 {
 	if (*options != NULL && *options[0] != '-')
 	{
-		ft_putstr_fd("env: ",  STDOUT_FILENO);
-		ft_putstr_fd(*options,  STDOUT_FILENO);
-		ft_putstr_fd(": No such file or directory\n",  STDOUT_FILENO);
+		ft_putstr_fd("env: ", STDOUT_FILENO);
+		ft_putstr_fd(*options, STDOUT_FILENO);
+		ft_putstr_fd(": No such file or directory\n", STDOUT_FILENO);
 		get_minishell()->exit_nb = ERROR_127;
 	}
 	else

@@ -6,81 +6,11 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:42:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/16 10:50:03 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/17 15:28:25 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
-
-int	is_a_builtin(char **options)
-{
-	int	is_builtin;
-
-	if (ft_is_a_match("echo", options[0]) == YES)
-		is_builtin = YES;
-	else if (ft_is_a_match("cd", options[0]) == YES)
-		is_builtin = YES;
-	else if (ft_is_a_match("pwd", options[0]) == YES)
-		is_builtin = YES;
-	else if (ft_is_a_match("export", options[0]) == YES)
-		is_builtin = YES;
-	else if (ft_is_a_match("unset", options[0]) == YES)
-		is_builtin = YES;
-	else if (ft_is_a_match("env", options[0]) == YES)
-		is_builtin = YES;
-	else if (ft_is_a_match("exit", options[0]) == YES)
-		is_builtin = YES;
-	else
-		is_builtin = NO;
-	return (is_builtin);
-}
-	//ft_free_table(options);
-
-int	execution_builtins(char **options)
-{
-	int	is_builtin;
-
-	is_builtin = YES;
-	if (ft_is_a_match("echo", options[0]) == YES)
-		builtin_echo(&options[1], 0);
-	else if (ft_is_a_match("cd", options[0]) == YES)
-		builtin_cd(&options[1]);
-	else if (ft_is_a_match("pwd", options[0]) == YES)
-		builtin_pwd(&options[1]);
-	else if (ft_is_a_match("export", options[0]) == YES)
-		builtin_export(&options[1], 0);
-	else if (ft_is_a_match("unset", options[0]) == YES)
-		builtin_unset(&options[1]);
-	else if (ft_is_a_match("env", options[0]) == YES)
-		builtin_env(&options[1]);
-	else if (ft_is_a_match("exit", options[0]) == YES)
-		builtin_exit(&options[1]);
-	else
-		is_builtin = NO;
-	return (is_builtin);
-}
-
-// returns the value of PATH; returns NULL if PATH is unset
-char	*get_path_value(t_minishell *minishell)
-{
-	int	i;
-
-	i = 0;
-	if (minishell->env[i] == NULL)
-		return (NULL);
-	while (minishell->env[i] != NULL)
-	{
-		if (ft_strncmp(minishell->env[i], "PATH=", 5) == SUCCESS)
-		{
-			if (minishell->env[i][6] != '\0')
-				return (&(minishell->env[i])[6]);
-			else
-				return (NULL);
-		}
-		i++;
-	}
-	return (NULL);
-}
 
 void	execution_access(t_minishell *minishell, char **options)
 {
@@ -109,6 +39,28 @@ void	execution_access(t_minishell *minishell, char **options)
 	search_binary_file(path_table, options, 0);
 }
 // ft_free_table(path_table);
+
+// returns the value of PATH; returns NULL if PATH is unset
+char	*get_path_value(t_minishell *minishell)
+{
+	int	i;
+
+	i = 0;
+	if (minishell->env[i] == NULL)
+		return (NULL);
+	while (minishell->env[i] != NULL)
+	{
+		if (ft_strncmp(minishell->env[i], "PATH=", 5) == SUCCESS)
+		{
+			if (minishell->env[i][6] != '\0')
+				return (&(minishell->env[i])[6]);
+			else
+				return (NULL);
+		}
+		i++;
+	}
+	return (NULL);
+}
 
 void	search_binary_file(char **path_table, char **options, int i)
 {

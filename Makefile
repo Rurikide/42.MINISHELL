@@ -14,8 +14,8 @@ EDIR= srcs/execution
 
 SRCS= main.c
 
-BUILTINS=  builtin_echo.c builtin_cd.c builtin_pwd.c builtin_export.c builtin_unset.c builtin_utils_env.c builtin_utils_env2.c builtin_utils_env3.c builtin_env.c builtin_exit.c env_init.c
-EXECUTION= access.c heredoc.c signal.c execution.c
+BUILTINS=  builtin_echo.c builtin_cd.c builtin_pwd.c builtin_export.c builtin_unset.c builtin_utils_env.c builtin_utils_env2.c builtin_utils_env3.c builtin_env.c builtin_exit.c builtins_list.c environment.c
+EXECUTION= access.c execution.c heredoc.c minishell_utils.c signal.c toggle_signal.c
 PARSING= parse.c split.c getfd.c nodes.c getvar.c sanitize.c
 OBJS= $(SRCS:.c=.o) $(BUILTINS:.c=.o) $(EXECUTION:.c=.o) $(PARSING:.c=.o)
 

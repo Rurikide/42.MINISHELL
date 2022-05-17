@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:50:49 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/17 11:54:25 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/17 13:17:37 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ struct node
 	int		fd_i;
 	int		fd_o;
 	pid_t 	id;
-	int 	pipe_end[2];
 	struct  node *next;
 	struct	node *prev;
 };

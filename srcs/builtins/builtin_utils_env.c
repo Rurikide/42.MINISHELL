@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 16:04:19 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/27 16:02:57 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/17 15:07:06 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,23 @@ char	*env_var_get_value(char *key, int size)
 	if (i != FAIL)
 		return (&(minishell->env[i])[size + 1]);
 	return (NULL);
+}
+
+int	env_var_is_key_only(char *option)
+{
+	int	i;
+	int	equal;
+
+	i = 0;
+	equal = YES;
+	while (option[i])
+	{
+		if (option[i] == '=')
+		{
+			equal = NO;
+			break ;
+		}
+		i++;
+	}
+	return (equal);
 }

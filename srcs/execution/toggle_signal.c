@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   toggle_signal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/08 16:32:13 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/17 15:12:41 by tshimoda         ###   ########.fr       */
+/*   Created: 2022/05/17 15:22:46 by tshimoda          #+#    #+#             */
+/*   Updated: 2022/05/17 15:24:47 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-void	builtin_pwd(char **options)
+void	mute_signals(void)
 {
-	char	s[PATH_MAX];
+	signal(SIGINT, &void_signal);
+	signal(SIGQUIT, &void_signal);
+}
 
-	(void)options;
-	getcwd(s, sizeof(s));
-	ft_putendl_fd(s, STDOUT_FILENO);
-	get_minishell()->exit_nb = SUCCESS;
+void	set_signals(void)
+{
+	signal(SIGINT, &ctrl_c_prompt);
+	signal(SIGQUIT, SIG_IGN);
 }

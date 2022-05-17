@@ -6,37 +6,33 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 17:15:15 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/16 10:57:26 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/17 15:19:16 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-void	env_var_print_quotes(char **table, int equal)
+void	env_var_print_quotes(char **table, int equal, int i, int j)
 {
-	int i;
-	int j;
-
-	i = 0;
 	while (table[i] != NULL)
 	{
-		ft_putstr_fd("declare -x ",  STDOUT_FILENO);
+		ft_putstr_fd("declare -x ", STDOUT_FILENO);
 		j = 0;
 		equal = NO;
 		while (table[i][j] != '\0')
 		{
-			ft_putchar_fd(table[i][j],  STDOUT_FILENO);
+			ft_putchar_fd(table[i][j], STDOUT_FILENO);
 			if (table[i][j] == '=')
 			{
 				equal = YES;
-				ft_putchar_fd('\"',  STDOUT_FILENO);
+				ft_putchar_fd('\"', STDOUT_FILENO);
 			}
 			j++;
 			if (table[i][j] == '\0')
 			{
 				if (equal == YES)
-					ft_putchar_fd('\"',  STDOUT_FILENO);
-				ft_putchar_fd('\n',  STDOUT_FILENO);
+					ft_putchar_fd('\"', STDOUT_FILENO);
+				ft_putchar_fd('\n', STDOUT_FILENO);
 			}
 		}
 		i++;
@@ -66,15 +62,15 @@ void	env_var_print_in_order(t_minishell *ms, int i, int j)
 		i++;
 	}
 	table[i] = NULL;
-	env_var_print_quotes(table, NO);
+	env_var_print_quotes(table, NO, 0, 0);
 	ft_free_table(table);
 }
 
-	// TYPEFAIL INVALID KEY, TYPE1: KEY ONLY,    TYPE2: KEY=,  TYPE3: KEY=VALUE
+// TYPEFAIL INVALID KEY, TYPE1: KEY ONLY,    TYPE2: KEY=,  TYPE3: KEY=VALUE
 int	evaluate_export_type(char *option)
 {
-	int i;
-	int equal;
+	int	equal;
+	int	i;
 
 	i = 1;
 	equal = NO;
@@ -87,30 +83,29 @@ int	evaluate_export_type(char *option)
 			equal = YES;
 			if (option[i + 1] == '\0')
 				return (2);
-			else 
+			else
 				return (3);
 		}
 		if (!ft_isalnum(option[i]) && option[i] != '_' && equal == NO)
 			return (FAIL);
 		if (option[i] == '/' && equal == NO)
-			return(FAIL);
+			return (FAIL);
 		i++;
 	}
-	return(1);
+	return (1);
 }
 
 void	builtin_export_invalid_key(char **options, int i)
 {
-	ft_putstr_fd("export: `",  STDOUT_FILENO);
-	ft_putstr_fd(options[i],  STDOUT_FILENO);
-	ft_putstr_fd("': not a valid identifier\n",  STDOUT_FILENO);
+	ft_putstr_fd("export: `", STDOUT_FILENO);
+	ft_putstr_fd(options[i], STDOUT_FILENO);
+	ft_putstr_fd("': not a valid identifier\n", STDOUT_FILENO);
 	get_minishell()->exit_nb = ERROR_1;
 }
 
-void	builtin_export(char **options, int i)
+void	builtin_export(char **options, int type, int i)
 {
-	int type;
-	int pos;
+	int	pos;
 
 	get_minishell()->exit_nb = SUCCESS;
 	if (options[i] == NULL)

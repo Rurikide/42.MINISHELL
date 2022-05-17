@@ -6,16 +6,11 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 12:00:31 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/14 13:36:09 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/17 14:53:31 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
-
-// bash behaviour : can receive multiple -n -n -n -nnnnnnnn options
-// which remove the newline. If there is no -n as the first option, 
-// it will treat the everything as text input.
-// this function receive the array after the echo.
 
 void	builtin_echo_empty(void)
 {
@@ -71,8 +66,3 @@ void	builtin_echo(char **options, int i)
 		write(STDOUT_FILENO, "\n", 1);
 	get_minishell()->exit_nb = SUCCESS;
 }
-
-// REVERIFIER LES ECHO $?
-// echo $?? , bash print le deuxieme ? comme un char normal.
-// echo renvoi 0 on success
-// echo renvoi 127 

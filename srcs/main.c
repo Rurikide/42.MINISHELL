@@ -6,30 +6,11 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:10:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/17 11:40:46 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/17 15:01:46 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
-
-t_minishell	*get_minishell(void)
-{
-	static t_minishell	minishell;
-
-	if (minishell.init != 1)
-	{
-		minishell.init = 1;
-		minishell.shlvl = 1;
-		minishell.env = NULL;
-		minishell.env_size = 0;
-		minishell.exit_nb = 0;
-		minishell.in_pipeline = NO;
-		minishell.user_input = NULL;
-		minishell.options = NULL;
-		minishell.head = NULL;
-	}
-	return (&minishell);
-}
 
 int	main(int argc, char **argv, char **env)
 {

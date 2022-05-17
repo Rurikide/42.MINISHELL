@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 12:38:55 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/16 13:35:58 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/17 15:23:34 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,4 @@ void	ctrl_d_heredoc_exit(void)
 void	void_signal(int signal)
 {
 	(void)signal;
-}
-
-void	mute_signals(void)
-{
-	signal(SIGINT, &void_signal);
-	signal(SIGQUIT, &void_signal);
-}
-
-void	set_signals(void)
-{
-	signal(SIGINT, &ctrl_c_prompt);
-	signal(SIGQUIT, SIG_IGN);
 }

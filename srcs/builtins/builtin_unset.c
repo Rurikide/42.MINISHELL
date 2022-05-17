@@ -6,18 +6,11 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 11:10:52 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/14 13:37:55 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/17 15:10:52 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
-// UNSET deletes an existing env var
-// search the environment for the KEY of a KEY=VALUE
-// CANNOT UNSET a key ending by an '=' sush as VAR1=    must be VAR1
-// POSSIBLE TO UNSET multiple var at the same time. 
-// UNSET ALONE DOEST NOTHING SPECIAL
-
-// ALEX if key == _3\allo  REMOVE THE BACK SLASH
 
 t_answer	is_only_key_identifier(char *option)
 {
@@ -35,21 +28,18 @@ t_answer	is_only_key_identifier(char *option)
 	return (YES);
 }
 
-void	builtin_unset(char **options)
+void	builtin_unset(char **options, int i)
 {
-	int		i;
-	int		env_index;
+	int	env_index;
 
-	i = 0;
 	get_minishell()->exit_nb = SUCCESS;
 	while (options[i] != NULL)
 	{
 		if (is_only_key_identifier(options[i]) == NO)
 		{
-			ft_putstr_fd("minishell: unset: `",  STDOUT_FILENO);
-			ft_putstr_fd(options[i],  STDOUT_FILENO);
-			ft_putstr_fd("': not a valid identifier\n",  STDOUT_FILENO);
-		//	printf("minishell: unset: `%s': not a valid identifier\n", options[i]);
+			ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
+			ft_putstr_fd(options[i], STDERR_FILENO);
+			ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 			get_minishell()->exit_nb = ERROR_1;
 		}
 		else
@@ -66,9 +56,3 @@ void	builtin_unset(char **options)
 		i++;
 	}
 }
-
-// unset met ERROR_1 dès qu'il y a une invalid key
-
-
-// bash-3.2$ unset __(
-//bash: syntax error near unexpected token `env('
