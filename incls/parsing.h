@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:50:49 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/17 11:00:22 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/17 11:54:25 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,14 @@
 struct node
 {
 	char	*value;
-	char	*eof;
+	char 	*eof;
 	char	type;
 	int		fd_i;
 	int		fd_o;
-	struct  node *prev;
+	pid_t 	id;
+	int 	pipe_end[2];
 	struct  node *next;
-	pid_t id;
+	struct	node *prev;
 };
 
 typedef struct node t_node;
@@ -44,6 +45,5 @@ void	ft_to_do(t_node *head, char *sym);
 int ms_parsing();
 int	ft_is_present(char c, char *sym);
 char	**ms_split(char const *s, char sym);
-void	ms_freelist(t_node *head);
 
 #endif

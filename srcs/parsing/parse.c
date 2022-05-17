@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/13 20:50:25 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/17 12:07:04 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ char	get_type(char *str, char *sym)
 			if (str[ft_is_present('>', str) + 1] == '>')
 				return 'a';
 	}
-	//else if (str[0] == (char)NULL)
-	else if (str[0] == '\0')
+	else if (str[0] == (char)NULL)
 			return 'e';
 	return 'c';
 }
@@ -57,7 +56,7 @@ char	get_type(char *str, char *sym)
 // 	while (tmp1 != NULL)
 // 	{
 // 		//tmp1->type = get_type(tmp1->value, sym);
-// 		//printf("value:%s, type:%c, fdI:%d, fdO:%d\n", tmp1->value, tmp1->type, tmp1->fdI, tmp1->fdO);
+// 	//	printf("value:%s, type:%c, fdI:%d, fdO:%d\n", tmp1->value, tmp1->type, tmp1->fdI, tmp1->fdO);
 // 		if (tmp1->type == 'c' || tmp1->type == 'a')
 // 			scan_builtins(ft_split(tmp1->value, ' '));
 // 		else if (tmp1->type == 'p')
@@ -73,7 +72,7 @@ char	get_type(char *str, char *sym)
 // 	}
 // }
 
-int  ms_parsing(void)
+int ms_parsing(void)
 {
 	t_minishell *minishell;
 	t_node *list;
@@ -85,23 +84,28 @@ int  ms_parsing(void)
 		char **arg = ms_split(get_var(minishell->user_input, 1, -1), '|');
 		if (ft_strlen(arg[0]) == 0)
 			return 0;
-		int i = 1;
-		minishell->head = new_node(arg[0], sym);
-		while (arg[i] != NULL)
-		{
-			list = new_node(arg[i], sym);
-			// //
-			// printf("arg[0] == %s\n", arg[0]);
-			// printf("arg[1] == %s\n", arg[1]);
-			// //
-			add_at_end(&minishell->head, list);
+		int i = 0;
+		while (arg[i]) {
+		//	printf("arg[%d] = '%s'\n", i, arg[i]);
 			i++;
 		}
-		// free(arg);
-	//	ft_free_table(arg);
+		minishell->head = new_node(arg[0], sym);
+		//printf("head->value bw:%s\n", minishell->head->value);
+		i = 1;
+		while (arg[i] != NULL) {
+			list = new_node(arg[i], sym);
+			//printf("head->valueiw:%s\n", minishell->head->value);
+			add_at_end(&minishell->head, list);
+			//printf("new->value:'%s'\n", minishell->head->value);
+			i++;
+		}
+		//ft_free_table(arg);
 		tmp = minishell->head;
+		//printf("head->value aw:%s\n", minishell->head->value);
+		//printf("tmp->value:%s\n", tmp->value);
+
 		//printlist(tmp);
-		// ft_to_do(tmp, sym);
+		//ft_to_do(tmp, sym);
 	}
 	//printf ("%s\n", av[1]);
 	return 0;	

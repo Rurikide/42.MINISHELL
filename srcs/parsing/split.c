@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:24 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/13 15:04:46 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/17 12:08:15 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static char	**ft_malloc_error(char **tab)
 
 static unsigned int	ft_get_nb_strs(char const *s, char sym)
 {
-	unsigned int	i;
+	int	i;
 	unsigned int	nb_strs;
 
 	if (!s[0])
@@ -66,6 +66,11 @@ static unsigned int	ft_get_nb_strs(char const *s, char sym)
 				i++;
 				if (s[i] == '"')
 					break;
+				else if (i == ft_strlen(s))
+				{
+					printf("Errorm missing \"");
+					return 0;
+				}
 			}
 		if (s[i] == '\'')
         	while (s[i])
@@ -73,6 +78,11 @@ static unsigned int	ft_get_nb_strs(char const *s, char sym)
             	i++;
                 if (s[i] == '\'')
                 	break;
+				else if (i == ft_strlen(s))
+				{
+					printf("Errorm missing \'");
+					return 0;
+				}
             }
 		if (s[i] == sym)
 			nb_strs++;
@@ -89,7 +99,7 @@ static void	ft_get_next_str(char **next_str, unsigned int *next_str_len,
 	*next_str += *next_str_len;
 	*next_str_len = 0;
 	i = 0;
-	while ((*next_str)[i] == sym)
+	while ((*next_str)[i] == sym || (*next_str)[i] == ' ')
 		(*next_str)++;
 	while ((*next_str)[i])
 	{
@@ -134,7 +144,7 @@ int	ft_is_present(char c, char *sym)
 	return 0;
 }
 
-char check_qm (char *str, int i, int s, int d)
+/*char check_qm (char *str, int i, int s, int d)
 {
 	while (str[++i])
 	{
@@ -162,10 +172,10 @@ char check_qm (char *str, int i, int s, int d)
 		return ('"');
 	}
 	else {
-		//printf("0\n");
+		printf("0\n");
 		return (0);
 	}
-}
+}*/
 
 char	**ms_split(char const *s, char sym)
 {
@@ -174,11 +184,11 @@ char	**ms_split(char const *s, char sym)
 	unsigned int	next_str_len;
 	unsigned int	nb_strs;
 	unsigned int	i = 0;
-
+	//printf("s = '%s', strlen = %i\n", s, ft_strlen(s));
 	if (ft_strlen(s) == 0)
 		return (char **)s;
 	nb_strs = ft_get_nb_strs(s, sym);
-	//printf("nb_str = %d\n", nb_strs);
+//	printf("nb_str = %d\n", nb_strs);
 	tab = (char **)malloc(sizeof(char *) * (nb_strs + 1));
 	if (!tab || !s)
 		return (NULL);
@@ -191,9 +201,9 @@ char	**ms_split(char const *s, char sym)
 		tab[i] = (char *)malloc(sizeof(char) * (next_str_len + 1));
 		if (!tab[i])
 			return (ft_malloc_error(tab));
-		if (check_qm(next_str, -1, 1, 1) != 0)
+		/*if (check_qm(next_str, -1, 1, 1) != 0)
 			ft_strlcpy(tab[i], "", 1);
-		else
+		else*/
 			ft_strlcpy(tab[i], next_str, next_str_len + 1);
 		i++;
 	}
