@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:40:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/16 13:33:11 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/17 16:17:48 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	execution_main(t_node *current)
 	if (current->next == NULL && is_a_builtin(options) == YES)
 	{
 		one_builtin_redirection(current, options);
+		if (options != NULL)
+			ft_free_table(options);
 	}
 	else if (current != NULL)
 	{
@@ -57,6 +59,7 @@ void	pipeline_fork(t_node *current, int read_fd)
 {
 	char	**options;
 	int		pipe_end[2];
+	int		wstatus;
 	pid_t	id;
 
 	if (pipe(pipe_end) == FAIL)
@@ -72,8 +75,10 @@ void	pipeline_fork(t_node *current, int read_fd)
 			execution_access(get_minishell(), options);
 		exit(get_minishell()->exit_nb);
 	}
-	waitpid(id, NULL, 0);
+	waitpid(id, &wstatus, 0);
 	close(pipe_end[1]);
+	if (WIFEXITED(wstatus))
+		get_minishell()->exit_nb = WEXITSTATUS(wstatus);
 	current = current->next;
 	if (current != NULL)
 		return (pipeline_fork(current, pipe_end[0]));

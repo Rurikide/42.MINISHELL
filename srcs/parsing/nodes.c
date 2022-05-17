@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/17 12:06:43 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/17 15:48:20 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 char *ms_strip(char *str, int i, int j)
 {
 	char *tmp = ft_calloc(ft_strlen(str), sizeof(char));
-
+//	printf("ms_strip str='%s'\n", str);
 	if (!str)
 		return NULL;
 	if (!(ft_isprint(str[i])))
@@ -36,7 +36,8 @@ char *ms_strip(char *str, int i, int j)
 		else
 			tmp[j++] = str[i++];
 	}
-//	printf("ms_tmp =%s", tmp);
+	//free(str);
+	//printf("ms_tmp =%s\n", tmp);
 	//garbage when echo "a" | dfsgdsfg
 	return (tmp);
 }
@@ -47,17 +48,21 @@ t_node	*new_node(char *str, char *sym)
 
 	t_node	*new = malloc(sizeof(t_node));
 	//new->fdO = get_fdO(str, 0, 0, 1);
-	if (str != NULL)
-		new->value = ms_strip(str, 0, 0); //str ;
+	if (str != NULL) {
+		if (ft_is_present('\'', str) || ft_is_present('\"', str))
+			new->value = ms_strip(str, 0, 0);
+		else
+			new->value = str;
+	//	printf("new->value:'%s'\n", new->value);
 		new->eof = NULL;
 		new->type = get_type(str, sym);
 		new->fd_i = get_fdI(new, 0, 0);
 		new->fd_o = get_fdO(new, new->value, 0, 0, 1);
-//		printf("new->value:'%s'\n", new->value);
 		new->id = -1;
 		new->next = NULL;
 		new->prev = NULL;
-	//	printf("new->value:'%s'\n", new->value);
+		//	printf("new->value:'%s'\n", new->value);
+	}
 
 
 	return new;

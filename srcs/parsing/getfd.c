@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/17 12:33:35 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/17 15:47:25 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,20 @@ int	get_fdO(t_node *current, char *value, int i, int j, int fd)
 //	printf("HI\n");
 	while (value[i])
 	{
-		//printf("fdo current->value:%s, i=%d, char =%c\n", value, i, value[i]);
 		j = 0;
 		if (value[i] == '>')
 		{
+			//printf("fdo current->value:%s, i=%d, char =%c\n", value, i, value[i]);
 			k = i - 1;
+			/*while (value[k] == ' ')
+				k--;*/
 			if (value[i + 1] == '>') {
 				current->type = 'a';
 				i++;
 			}
 			else
 				type = 'c';
-		//	printf("value =%s, i =%d, j =%c\n",value, i, j);
+			//printf("iwvalue =%s, i =%d, j =%d\n",value, i, j);
 			while (value[i] == ' ' || value[i] == '>')
 				i++;
 			while (value[i] && value[i] != ' ' && value[i] != '>')
@@ -65,7 +67,7 @@ int	get_fdO(t_node *current, char *value, int i, int j, int fd)
 				i++;
 			}
 			file = ft_substr(value, i - j, j);
-		//	printf("value-f =%s, i =%d, j =%d\n",value, i, j);
+			//printf("value-f =%s, i =%d, j =%d\n",value, i, j);
 
 			if (ft_is_present('/', file))
 			{
@@ -73,20 +75,24 @@ int	get_fdO(t_node *current, char *value, int i, int j, int fd)
 				//printf("%s: No such file or directory\n", file);
 				return (1);
 			}
-	//		printf("file:%s\n", file);
-	//		printf("k =%d, i =%d, j =%d\n",k, i, j);
-
-			tmp = ft_strjoin(ft_substr(value, 0, k + 1), (value + i));
+			//printf("file:%s\n", file);
+		//	printf("pf k =%d, i =%d, j =%d, value+i =%s\n",k, i, j,value + i);
+			/*while (value[k] == ' ')
+				k--;*/
+			tmp = ft_strjoin(ft_substr(value, 0, k), (value + i));
 		//	printf("tmp:%s\n", tmp);
 			free(value);
 			value = tmp;
-		//	printf("current->value:%s\n", value);
+		//	printf("current->value:'%s'\n", value);
 			tmp = NULL;
-			if (type == 'c')
+			if (type == 'c') {
 				fd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0777);
-			else
+				free(file);
+			}
+			else {
 				fd = open(file, O_RDWR | O_CREAT | O_APPEND, 0777);
-			free(file);
+				free(file);
+			}
 			/*if (ft_is_present('>', value))
 				return (get_fdO(value, 0, 0, fd));
 			else
@@ -95,6 +101,7 @@ int	get_fdO(t_node *current, char *value, int i, int j, int fd)
 		}
 		i++;
 	}
+//	printf("aw value =%s, i =%d, j =%d\n",value, i, j);
 //	printf("current->value return:%s\n", value);
 	current->value = value;
 	return (fd);
