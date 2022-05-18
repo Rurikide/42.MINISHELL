@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 17:04:23 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/17 15:27:51 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/18 15:27:28 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,11 @@ void	heredoc_preparation(t_node *current)
 	set_signals();
 	if (WIFEXITED(wstatus))
 		get_minishell()->exit_nb = WEXITSTATUS(wstatus);
+	dup2(pipe_end[0], current->fd_i);
 	close(pipe_end[0]);
 	close(pipe_end[1]);
-	if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == SIG_CTRL_C)
+	if (WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIG_CTRL_C)
 		get_minishell()->exit_nb = ERROR_1;
-	else
-		get_minishell()->exit_nb = SUCCESS;
 }
 
 void	heredoc_execution(t_node *current, int *pipe_end)

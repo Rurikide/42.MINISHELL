@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 14:45:45 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/17 15:20:07 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/18 16:07:12 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,4 +126,5 @@ void		execution_access(t_minishell *minishell, char **options);
 void		search_binary_file(char **path_table, char **options, int i);
 char		*get_path_value(t_minishell *minishell);
 int			ft_is_matching_strings(char *s1, char *s2);
+void		set_exit_nb(int wstatus);
 #endif

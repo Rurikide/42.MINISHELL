@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:01:06 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/17 15:02:25 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/18 17:24:17 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,11 @@ void	free_minishell(void)
 	minishell = get_minishell();
 	if (minishell->env != NULL)
 		ft_free_table(minishell->env);
-	if (minishell->options != NULL)
-		ft_free_table(minishell->options);
 	if (minishell->user_input != NULL)
 		free(minishell->user_input);
+	if (minishell->options != NULL)
+		ft_free_table(minishell->options);
+	if (minishell->head != NULL)
+		ms_freeList(minishell->head);
 	rl_clear_history();
 }

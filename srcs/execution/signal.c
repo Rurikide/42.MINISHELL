@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 12:38:55 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/17 15:58:50 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/18 17:27:59 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ctrl_c_prompt(int signal)
 	(void)signal;
 	rl_on_new_line();
 	rl_redisplay();
-	write(1, "  \n", 3);
+	write(STDERR_FILENO, "  \n", 3);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
@@ -42,7 +42,8 @@ void	ctrl_c_prompt(int signal)
 void	ctrl_c_heredoc(int signal)
 {
 	(void)signal;
-	write(1, "  \n", 3);
+	write(STDERR_FILENO, "  \n", 3);
+	get_minishell()->exit_nb = SIG_CTRL_C;
 	exit(SIG_CTRL_C);
 }
 
@@ -50,14 +51,16 @@ void	ctrl_d_exit(void)
 {
 	ft_putendl_fd("exit", STDOUT_FILENO);
 	free_minishell();
-	exit(get_minishell()->exit_nb);
+	get_minishell()->exit_nb = SUCCESS;
+	exit(SUCCESS);
 }
 
 // On BASH ctrl-D inside a heredoc does : > bash prompt
 void	ctrl_d_heredoc_exit(void)
 {
 	free_minishell();
-	exit(get_minishell()->exit_nb);
+	get_minishell()->exit_nb = SUCCESS;
+	exit(SUCCESS);
 }
 
 void	void_signal(int signal)

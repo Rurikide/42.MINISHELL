@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:40:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/17 16:17:48 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/18 18:27:29 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ void	execution_main(t_node *current)
 	if (current->next == NULL && is_a_builtin(options) == YES)
 	{
 		one_builtin_redirection(current, options);
-		if (options != NULL)
-			ft_free_table(options);
 	}
 	else if (current != NULL)
 	{
 		pipeline_fork(current, current->fd_i);
 	}
+	if (options != NULL)
+		ft_free_table(options);
 }
 
 void	one_builtin_redirection(t_node *current, char **options)
@@ -62,23 +62,36 @@ void	pipeline_fork(t_node *current, int read_fd)
 	int		wstatus;
 	pid_t	id;
 
+	//
+	while (current->type == 'e')
+		current = current->next;
+	//
 	if (pipe(pipe_end) == FAIL)
 		ft_putstr_fd("Error at pipe()\n", STDERR_FILENO);
+	printf("pipe zero = %d\n", pipe_end[0]);
+	printf("pipe unun = %d\n", pipe_end[1]);
 	id = fork();
 	if (id == FAIL)
 		ft_putstr_fd("Error at fork()\n", STDERR_FILENO);
+	mute_signals();
 	if (id == CHILD)
 	{
+		//set_signals();
 		pipeline_redirection(current, read_fd, pipe_end);
 		options = ft_split(current->value, ' ');
 		if (execution_builtins(options) == NO)
 			execution_access(get_minishell(), options);
+		//
+		ft_free_table(options);
+		//
 		exit(get_minishell()->exit_nb);
 	}
 	waitpid(id, &wstatus, 0);
+	set_signals();
+	set_exit_nb(wstatus);
 	close(pipe_end[1]);
-	if (WIFEXITED(wstatus))
-		get_minishell()->exit_nb = WEXITSTATUS(wstatus);
+	if (current->next == NULL)
+		close(pipe_end[0]);
 	current = current->next;
 	if (current != NULL)
 		return (pipeline_fork(current, pipe_end[0]));
@@ -92,7 +105,13 @@ void	pipeline_redirection(t_node *current, int read_fd, int *pipe_end)
 		close(current->fd_i);
 	}
 	else
-		dup2(read_fd, STDIN_FILENO);
+	{
+		if (read_fd != STDIN_FILENO)
+		{
+			dup2(read_fd, STDIN_FILENO);
+			close(read_fd);
+		}
+	}
 	if (current->fd_o != STDOUT_FILENO)
 	{
 		dup2(current->fd_o, STDOUT_FILENO);

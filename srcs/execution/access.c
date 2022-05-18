@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:42:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/17 15:28:25 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/18 18:25:12 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	execution_access(t_minishell *minishell, char **options)
 		ft_putstr_fd(": ", STDERR_FILENO);
 		ft_putstr_fd(msg_err, STDERR_FILENO);
 		ft_putstr_fd("\n", STDERR_FILENO);
+		ft_free_table(options);
 		minishell->exit_nb = 126;
 		exit(126);
 	}
@@ -38,7 +39,6 @@ void	execution_access(t_minishell *minishell, char **options)
 	}
 	search_binary_file(path_table, options, 0);
 }
-// ft_free_table(path_table);
 
 // returns the value of PATH; returns NULL if PATH is unset
 char	*get_path_value(t_minishell *minishell)
@@ -78,6 +78,7 @@ void	search_binary_file(char **path_table, char **options, int i)
 			ft_putstr_fd(*options, STDERR_FILENO);
 			ft_putstr_fd(msg_err, STDERR_FILENO);
 			get_minishell()->exit_nb = 126;
+			ft_free_table(options);
 			exit(126);
 		}
 		free(test_path);
@@ -86,6 +87,7 @@ void	search_binary_file(char **path_table, char **options, int i)
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(*options, STDERR_FILENO);
 	ft_putstr_fd(": command not found\n", STDERR_FILENO);
+	ft_free_table(options);
 	get_minishell()->exit_nb = 127;
 	exit(127);
 }
