@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:10:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/17 15:33:57 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 11:46:06 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(int argc, char **argv, char **env)
 			ms_parsing();
 			current = minishell->head;
 			execution_main(current);
-			ms_freeList(minishell->head);
+			ms_free_list(minishell->head);
 			minishell->head = NULL;
 		}
 	}

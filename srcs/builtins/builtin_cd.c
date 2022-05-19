@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 15:44:44 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/18 13:25:15 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 11:34:46 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	builtin_cd_homeless(void)
 
 void	builtin_cd_error(char *option)
 {
+	ft_putstr_fd(MINISHELL, STDERR_FILENO);
 	ft_putstr_fd(BUILT_CD, STDERR_FILENO);
 	ft_putstr_fd(option, STDERR_FILENO);
 	ft_putstr_fd(ERR_FILE, STDERR_FILENO);

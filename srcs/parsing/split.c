@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:24 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/17 15:49:14 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/18 17:16:07 by adubeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static char	**ft_malloc_error(char **tab)
 
 static unsigned int	ft_get_nb_strs(char const *s, char sym)
 {
-	int	i;
+	int				i;
 	unsigned int	nb_strs;
 
 	if (!s[0])
@@ -61,29 +61,31 @@ static unsigned int	ft_get_nb_strs(char const *s, char sym)
 	while (s[i])
 	{
 		if (s[i] == '"')
-			while (s[i])
+		{
+			while (s[i++])
 			{
-				i++;
 				if (s[i] == '"')
-					break;
+					break ;
 				else if (i == ft_strlen(s))
 				{
-					printf("Errorm missing \"");
-					return 0;
+					printf("Error missing \"\n");
+					return (0);
 				}
 			}
+		}
 		if (s[i] == '\'')
-        	while (s[i])
-            {
-            	i++;
-                if (s[i] == '\'')
-                	break;
+		{
+			while (s[i++])
+			{
+				if (s[i] == '\'')
+					break ;
 				else if (i == ft_strlen(s))
 				{
-					printf("Errorm missing \'");
-					return 0;
+					printf("Error missing \'\n");
+					return (0);
 				}
-            }
+			}
+		}
 		if (s[i] == sym)
 			nb_strs++;
 		i++;
@@ -99,7 +101,7 @@ static void	ft_get_next_str(char **next_str, unsigned int *next_str_len,
 	*next_str += *next_str_len;
 	*next_str_len = 0;
 	i = 0;
-	while ((*next_str)[i] == sym)// || (*next_str)[i] == ' ')
+	while ((*next_str)[i] == sym)
 		(*next_str)++;
 	while ((*next_str)[i])
 	{
@@ -112,7 +114,7 @@ static void	ft_get_next_str(char **next_str, unsigned int *next_str_len,
 				(*next_str_len)++;
 				i++;
 				if ((*next_str)[i] == '"')
-					break;
+					break ;
 			}
 		}
 		if ((*next_str)[i] == '\'')
@@ -122,7 +124,7 @@ static void	ft_get_next_str(char **next_str, unsigned int *next_str_len,
 				(*next_str_len)++;
 				i++;
 				if ((*next_str)[i] == '\'')
-					break;
+					break ;
 			}
 		}
 		(*next_str_len)++;
@@ -130,65 +132,18 @@ static void	ft_get_next_str(char **next_str, unsigned int *next_str_len,
 	}
 }
 
-int	ft_is_present(char c, char *sym)
-{
-	int i;
-
-	i = 0;
-	while (sym[i])
-	{
-		if (sym[i] == c)
-			return i;
-		i++;
-	}
-	return 0;
-}
-
-/*char check_qm (char *str, int i, int s, int d)
-{
-	while (str[++i])
-	{
-		if (str[i] == '\'')
-		{
-			s *= -1;
-			//i++;
-			while (str[i] && str[i + 1] != '\'')
-				i++;
-		}
-		else if (str[i] == '"')
-		{
-			d *= -1;
-			//i++;
-			while (str[i] && str[i + 1] != '"')
-				i++;
-		}
-	}
-	if (s < 0) {
-		printf("s < 0\n");
-		return ('\'');
-	}
-	else if (d < 0) {
-		printf("d < 0\n");
-		return ('"');
-	}
-	else {
-		printf("0\n");
-		return (0);
-	}
-}*/
-
 char	**ms_split(char const *s, char sym)
 {
 	char			**tab;
 	char			*next_str;
 	unsigned int	next_str_len;
 	unsigned int	nb_strs;
-	unsigned int	i = 0;
-	//printf("s = '%s', strlen = %i\n", s, ft_strlen(s));
+	unsigned int	i;
+
+	i = 0;
 	if (ft_strlen(s) == 0)
-		return (char **)s;
+		return ((char **)s);
 	nb_strs = ft_get_nb_strs(s, sym);
-//	printf("nb_str = %d\n", nb_strs);
 	tab = (char **)malloc(sizeof(char *) * (nb_strs + 1));
 	if (!tab || !s)
 		return (NULL);
@@ -199,7 +154,6 @@ char	**ms_split(char const *s, char sym)
 	{
 		ft_get_next_str(&next_str, &next_str_len, sym);
 		tab[i] = (char *)malloc(sizeof(char) * (next_str_len + 1));
-//		printf("split nextstrlen = %d\n", next_str_len);
 		if (!tab[i])
 			return (ft_malloc_error(tab));
 		ft_strlcpy(tab[i], next_str, next_str_len + 1);

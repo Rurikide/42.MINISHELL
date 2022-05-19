@@ -6,43 +6,40 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:50:49 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/17 13:17:37 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 11:52:23 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "builtins.h"
 
 #ifndef PARSING_H
 # define PARSING_H
 
-struct node
+typedef struct s_node 
 {
-	char	*value;
-	char 	*eof;
-	char	type;
-	int		fd_i;
-	int		fd_o;
-	pid_t 	id;
-	struct  node *next;
-	struct	node *prev;
-};
+	char		*value;
+	char		*eof;
+	char		type;
+	int			fd_i;
+	int			fd_o;
+	pid_t		id;
+	int			pipe_end[2];
+	struct s_node	*next;
+	struct s_node	*prev;
+}t_node;
 
-typedef struct node t_node;
-
-void ms_freeList(struct node* head);
-int ms_sanitize(char *input);
-char check_qm (char *str, int i, int s, int d);
-int		get_fdI(t_node *current, int i, int j);
-int		get_fdO(t_node *current, char *value, int i, int j, int fd);
-char 	*get_var(char *str, int quote, int i);
-t_node	*add_at_head(t_node **head, t_node *new);
-void	*add_at_end(t_node **head, t_node *new);
-char	get_type(char *str, char *sym);
-t_node	*new_node(char *str, char *sym);
-void	printlist(t_node *head);
-void	ft_to_do(t_node *head, char *sym);
-int ms_parsing();
-int	ft_is_present(char c, char *sym);
-char	**ms_split(char const *s, char sym);
+void		ms_free_list(t_node *head);
+int			ms_sanitize(char *input);
+char		check_qm(char *str, int i, int s, int d);
+int			get_fd_i(t_node *current, char *value, int i, int j, int fd);
+int			get_fd_o(t_node *current, char *value, int i, int j, int fd);
+char		*get_var(char *str, int quote, int i);
+t_node		*add_at_head(t_node **head, t_node *new);
+void		*add_at_end(t_node **head, t_node *new);
+char		get_type(char *str);
+t_node		*new_node(char *str);
+void		printlist(t_node *head);
+int			ms_parsing(void);
+int			ft_is_present(char c, char *sym);
+char		**ms_split(char const *s, char sym);
 
 #endif

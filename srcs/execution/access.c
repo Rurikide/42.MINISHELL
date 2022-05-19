@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:42:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/18 18:25:12 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 11:33:35 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	search_binary_file(char **path_table, char **options, int i)
 			ft_putstr_fd("minishell: ", STDERR_FILENO);
 			ft_putstr_fd(*options, STDERR_FILENO);
 			ft_putstr_fd(msg_err, STDERR_FILENO);
-			get_minishell()->exit_nb = 126;
 			ft_free_table(options);
 			exit(126);
 		}
@@ -88,6 +87,5 @@ void	search_binary_file(char **path_table, char **options, int i)
 	ft_putstr_fd(*options, STDERR_FILENO);
 	ft_putstr_fd(": command not found\n", STDERR_FILENO);
 	ft_free_table(options);
-	get_minishell()->exit_nb = 127;
 	exit(127);
 }

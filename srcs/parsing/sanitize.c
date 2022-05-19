@@ -6,16 +6,30 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 11:19:38 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/10 16:47:53 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/18 17:18:33 by adubeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int ms_check_pipes(char *input, int i)
+int	ft_is_present(char c, char *sym)
 {
-	int j;
-	int r;
+	int	i;
+
+	i = 0;
+	while (sym[i])
+	{
+		if (sym[i] == c)
+			return (i);
+		i++;
+	}
+	return (0);
+}
+
+int	ms_check_pipes(char *input, int i)
+{
+	int	j;
+	int	r;
 
 	j = i;
 	r = 0;
@@ -24,7 +38,7 @@ int ms_check_pipes(char *input, int i)
 		if (ft_isalnum(input[j]))
 		{
 			r += 1;
-			break;
+			break ;
 		}
 	}
 	while (input[i++])
@@ -32,24 +46,22 @@ int ms_check_pipes(char *input, int i)
 		if (ft_isalnum(input[i]))
 		{
 			r += 1;
-			break;
+			break ;
 		}
 	}
 	if (r < 2)
-		printf("syntax error near unexpected token `|'\n");
-	//printf("r = %d\n", r);
+		printf("minishell: syntax error near unexpected token `|'\n");
 	return (r);
 }
 
-int ms_sanitize(char *input)
+int	ms_sanitize(char *input)
 {
 	int	i;
-	int r;
+	int	r;
 
 	i = 0;
 	r = 0;
-
-	while(input[i])
+	while (input[i])
 	{
 		if (input[i] == '|')
 		{

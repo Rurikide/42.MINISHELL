@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:40:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/18 18:27:29 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 11:31:50 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,28 +62,23 @@ void	pipeline_fork(t_node *current, int read_fd)
 	int		wstatus;
 	pid_t	id;
 
-	//
+
 	while (current->type == 'e')
 		current = current->next;
-	//
 	if (pipe(pipe_end) == FAIL)
 		ft_putstr_fd("Error at pipe()\n", STDERR_FILENO);
-	printf("pipe zero = %d\n", pipe_end[0]);
-	printf("pipe unun = %d\n", pipe_end[1]);
 	id = fork();
 	if (id == FAIL)
 		ft_putstr_fd("Error at fork()\n", STDERR_FILENO);
 	mute_signals();
 	if (id == CHILD)
 	{
-		//set_signals();
 		pipeline_redirection(current, read_fd, pipe_end);
 		options = ft_split(current->value, ' ');
 		if (execution_builtins(options) == NO)
 			execution_access(get_minishell(), options);
-		//
 		ft_free_table(options);
-		//
+
 		exit(get_minishell()->exit_nb);
 	}
 	waitpid(id, &wstatus, 0);
