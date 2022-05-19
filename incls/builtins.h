@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 14:45:45 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/18 16:07:12 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 12:16:18 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ void		execution_main(t_node *current);
 int			is_a_builtin(char **options);
 void		one_builtin_redirection(t_node *current, char **options);
 void		pipeline_fork(t_node *current, int read_fd);
+void		pipeline_child_process(t_node *current, int read_fd, int *pipe_end);
 void		pipeline_redirection(t_node *current, int read_fd, int *pipe_end);
 void		execution_access(t_minishell *minishell, char **options);
 void		search_binary_file(char **path_table, char **options, int i);

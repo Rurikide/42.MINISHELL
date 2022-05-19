@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 12:38:55 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/18 17:27:59 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 15:11:15 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,14 @@ void	ctrl_d_exit(void)
 {
 	ft_putendl_fd("exit", STDOUT_FILENO);
 	free_minishell();
-	get_minishell()->exit_nb = SUCCESS;
-	exit(SUCCESS);
+	exit(get_minishell()->exit_nb);
 }
 
 // On BASH ctrl-D inside a heredoc does : > bash prompt
 void	ctrl_d_heredoc_exit(void)
 {
 	free_minishell();
-	get_minishell()->exit_nb = SUCCESS;
-	exit(SUCCESS);
+	exit(get_minishell()->exit_nb);
 }
 
 void	void_signal(int signal)

@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:10:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/19 11:46:06 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 12:17:16 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,13 @@ int	main(int argc, char **argv, char **env)
 		if (minishell->user_input[0] != '\0')
 		{
 			add_history(minishell->user_input);
-			ms_parsing();
-			current = minishell->head;
-			execution_main(current);
-			ms_free_list(minishell->head);
-			minishell->head = NULL;
+			if (ms_parsing())
+			{
+				current = minishell->head;
+				execution_main(current);
+				ms_free_list(minishell->head);
+				minishell->head = NULL;
+			}
 		}
 	}
 	return (0);

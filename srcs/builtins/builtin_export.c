@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 17:15:15 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/17 15:19:16 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 14:46:39 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int	evaluate_export_type(char *option)
 
 void	builtin_export_invalid_key(char **options, int i)
 {
+	ft_putstr_fd(MINISHELL, STDOUT_FILENO);
 	ft_putstr_fd("export: `", STDOUT_FILENO);
 	ft_putstr_fd(options[i], STDOUT_FILENO);
 	ft_putstr_fd("': not a valid identifier\n", STDOUT_FILENO);

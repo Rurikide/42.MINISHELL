@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 16:23:19 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/17 15:29:40 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 14:41:34 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,4 @@ void	init_env(char **env)
 	minishell->env[nb] = NULL;
 	init_shlvl();
 }
-	// IMPORTANT METTRE NULL avant la fonction init_shlvl
+// IMPORTANT METTRE NULL avant la fonction init_shlvl

@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:40:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/19 11:31:50 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 15:24:52 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,9 @@ void	one_builtin_redirection(t_node *current, char **options)
 
 void	pipeline_fork(t_node *current, int read_fd)
 {
-	char	**options;
 	int		pipe_end[2];
 	int		wstatus;
 	pid_t	id;
-
 
 	while (current->type == 'e')
 		current = current->next;
@@ -72,15 +70,7 @@ void	pipeline_fork(t_node *current, int read_fd)
 		ft_putstr_fd("Error at fork()\n", STDERR_FILENO);
 	mute_signals();
 	if (id == CHILD)
-	{
-		pipeline_redirection(current, read_fd, pipe_end);
-		options = ft_split(current->value, ' ');
-		if (execution_builtins(options) == NO)
-			execution_access(get_minishell(), options);
-		ft_free_table(options);
-
-		exit(get_minishell()->exit_nb);
-	}
+		pipeline_child_process(current, read_fd, pipe_end);
 	waitpid(id, &wstatus, 0);
 	set_signals();
 	set_exit_nb(wstatus);
@@ -90,6 +80,18 @@ void	pipeline_fork(t_node *current, int read_fd)
 	current = current->next;
 	if (current != NULL)
 		return (pipeline_fork(current, pipe_end[0]));
+}
+
+void	pipeline_child_process(t_node *current, int read_fd, int *pipe_end)
+{
+	char	**options;
+
+	pipeline_redirection(current, read_fd, pipe_end);
+	options = ft_split(current->value, ' ');
+	if (execution_builtins(options) == NO)
+		execution_access(get_minishell(), options);
+	ft_free_table(options);
+	exit(get_minishell()->exit_nb);
 }
 
 void	pipeline_redirection(t_node *current, int read_fd, int *pipe_end)
