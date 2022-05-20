@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:10:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/20 11:27:46 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/20 11:47:32 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,14 @@ int	main(int argc, char **argv, char **env)
 {
 	t_minishell	*minishell;
 
-	(void)argc;
-	(void)argv;
+	if (argc > 1)
+	{
+		printf("minishell: %s: No such file or directory\n", argv[1]);
+		minishell = get_minishell();
+		minishell->exit_nb = ERROR_127;
+		free_minishell();
+		return (minishell->exit_nb);
+	}
 	init_env(env);
 	minishell = get_minishell();
 	set_signals();
@@ -47,5 +53,6 @@ int	main(int argc, char **argv, char **env)
 	{
 		minishell_loop(minishell);
 	}
-	return (0);
+	free_minishell();
+	return (minishell->exit_nb);
 }

@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 17:04:23 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/20 11:20:53 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/20 11:30:59 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ void	heredoc_execution(t_node *current, int *pipe_end)
 	{
 		heredoc_input = readline("> ");
 		if (heredoc_input == CTRL_D)
+		{
+			free(heredoc_input);
 			ctrl_d_heredoc_exit();
+		}
 		if (ft_is_matching_strings(heredoc_input, current->eof) == SUCCESS)
 		{
 			close(pipe_end[1]);
