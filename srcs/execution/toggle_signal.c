@@ -6,11 +6,11 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:22:46 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/18 16:07:27 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 22:32:58 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "minishell.h"
 
 void	mute_signals(void)
 {

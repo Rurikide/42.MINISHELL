@@ -6,12 +6,11 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/19 16:07:20 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 22:33:33 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
-#include <string.h>
+#include "minishell.h"
 
 static char	*ms_expand(char *str, int i)
 {

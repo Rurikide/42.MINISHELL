@@ -6,33 +6,33 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/19 20:41:16 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 22:45:08 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
-#include <string.h>
+#include "minishell.h"
 
 char	*ms_strip(char *str, int i, int j)
 {
 	char	*tmp;
+	int		s;
+	int		d;
 
+	s = 1;
+	d = 1;
+	printf("ms_str:%s\n", str);
 	tmp = ft_calloc(ft_strlen(str), sizeof(char));
-	if (!str)
-		return (NULL);
-	if (!(ft_isprint(str[i])))
-		i++;
 	while (str[i])
 	{
-		if (str[i] == '\'')
+		if (str[i] == '\'' && d > 0)
 		{
-			while (str[++i] && str[i] != '\'')
-				tmp[j++] = str[i];
+			i++;
+			s *= -1;
 		}
-		else if (str[i] == '"')
+		else if (str[i] == '\"' && s > 0)
 		{
-			while (str[++i] && str[i] != '"')
-				tmp[j++] = str[i];
+			i++;
+			d *= -1;
 		}
 		else
 			tmp[j++] = str[i++];
@@ -54,8 +54,8 @@ t_node	*new_node(char *str)
 			new->value = ft_strdup(str);
 		new->eof = NULL;
 		new->type = get_type(str);
-		new->fd_i = get_fd_i(new,  0, 0, 0);
-		new->fd_o = get_fd_o(new,  -1, 0, 1);
+		new->fd_i = get_fd_i(new, 0, 0, 0);
+		new->fd_o = get_fd_o(new, -1, 0, 1);
 		new->id = -1;
 		new->next = NULL;
 		new->prev = NULL;

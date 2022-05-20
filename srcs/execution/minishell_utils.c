@@ -6,11 +6,11 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:01:06 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/19 11:49:49 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 22:32:49 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "minishell.h"
 
 t_minishell	*get_minishell(void)
 {

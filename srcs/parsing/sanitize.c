@@ -6,11 +6,32 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 11:19:38 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/18 17:18:33 by adubeau          ###   ########.fr       */
+/*   Updated: 2022/05/19 22:37:04 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "minishell.h"
+
+size_t	ft_strlcpy(char *dest, const char *src, size_t n)
+{
+	unsigned int	i;
+
+	i = 0;
+	if (!dest || !src)
+		return (0);
+	if (n > 0)
+	{
+		while (--n && src[i])
+		{
+			dest[i] = src[i];
+			i++;
+		}
+		dest[i] = '\0';
+	}
+	while (src[i])
+		i++;
+	return (i);
+}
 
 int	ft_is_present(char c, char *sym)
 {

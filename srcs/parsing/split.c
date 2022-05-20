@@ -6,34 +6,13 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:24 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/18 17:16:07 by adubeau          ###   ########.fr       */
+/*   Updated: 2022/05/19 22:37:38 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "minishell.h"
 
 int	ft_is_present(char c, char *sym);
-
-size_t	ft_strlcpy(char *dest, const char *src, size_t n)
-{
-	unsigned int	i;
-
-	i = 0;
-	if (!dest || !src)
-		return (0);
-	if (n > 0)
-	{	
-		while (--n && src[i])
-		{
-			dest[i] = src[i];
-			i++;
-		}
-		dest[i] = '\0';
-	}
-	while (src[i])
-		i++;
-	return (i);
-}
 
 static char	**ft_malloc_error(char **tab)
 {
@@ -49,58 +28,52 @@ static char	**ft_malloc_error(char **tab)
 	return (NULL);
 }
 
-static unsigned int	ft_get_nb_strs(char const *s, char sym)
+static unsigned int	ft_get_nb_strs(char const *s, char sym, int i, \
+								unsigned int nb_strs)
 {
-	int				i;
-	unsigned int	nb_strs;
+	char	q;
 
 	if (!s[0])
 		return (0);
-	i = 0;
-	nb_strs = 1;
-	while (s[i])
+	while (s[++i])
 	{
-		if (s[i] == '"')
+		if (s[i] == '"' || s[i] == '\'')
 		{
+			q = s[i];
 			while (s[i++])
 			{
-				if (s[i] == '"')
+				if (s[i] == q)
 					break ;
 				else if (i == ft_strlen(s))
 				{
-					printf("Error missing \"\n");
-					return (0);
-				}
-			}
-		}
-		if (s[i] == '\'')
-		{
-			while (s[i++])
-			{
-				if (s[i] == '\'')
-					break ;
-				else if (i == ft_strlen(s))
-				{
-					printf("Error missing \'\n");
+					printf("Error missing %c\n", q);
 					return (0);
 				}
 			}
 		}
 		if (s[i] == sym)
 			nb_strs++;
-		i++;
 	}
 	return (nb_strs);
 }
 
-static void	ft_get_next_str(char **next_str, unsigned int *next_str_len,
-					char sym)
+static void	ft_get_next_quote(char **next_str, unsigned int *next_str_len, \
+								char c, unsigned int *i)
 {
-	unsigned int	i;
+	while ((*next_str)[*i])
+	{
+		(*next_str_len)++;
+		(*i)++;
+		if ((*next_str)[*i] == c)
+			return ;
+	}
+}
 
+static void	ft_get_next_str(char **next_str, unsigned int *next_str_len, \
+							char sym, unsigned int i)
+{
 	*next_str += *next_str_len;
 	*next_str_len = 0;
-	i = 0;
 	while ((*next_str)[i] == sym)
 		(*next_str)++;
 	while ((*next_str)[i])
@@ -108,51 +81,32 @@ static void	ft_get_next_str(char **next_str, unsigned int *next_str_len,
 		if ((*next_str)[i] == sym)
 			return ;
 		if ((*next_str)[i] == '"')
-		{
-			while ((*next_str)[i])
-			{
-				(*next_str_len)++;
-				i++;
-				if ((*next_str)[i] == '"')
-					break ;
-			}
-		}
+			ft_get_next_quote(next_str, next_str_len, '"', &i);
 		if ((*next_str)[i] == '\'')
-		{
-			while ((*next_str)[i])
-			{
-				(*next_str_len)++;
-				i++;
-				if ((*next_str)[i] == '\'')
-					break ;
-			}
-		}
+			ft_get_next_quote(next_str, next_str_len, '\'', &i);
 		(*next_str_len)++;
 		i++;
 	}
 }
 
-char	**ms_split(char const *s, char sym)
+char	**ms_split(char const *s, char sym, unsigned int i, \
+		unsigned int next_str_len)
 {
 	char			**tab;
 	char			*next_str;
-	unsigned int	next_str_len;
 	unsigned int	nb_strs;
-	unsigned int	i;
 
 	i = 0;
 	if (ft_strlen(s) == 0)
 		return ((char **)s);
-	nb_strs = ft_get_nb_strs(s, sym);
+	nb_strs = ft_get_nb_strs(s, sym, -1, 1);
 	tab = (char **)malloc(sizeof(char *) * (nb_strs + 1));
 	if (!tab || !s)
 		return (NULL);
-	i = 0;
 	next_str = (char *)s;
-	next_str_len = 0;
 	while (i < nb_strs)
 	{
-		ft_get_next_str(&next_str, &next_str_len, sym);
+		ft_get_next_str(&next_str, &next_str_len, sym, 0);
 		tab[i] = (char *)malloc(sizeof(char) * (next_str_len + 1));
 		if (!tab[i])
 			return (ft_malloc_error(tab));

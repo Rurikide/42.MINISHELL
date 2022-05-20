@@ -6,11 +6,11 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 13:23:57 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/18 13:31:03 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 22:32:12 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "minishell.h"
 
 int	is_a_builtin(char **options)
 {

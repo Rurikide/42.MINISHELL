@@ -6,11 +6,11 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 15:44:44 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/19 11:34:46 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 22:31:17 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "minishell.h"
 
 // Absolute path starts with '/' meaning at the root
 // chdir(char *path) returns 0 on SUCCESS, -1 on FAIL

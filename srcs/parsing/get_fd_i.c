@@ -6,12 +6,11 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 20:15:52 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/19 20:17:26 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 22:33:24 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
-#include <string.h>
+#include "minishell.h"
 
 void	heredoc_main(t_node *current, char *file, int fd)
 {
