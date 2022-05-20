@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 12:38:55 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/19 15:11:15 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 18:42:47 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ctrl_c_prompt(int signal)
 void	ctrl_c_heredoc(int signal)
 {
 	(void)signal;
-	write(STDERR_FILENO, "  \n", 3);
+	write(STDOUT_FILENO, "  \n", 3);
 	get_minishell()->exit_nb = SIG_CTRL_C;
 	exit(SIG_CTRL_C);
 }

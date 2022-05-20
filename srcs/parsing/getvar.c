@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/19 11:48:39 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 16:07:20 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,12 @@ static char	*ms_expand(char *str, int i)
 	if (var == NULL)
 		res = ft_strjoin(tmp, &str[i + j]);
 	else
-		res = ft_strjoin(ft_strjoin(tmp, var), &str[i + j]);
-	free(tmp);
+	{
+		res = ft_strjoin(tmp, var);
+		free(var);
+		free(tmp);
+		res = ft_strjoin(res, &str[i + j]);
+	}
 	return (res);
 }
 

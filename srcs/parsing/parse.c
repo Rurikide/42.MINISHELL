@@ -6,24 +6,41 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/19 11:52:46 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 16:31:02 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include <string.h>
 
-void	ms_free_list(t_node *head)
-{
-	t_node	*tmp;
+// void	ms_free_list(t_node *head)
+// {
+// 	t_node	*tmp;
 
-	while (head != NULL)
-	{
-		tmp = head;
-		free(tmp->value);
-		head = head->next;
-		free(tmp);
-	}
+// 	while (head != NULL)
+// 	{
+// 		tmp = head;
+// 		free(tmp->value);
+// 		head = head->next;
+// 		free(tmp);
+// 	}
+// }
+
+void    ms_free_list(t_node *head)
+{
+    t_node *tmp;
+
+    while (head != NULL)
+    {
+        tmp = head->next;
+        if (head->value != NULL)
+            free(head->value);
+        if (head->eof != NULL)
+            free(head->eof);
+        if (head != NULL)
+            free(head);
+        head = tmp;
+    }
 }
 
 char	get_type(char *str)
@@ -67,7 +84,10 @@ int	ms_parsing(void)
 		arg = ms_split(get_var(minishell->user_input, 1, -1), '|');
 		minishell->head = new_node(arg[0]);
 		if (ft_strlen(arg[0]) == 0)
+		{
+			ft_free_table(arg);
 			return (0);
+		}
 		i = 1;
 		while (arg[i] != NULL)
 		{
@@ -75,11 +95,14 @@ int	ms_parsing(void)
 			add_at_end(&minishell->head, list);
 			i++;
 		}
+		ft_free_table(arg);
 		tmp = minishell->head;
-		while (tmp != NULL)
-		{
-			//printf("value:%s,type:%c,fdi:%d,fdo:%d\n", tmp->value, tmp->type, tmp->fd_i, tmp->fd_o);
+		while (tmp->next)
 			tmp = tmp->next;
+		if (tmp->type == 'e')
+		{
+			ms_free_list(minishell->head);
+			return (0);
 		}
 		return (1);
 	}

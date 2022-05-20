@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/18 17:02:31 by adubeau          ###   ########.fr       */
+/*   Updated: 2022/05/19 20:41:16 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ t_node	*new_node(char *str)
 	if (str != NULL)
 	{
 		if (ft_is_present('\'', str) || ft_is_present('\"', str))
-			new->value = ms_strip(str, 0, 0);
+			new->value = ft_strdup(ms_strip(str, 0, 0));
 		else
-			new->value = str;
+			new->value = ft_strdup(str);
 		new->eof = NULL;
 		new->type = get_type(str);
-		new->fd_i = get_fd_i(new, new->value, 0, 0, 0);
-		new->fd_o = get_fd_o(new, new->value, 0, 0, 1);
+		new->fd_i = get_fd_i(new,  0, 0, 0);
+		new->fd_o = get_fd_o(new,  -1, 0, 1);
 		new->id = -1;
 		new->next = NULL;
 		new->prev = NULL;
