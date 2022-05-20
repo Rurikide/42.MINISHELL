@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 12:38:55 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/19 22:32:54 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/20 14:49:29 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	ctrl_d_exit(void)
 void	ctrl_d_heredoc_exit(void)
 {
 	free_minishell();
+	//rl_clear_history();
 	exit(get_minishell()->exit_nb);
 }
 
