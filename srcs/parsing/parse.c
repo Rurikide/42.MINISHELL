@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/19 23:03:11 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/20 11:17:50 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,12 @@ char	get_type(char *str)
 //<sdfgdsfg <sdfgdsfgdfg
 //malloc error
 
-int	ms_parsing(int i)
+int	ms_parsing(t_minishell *minishell, int i)
 {
-	t_minishell	*minishell;
 	t_node		*list;
 	t_node		*tmp;
 	char		**arg;
 
-	minishell = get_minishell();
 	if (minishell->user_input[0] != '\0' && ms_sanitize(minishell->user_input))
 	{
 		arg = ms_split(get_var(minishell->user_input, 1, -1), '|', 0, 0);
