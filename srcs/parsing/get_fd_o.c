@@ -6,12 +6,11 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 20:16:49 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/19 22:33:29 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 22:59:16 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	dual_increments(int *i, int *j)
 {

@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 14:45:45 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/19 22:30:56 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 22:57:49 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ t_minishell	*get_minishell(void);
 t_answer	ft_is_option(char valid, char *list);
 t_answer	ft_is_a_match(char *keyword, char *input);
 t_answer	is_only_key_identifier(char *option);
+void		minishell_loop(t_minishell *minishell);
 void		init_env(char **env);
 void		init_shlvl(void);
 void		free_minishell(void);

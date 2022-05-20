@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/19 22:45:08 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 23:07:44 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ char	*ms_strip(char *str, int i, int j)
 
 	s = 1;
 	d = 1;
-	printf("ms_str:%s\n", str);
 	tmp = ft_calloc(ft_strlen(str), sizeof(char));
 	while (str[i])
 	{

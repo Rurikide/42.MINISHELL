@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 17:04:23 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/19 22:32:38 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 23:04:02 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,10 @@ void	heredoc_preparation(t_node *current)
 	pid_t	id;
 	int		pipe_end[2];
 	int		wstatus;
-	// int		bu_in_fd;
-	// int		but_out_fd;
 
 	mute_signals();
 	if (pipe(pipe_end) == FAIL)
 		ft_putendl_fd("Error at heredoc pipe", STDERR_FILENO);
-	printf("pipe_end[0] == %d\n", pipe_end[0]);
-	printf("pipe_end[1] == %d\n", pipe_end[1]);
 	id = fork();
 	if (id == FAIL)
 		ft_putendl_fd("Error at heredoc fork", STDERR_FILENO);
@@ -36,19 +32,11 @@ void	heredoc_preparation(t_node *current)
 	set_signals();
 	if (WIFEXITED(wstatus))
 		get_minishell()->exit_nb = WEXITSTATUS(wstatus);
-	//
-	printf("pipe_end[0] == %d\n", pipe_end[0]);
-	printf("pipe_end[1] == %d\n", pipe_end[1]);
-	printf("current fd_i = %d\n", current->fd_i);
-	
 	dup2(pipe_end[0], current->fd_i);
-	
 	if (pipe_end[0] != STDIN_FILENO)
 		close(pipe_end[0]);
 	if (pipe_end[0] != STDOUT_FILENO)
 		close(pipe_end[1]);
-	printf("current fd_i = %d\n", current->fd_i);
-	//
 	if (WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIG_CTRL_C)
 		get_minishell()->exit_nb = ERROR_1;
 }

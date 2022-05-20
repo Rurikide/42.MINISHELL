@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/19 22:39:10 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/19 23:03:11 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,14 @@ void	ms_free_list(t_node *head)
 
 	while (head != NULL)
 	{
-		tmp = head;
-		free(tmp->value);
-		head = head->next;
-		free(tmp);
+		tmp = head->next;
+		if (head->value != NULL)
+			free(head->value);
+		if (head->eof != NULL)
+			free(head->eof);
+		if (head != NULL)
+			free(head);
+		head = tmp;
 	}
 }
 
