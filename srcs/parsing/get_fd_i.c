@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 20:15:52 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/19 22:33:24 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/20 12:09:06 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	heredoc_main(t_node *current, char *file, int fd)
 	current->eof = ft_strdup(file);
 	heredoc_preparation(current);
 	dup2(current->fd_i, fd);
-	free(current->eof);
 }
 
 void	error_open_file(t_node *current, char *file)
