@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:10:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/21 17:08:03 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/21 17:56:33 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ void	minishell_loop(t_minishell *minishell)
 	if (minishell->user_input[0] != '\0')
 	{
 		add_history(minishell->user_input);
-		if (ms_parsing(minishell, 1))
+		if (ms_parsing(minishell, 1) == 1)
 		{
 			current = minishell->head;
 			execution_main(current);
-			ms_free_list(minishell->head);
-			minishell->head = NULL;
 		}
+		ms_free_list(minishell->head);
+		minishell->head = NULL;
 	}
 }
 

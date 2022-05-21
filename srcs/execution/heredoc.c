@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 17:04:23 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/21 17:12:18 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/21 18:19:46 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,40 +25,47 @@ void	heredoc_preparation(t_node *current)
 	if (id == FAIL)
 		ft_putendl_fd("Error at heredoc fork", STDERR_FILENO);
 	if (id == CHILD)
-	{
 		heredoc_execution(current, pipe_end);
-	}
 	waitpid(id, &wstatus, 0);
-	if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == SIG_CTRL_C)
-	{
-		get_minishell()->exit_nb = ERROR_1;
-		get_minishell()->is_heredoc = YES;
-	}
-	else if (WIFEXITED(wstatus))
-	{
-		get_minishell()->exit_nb = WEXITSTATUS(wstatus);
-		get_minishell()->is_heredoc = YES;
-	}
+	heredoc_after_execution(current, wstatus);
 	dup2(pipe_end[0], current->fd_i);
 	close(pipe_end[0]);
 	close(pipe_end[1]);
 }
 
-void	heredoc_execution(t_node *current, int *pipe_end)
+void	heredoc_after_execution(t_node *current, int wstatus)
 {
 	t_minishell	*minishell;
-	char		*heredoc_input;
 
 	minishell = get_minishell();
-	minishell->exit_nb = SUCCESS;
+	if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == SIG_CTRL_C)
+	{
+		current->flag = YES;
+		current->type = 'e';
+		minishell->exit_nb = ERROR_1;
+		minishell->is_heredoc = YES;
+	}
+	else if (WIFEXITED(wstatus))
+	{
+		minishell->exit_nb = WEXITSTATUS(wstatus);
+		minishell->is_heredoc = YES;
+	}
+}
+
+void	heredoc_execution(t_node *current, int *pipe_end)
+{
+	char		*heredoc_input;
+
 	signal(SIGINT, &ctrl_c_heredoc);
 	while (true)
 	{
 		heredoc_input = readline("> ");
 		if (heredoc_input == CTRL_D)
 		{
+			close(pipe_end[0]);
+			close(pipe_end[1]);
+			free(heredoc_input);
 			ctrl_d_heredoc_exit();
-			break ;
 		}
 		if (ft_is_matching_strings(heredoc_input, current->eof) == SUCCESS)
 			break ;
@@ -68,7 +75,7 @@ void	heredoc_execution(t_node *current, int *pipe_end)
 	close(pipe_end[0]);
 	close(pipe_end[1]);
 	free(heredoc_input);
-	exit(minishell->exit_nb);
+	exit(SUCCESS);
 }
 
 int	ft_is_matching_strings(char *s1, char *s2)

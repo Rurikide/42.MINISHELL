@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 20:15:52 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/21 14:57:55 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/21 18:58:43 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,22 @@
 
 void	heredoc_main(t_node *current, char *file)
 {
+	current->type = 'h';
 	current->eof = ft_strdup(file);
 	current->fd_i = dup(STDIN_FILENO);
 	heredoc_preparation(current);
 }
 
-void	error_open_file(t_node *current, char *file)
+int	try_open_file(t_node *current, char *file, int fd)
 {
-	current->type = 'e';
-	printf("minishell: %s: No such file or directory\n", file);
-	free(file);
+	fd = open(file, O_RDONLY);
+	if (fd == FAIL)
+	{
+		current->type = 'e';
+		printf("minishell: %s: No such file or directory\n", file);
+		free(file);
+	}
+	return (fd);
 }
 
 char	*get_fd_i_value(char *value, int *i, int *j, int k)
@@ -61,18 +67,11 @@ int	get_fd_i(t_node *current, int i, int j, int fd)
 			get_fd_left_redirection(current, &i, &j);
 			file = ft_substr(current->value, i - j, j);
 			if (current->value[k] == '<' && current->value[k + 1] == '<')
-			{
 				heredoc_main(current, file);
-				current->type = 'h';
-			}
 			else
-			{
-				fd = open(file, O_RDONLY);
-				if (fd == FAIL)
-					error_open_file(current, file);
-				if (fd == FAIL)
-					break ;
-			}
+				fd = try_open_file(current, file, fd);
+			if (fd == FAIL)
+				break ;
 			current->value = get_fd_i_value(current->value, &i, &j, k);
 		}
 		i++;

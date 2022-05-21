@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 14:45:45 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/21 16:07:59 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/21 18:52:32 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_node
 	char			type;
 	int				fd_i;
 	int				fd_o;
+	int				flag;
 	pid_t			id;
 	struct s_node	*prev;
 	struct s_node	*next;
@@ -128,6 +129,7 @@ void		mute_signals(void);
 void		void_signal(int signal);
 void		heredoc_preparation(t_node *current);
 void		heredoc_execution(t_node *current, int *pipe_end);
+void		heredoc_after_execution(t_node *current, int wstatus);
 void		here_document(t_node *current, int *pipe_end, char *safeword);
 int			execution_builtins(char **options);
 void		execution_main(t_node *current);
@@ -144,6 +146,7 @@ void		set_exit_nb(int wstatus);
 
 t_node		*new_node(char *str);
 int			ms_parsing(t_minishell *minishell, int i);
+void		ms_arg_to_node(t_minishell *minishell, char **arg, int i);
 void		*add_at_end(t_node **head, t_node *new);
 int			ms_sanitize(char *input);
 void		ms_free_list(t_node *head);
@@ -157,7 +160,7 @@ char		*get_var(char *str, int quote, int i);
 
 void		dual_increments(int *i, int *j);
 void		heredoc_main(t_node *current, char *file);
-void		error_open_file(t_node *current, char *file);
+int			try_open_file(t_node *current, char *file, int fd);
 char		*get_fd_i_value(char *value, int *i, int *j, int k);
 void		get_fd_left_redirection(t_node *current, int *i, int *j);
 void		get_fd_o_value(t_node *cu, char *file, int *i, int k);

@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/20 12:07:25 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/21 18:38:32 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,15 @@ void	ms_free_list(t_node *head)
 	{
 		tmp = head->next;
 		if (head->value != NULL)
+		{
 			free(head->value);
+			head->value = NULL;
+		}
 		if (head->eof != NULL)
+		{
 			free(head->eof);
+			head->eof = NULL;
+		}
 		if (head != NULL)
 			free(head);
 		head = tmp;
@@ -56,9 +62,20 @@ char	get_type(char *str)
 //<sdfgdsfg <sdfgdsfgdfg
 //malloc error
 
-int	ms_parsing(t_minishell *minishell, int i)
+void	ms_arg_to_node(t_minishell *minishell, char **arg, int i)
 {
 	t_node		*list;
+
+	while (arg[i] != NULL)
+	{
+		list = new_node(arg[i++]);
+		add_at_end(&minishell->head, list);
+	}
+	ft_free_table(arg);
+}
+
+int	ms_parsing(t_minishell *minishell, int i)
+{
 	t_node		*tmp;
 	char		**arg;
 
@@ -68,17 +85,23 @@ int	ms_parsing(t_minishell *minishell, int i)
 		minishell->head = new_node(arg[0]);
 		if (ft_strlen(arg[0]) == 0)
 			return (0);
-		while (arg[i] != NULL)
-		{
-			list = new_node(arg[i++]);
-			add_at_end(&minishell->head, list);
-		}
+		ms_arg_to_node(minishell, arg, i);
 		tmp = minishell->head;
 		while (tmp->next)
+		{
+			if (tmp->flag == YES)
+				return (0);
 			tmp = tmp->next;
-		if (tmp->type == 'e')
+		}
+		if (tmp->flag == YES || tmp->type == 'e')
 			return (0);
 		return (1);
 	}
 	return (0);
 }
+
+		// while (arg[i] != NULL)
+		// {
+		// 	list = new_node(arg[i++]);
+		// 	add_at_end(&minishell->head, list);
+		// }
