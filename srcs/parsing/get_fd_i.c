@@ -6,17 +6,17 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 20:15:52 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/20 12:09:06 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/21 14:57:55 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	heredoc_main(t_node *current, char *file, int fd)
+void	heredoc_main(t_node *current, char *file)
 {
 	current->eof = ft_strdup(file);
+	current->fd_i = dup(STDIN_FILENO);
 	heredoc_preparation(current);
-	dup2(current->fd_i, fd);
 }
 
 void	error_open_file(t_node *current, char *file)
@@ -61,7 +61,10 @@ int	get_fd_i(t_node *current, int i, int j, int fd)
 			get_fd_left_redirection(current, &i, &j);
 			file = ft_substr(current->value, i - j, j);
 			if (current->value[k] == '<' && current->value[k + 1] == '<')
-				heredoc_main(current, file, fd);
+			{
+				heredoc_main(current, file);
+				current->type = 'h';
+			}
 			else
 			{
 				fd = open(file, O_RDONLY);
@@ -74,5 +77,8 @@ int	get_fd_i(t_node *current, int i, int j, int fd)
 		}
 		i++;
 	}
-	return (fd);
+	if (current->type != 'h')
+		return (fd);
+	else
+		return (current->fd_i);
 }

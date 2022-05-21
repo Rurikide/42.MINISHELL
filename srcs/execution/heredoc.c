@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 17:04:23 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/20 15:11:21 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/21 17:12:18 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,6 @@ void	heredoc_preparation(t_node *current)
 	pid_t	id;
 	int		pipe_end[2];
 	int		wstatus;
-	int		bu_in_fd;
-
-	bu_in_fd = dup(STDIN_FILENO);
-	current->fd_i = dup(STDIN_FILENO);
 
 	signal(SIGINT, &void_signal);
 	if (pipe(pipe_end) == FAIL)
@@ -33,44 +29,46 @@ void	heredoc_preparation(t_node *current)
 		heredoc_execution(current, pipe_end);
 	}
 	waitpid(id, &wstatus, 0);
-	set_signals();
-	if (WIFEXITED(wstatus))
-		get_minishell()->exit_nb = WEXITSTATUS(wstatus);
-	printf("pipe_end[0] = %d\n", pipe_end[0]);
-	printf("pipe_end[1] = %d\n", pipe_end[1]);
-	printf("current->fd_i = %d\n", current->fd_i);
-	dup2(pipe_end[0], current->fd_i);
-	close(pipe_end[1]);
-	close(pipe_end[0]);
-	printf("current->fd_i after dup2 = %d\n", current->fd_i);
-	if (WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIG_CTRL_C)
+	if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == SIG_CTRL_C)
+	{
 		get_minishell()->exit_nb = ERROR_1;
+		get_minishell()->is_heredoc = YES;
+	}
+	else if (WIFEXITED(wstatus))
+	{
+		get_minishell()->exit_nb = WEXITSTATUS(wstatus);
+		get_minishell()->is_heredoc = YES;
+	}
+	dup2(pipe_end[0], current->fd_i);
+	close(pipe_end[0]);
+	close(pipe_end[1]);
 }
 
 void	heredoc_execution(t_node *current, int *pipe_end)
 {
-	char	*heredoc_input;
+	t_minishell	*minishell;
+	char		*heredoc_input;
 
+	minishell = get_minishell();
+	minishell->exit_nb = SUCCESS;
 	signal(SIGINT, &ctrl_c_heredoc);
 	while (true)
 	{
 		heredoc_input = readline("> ");
 		if (heredoc_input == CTRL_D)
 		{
-			free(heredoc_input);
 			ctrl_d_heredoc_exit();
-		}
-		if (ft_is_matching_strings(heredoc_input, current->eof) == SUCCESS)
-		{
-			close(pipe_end[0]);
-			close(pipe_end[1]);
 			break ;
 		}
+		if (ft_is_matching_strings(heredoc_input, current->eof) == SUCCESS)
+			break ;
 		ft_putendl_fd(heredoc_input, pipe_end[1]);
 		free(heredoc_input);
 	}
+	close(pipe_end[0]);
+	close(pipe_end[1]);
 	free(heredoc_input);
-	exit(SUCCESS);
+	exit(minishell->exit_nb);
 }
 
 int	ft_is_matching_strings(char *s1, char *s2)

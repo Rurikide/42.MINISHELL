@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:10:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/20 15:12:46 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/21 17:08:03 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,6 @@ void	minishell_loop(t_minishell *minishell)
 	if (minishell->user_input != NULL)
 		free(minishell->user_input);
 	minishell->user_input = readline("minishell> ");
-	// if (!minishell->user_input)
-	// {
-	// 	minishell->exit_nb = SUCCESS;
-	// 	return ;
-	// }
 	if (minishell->user_input == CTRL_D)
 		ctrl_d_exit();
 	if (minishell->user_input[0] != '\0')

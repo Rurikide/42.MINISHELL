@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 12:38:55 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/20 14:49:29 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/21 16:14:49 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 	rl_line_buffer. 
 */
 
+// control_c PARENT PROCESS
 void	ctrl_c_prompt(int signal)
 {
 	(void)signal;
@@ -34,19 +35,23 @@ void	ctrl_c_prompt(int signal)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	get_minishell()->exit_nb = SIG_CTRL_C;
+	get_minishell()->exit_nb = ERROR_1;
 }
 
 // for a heredoc inside the child process
 // zsh and updated version of bash exit_code is 130
+// control_c CHILD PROCESS
 void	ctrl_c_heredoc(int signal)
 {
 	(void)signal;
+	rl_on_new_line();
+	rl_redisplay();
 	write(STDOUT_FILENO, "  \n", 3);
-	get_minishell()->exit_nb = SIG_CTRL_C;
+	get_minishell()->exit_nb = ERROR_1;
 	exit(SIG_CTRL_C);
 }
 
+// control_d PARENT PROCESS
 void	ctrl_d_exit(void)
 {
 	ft_putendl_fd("exit", STDOUT_FILENO);
@@ -54,11 +59,11 @@ void	ctrl_d_exit(void)
 	exit(get_minishell()->exit_nb);
 }
 
+// control_d CHILD PROCESS
 // On BASH ctrl-D inside a heredoc does : > bash prompt
 void	ctrl_d_heredoc_exit(void)
 {
 	free_minishell();
-	//rl_clear_history();
 	exit(get_minishell()->exit_nb);
 }
 

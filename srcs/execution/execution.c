@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:40:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/20 12:10:14 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/21 17:11:05 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,7 @@ void	pipeline_fork(t_node *current, int read_fd)
 
 	while (current->type == 'e')
 		current = current->next;
-	if (pipe(pipe_end) == FAIL)
-		ft_putstr_fd("Error at pipe()\n", STDERR_FILENO);
+	pipe(pipe_end);
 	id = fork();
 	if (id == FAIL)
 		ft_putstr_fd("Error at fork()\n", STDERR_FILENO);
@@ -73,7 +72,10 @@ void	pipeline_fork(t_node *current, int read_fd)
 		pipeline_child_process(current, read_fd, pipe_end);
 	waitpid(id, &wstatus, 0);
 	set_signals();
-	set_exit_nb(wstatus);
+	if (get_minishell()->is_heredoc == NO)
+		set_exit_nb(wstatus);
+	else
+		get_minishell()->is_heredoc = NO;
 	close(pipe_end[1]);
 	if (current->next == NULL)
 		close(pipe_end[0]);

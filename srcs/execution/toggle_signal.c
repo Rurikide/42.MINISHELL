@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:22:46 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/19 22:32:58 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/21 16:18:41 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,14 @@ void	set_exit_nb(int wstatus)
 	else if (WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIGINT)
 	{
 		ft_putstr_fd("\n", STDERR_FILENO);
-		minishell->exit_nb = SIG_CTRL_C;
+		minishell->exit_nb = ERROR_1;
 	}
 	else if (WIFEXITED(wstatus))
+	{
 		minishell->exit_nb = WEXITSTATUS(wstatus);
+	}
 	else
+	{
 		minishell->exit_nb = ERROR_1;
+	}
 }

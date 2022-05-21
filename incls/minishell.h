@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 14:45:45 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/20 11:14:38 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/21 16:07:59 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_minishell
 	char	**env;
 	int		env_size;
 	int		exit_nb;
+	int		is_heredoc;
 	char	*user_input;
 	char	**options;
 	t_node	*head;
@@ -155,7 +156,7 @@ char		get_type(char *str);
 char		*get_var(char *str, int quote, int i);
 
 void		dual_increments(int *i, int *j);
-void		heredoc_main(t_node *current, char *file, int fd);
+void		heredoc_main(t_node *current, char *file);
 void		error_open_file(t_node *current, char *file);
 char		*get_fd_i_value(char *value, int *i, int *j, int k);
 void		get_fd_left_redirection(t_node *current, int *i, int *j);
