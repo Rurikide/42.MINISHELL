@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 14:45:45 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/21 18:52:32 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/21 22:27:18 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int			env_var_matching_key(char *option);
 int			env_var_get_key_index(char *key, int size);
 char		*env_var_get_key_n_value(char *key);
 char		*env_var_get_value(char *key, int size);
+void		env_var_missing_path(char **options);
 int			export_type_key_value(char *option);
 void		builtin_echo(char **options, int i);
 void		builtin_echo_echo(char **options, int i);

@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 20:16:49 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/19 22:59:16 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/21 21:55:59 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,19 @@ void	dual_increments(int *i, int *j)
 
 void	get_fd_o_value(t_node *cu, char *file, int *i, int k)
 {
-	char	*tmp;
+	char	*sub_str;
+	char	*join_str;
 
 	if (ft_is_present('/', file))
+	{
 		printf("minishell: %s: No such file or directory\n", file);
-	tmp = ft_strjoin(ft_substr(cu->value, 0, k), (cu->value + *i));
+		get_minishell()->exit_nb = ERROR_1;
+	}
+	sub_str = ft_substr(cu->value, 0, k);
+	join_str = ft_strjoin(sub_str, (cu->value + *i));
 	free(cu->value);
-	cu->value = tmp;
-	tmp = NULL;
+	free(sub_str);
+	cu->value = join_str;
 	*i = -1;
 }
 

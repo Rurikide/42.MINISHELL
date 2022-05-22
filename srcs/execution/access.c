@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:42:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/19 22:32:23 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/21 22:26:31 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,29 @@ void	execution_access(t_minishell *minishell, char **options)
 		msg_err = strerror(errno);
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(*options, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
-		ft_putstr_fd(msg_err, STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
 		ft_free_table(options);
-		minishell->exit_nb = 126;
-		exit(126);
+		if (env_var_matching_key("PATH") == FAIL)
+		{
+			ft_putstr_fd(": ", STDERR_FILENO);
+			ft_putendl_fd(msg_err, STDERR_FILENO);
+			exit(126);
+		}
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
+		exit(127);
 	}
 	path_table = ft_split(get_path_value(minishell), ':');
 	if (!path_table)
-	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(*options, STDERR_FILENO);
-		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
-	}
+		env_var_missing_path(options);
 	search_binary_file(path_table, options, 0);
+}
+
+void	env_var_missing_path(char **options)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(*options, STDERR_FILENO);
+	ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+	ft_free_table(options);
+	exit(ERROR_127);
 }
 
 // returns the value of PATH; returns NULL if PATH is unset
@@ -78,7 +86,7 @@ void	search_binary_file(char **path_table, char **options, int i)
 			ft_putstr_fd(*options, STDERR_FILENO);
 			ft_putstr_fd(msg_err, STDERR_FILENO);
 			ft_free_table(options);
-			exit(126);
+			exit(ERROR_127);
 		}
 		free(test_path);
 		i++;
@@ -87,5 +95,5 @@ void	search_binary_file(char **path_table, char **options, int i)
 	ft_putstr_fd(*options, STDERR_FILENO);
 	ft_putstr_fd(": command not found\n", STDERR_FILENO);
 	ft_free_table(options);
-	exit(127);
+	exit(ERROR_127);
 }

@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 20:15:52 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/21 18:58:43 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/21 21:56:25 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	heredoc_main(t_node *current, char *file)
 	current->eof = ft_strdup(file);
 	current->fd_i = dup(STDIN_FILENO);
 	heredoc_preparation(current);
+	free(file);
+	file = NULL;
 }
 
 int	try_open_file(t_node *current, char *file, int fd)
@@ -27,8 +29,10 @@ int	try_open_file(t_node *current, char *file, int fd)
 	{
 		current->type = 'e';
 		printf("minishell: %s: No such file or directory\n", file);
-		free(file);
+		get_minishell()->exit_nb = ERROR_1;
 	}
+	free(file);
+	file = NULL;
 	return (fd);
 }
 
