@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 12:38:55 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/21 17:34:57 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/22 11:13:51 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ void	ctrl_d_exit(void)
 }
 
 // control_d CHILD PROCESS
-// On BASH ctrl-D inside a heredoc does : > bash prompt
 void	ctrl_d_heredoc_exit(void)
 {
+	write(STDOUT_FILENO, "> ", 2);
 	free_minishell();
-	exit(get_minishell()->exit_nb);
+	exit(SUCCESS);
 }
 
 void	void_signal(int signal)

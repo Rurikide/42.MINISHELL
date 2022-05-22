@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 20:15:52 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/21 21:56:25 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/22 10:52:35 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,14 @@ int	try_open_file(t_node *current, char *file, int fd)
 
 char	*get_fd_i_value(char *value, int *i, int *j, int k)
 {
-	char	*tmp;
+	char	*sub_str;
+	char	*join_str;
 
-	tmp = ft_strjoin(ft_substr(value, 0, k), (value + *i));
+	sub_str = ft_substr(value, 0, k);
+	join_str = ft_strjoin(sub_str, (value + *i));
+	free(sub_str);
 	free(value);
-	value = ft_strdup(tmp);
-	free(tmp);
+	value = join_str;
 	*i = -1;
 	*j = 0;
 	return (value);
