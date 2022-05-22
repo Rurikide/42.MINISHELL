@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/22 11:52:53 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/22 14:00:21 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static char	*ms_expand(char *str, int i)
 {
 	int		j;
 	char	*tmp;
+	char	*tmp1;
 	char	*var;
 	char	*res;
 
@@ -27,26 +28,35 @@ static char	*ms_expand(char *str, int i)
 	if (str[i] == '?')
 		var = ft_itoa(get_minishell()->exit_nb);
 	else
-		var = env_var_get_value(ft_substr(str, i, j), j);
+	{
+		tmp1 = ft_substr(str, i, j);
+		var = env_var_get_value(tmp1, j);
+		free(tmp1);
+	}
 	if (var == NULL)
-		res = ft_strjoin(tmp, &str[i + j]);
+		tmp = ft_strjoin(tmp, &str[i + j]);
 	else
 	{
 		res = ft_strjoin(tmp, var);
-		//free(var);
+		if (str[i] == '?')
+			free(var);
 		free(tmp);
-		res = ft_strjoin(res, &str[i + j]);
+		tmp = NULL;
+		tmp = ft_strjoin(res, &str[i + j]);
+		free(res);
 	}
-	return (res);
+	return (tmp);
 }
 
-char	*get_var(char *str, int quote, int i)
+void	get_var(t_node *current, char *str, int quote, int i)
 {
-	int	j;
+	int		j;
+	char *tmp;
 
 	j = 0;
+	tmp = NULL;
 	if (ft_strlen(str) == 0)
-		return (NULL);
+		return ;
 	while (str[++i])
 	{
 		if (str[i] == '\'')
@@ -55,7 +65,14 @@ char	*get_var(char *str, int quote, int i)
 			i++;
 		}
 		else if (str[i] == '$' && str[i++] && quote > 0)
-			return (get_var(ms_expand(str, i), quote, i - 1));
+		{
+			tmp = ms_expand(str, i);
+			get_var(current, tmp, quote, i - 1);
+		}
 	}
-	return (str);
+	if (tmp != NULL)
+		current->value = tmp;
+	else
+		current->value = str;
+	
 }

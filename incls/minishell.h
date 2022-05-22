@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 14:45:45 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/21 22:27:18 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/22 12:51:45 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ int			ft_is_present(char c, char *sym);
 int			get_fd_i(t_node *current, int i, int j, int fd);
 int			get_fd_o(t_node *cu, int i, int j, int fd);
 char		get_type(char *str);
-char		*get_var(char *str, int quote, int i);
+void		get_var(t_node *current, char *str, int quote, int i);
 
 void		dual_increments(int *i, int *j);
 void		heredoc_main(t_node *current, char *file);

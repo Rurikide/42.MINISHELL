@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 20:15:52 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/22 10:52:35 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/22 12:06:37 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	try_open_file(t_node *current, char *file, int fd)
 	if (fd == FAIL)
 	{
 		current->type = 'e';
+		free(current->value);
+		current->value = ft_strdup(" ");
 		printf("minishell: %s: No such file or directory\n", file);
 		get_minishell()->exit_nb = ERROR_1;
 	}

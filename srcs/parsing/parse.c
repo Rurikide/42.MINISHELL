@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/21 18:38:32 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/22 13:20:52 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ void	ms_arg_to_node(t_minishell *minishell, char **arg, int i)
 		list = new_node(arg[i++]);
 		add_at_end(&minishell->head, list);
 	}
-	ft_free_table(arg);
+	free(arg[i]);
+	free(arg);
 }
 
 int	ms_parsing(t_minishell *minishell, int i)
@@ -81,7 +82,7 @@ int	ms_parsing(t_minishell *minishell, int i)
 
 	if (minishell->user_input[0] != '\0' && ms_sanitize(minishell->user_input))
 	{
-		arg = ms_split(get_var(minishell->user_input, 1, -1), '|', 0, 0);
+		arg = ms_split(minishell->user_input, '|', 0, 0);
 		minishell->head = new_node(arg[0]);
 		if (ft_strlen(arg[0]) == 0)
 			return (0);

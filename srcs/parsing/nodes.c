@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/21 18:00:05 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/22 12:51:47 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,17 @@ t_node	*new_node(char *str)
 	new = malloc(sizeof(t_node));
 	if (str != NULL)
 	{
-		if (ft_is_present('\'', str) || ft_is_present('\"', str))
+		/*if (ft_is_present('\'', str) || ft_is_present('\"', str))
 			new->value = ft_strdup(ms_strip(str, 0, 0));
 		else
-			new->value = ft_strdup(str);
+			new->value = ft_strdup(str);*/
+		get_var(new, str, 1, -1);
 		new->eof = NULL;
 		new->type = get_type(str);
 		new->fd_i = get_fd_i(new, 0, 0, 0);
 		new->fd_o = get_fd_o(new, -1, 0, 1);
 		new->id = -1;
+		new->flag = NO;
 		new->next = NULL;
 		new->prev = NULL;
 	}
