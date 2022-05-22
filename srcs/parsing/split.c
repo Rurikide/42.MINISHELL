@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:24 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/19 22:37:38 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/22 15:58:14 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static unsigned int	ft_get_nb_strs(char const *s, char sym, int i, \
 					break ;
 				else if (i == ft_strlen(s))
 				{
-					printf("Error missing %c\n", q);
+					printf("minishell: Error missing %c\n", q);
 					return (0);
 				}
 			}

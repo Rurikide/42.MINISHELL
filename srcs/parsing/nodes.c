@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/22 12:51:47 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/22 16:16:26 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,22 @@ t_node	*new_node(char *str)
 {
 	t_node	*new;
 
-	new = malloc(sizeof(t_node));
+	new = ft_calloc(1, sizeof(t_node));
 	if (str != NULL)
 	{
-		/*if (ft_is_present('\'', str) || ft_is_present('\"', str))
-			new->value = ft_strdup(ms_strip(str, 0, 0));
-		else
-			new->value = ft_strdup(str);*/
+		new->value = ft_calloc(ft_strlen(str) + get_length(str, -1, 0, 0) + 1, \
+		sizeof(char));
 		get_var(new, str, 1, -1);
+		if (ft_is_present('\'', new->value) || ft_is_present('"', new->value))
+			new->value = ms_strip(new->value, 0, 0);
 		new->eof = NULL;
 		new->type = get_type(str);
 		new->fd_i = get_fd_i(new, 0, 0, 0);
 		new->fd_o = get_fd_o(new, -1, 0, 1);
-		new->id = -1;
 		new->flag = NO;
-		new->next = NULL;
+		new->id = -1;
 		new->prev = NULL;
+		new->next = NULL;
 	}
 	return (new);
 }

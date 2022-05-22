@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 14:45:45 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/22 12:51:45 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/22 18:21:51 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,14 @@ int			ft_is_present(char c, char *sym);
 int			get_fd_i(t_node *current, int i, int j, int fd);
 int			get_fd_o(t_node *cu, int i, int j, int fd);
 char		get_type(char *str);
+int			get_length(char *str, int i, int j, int k);
+void		get_length_core(char *str, int i, int *j, int *k);
 void		get_var(t_node *current, char *str, int quote, int i);
+void		get_var_skip_sp_char(char *str, int i, int *j);
+char		*get_var_str(char *str, char *var, int i, int j);
+void		get_var_question_mark(char *str, char *var, int *i, int *j);
+char		*get_var_heredoc(char *str, int quote, int i, int j);
+char		*get_var_heredoc_str(char *str, int i, int j);
 
 void		dual_increments(int *i, int *j);
 void		heredoc_main(t_node *current, char *file);
@@ -166,4 +173,9 @@ char		*get_fd_i_value(char *value, int *i, int *j, int k);
 void		get_fd_left_redirection(t_node *current, int *i, int *j);
 void		get_fd_o_value(t_node *cu, char *file, int *i, int k);
 void		get_fd_o_open(t_node *cu, char *file, int *fd);
+void		reset_i_j_k(int *i, int *j, int *k);
+void		initialize_zero(int *i, int *j, int *l);
+int			get_length_h(char *str, int i, int j, int k);
+void		get_length_core_h(char *str, int i, int *j, int *k);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 11:19:38 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/19 22:37:04 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/22 15:59:50 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ms_check_pipes(char *input, int i)
 
 	j = i;
 	r = 0;
-	while (input[j--])
+	while (j > 0 && input[j--])
 	{
 		if (ft_isalnum(input[j]))
 		{
