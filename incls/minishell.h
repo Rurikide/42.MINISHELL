@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 14:45:45 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/22 18:21:51 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/23 11:13:31 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 # include "libft.h"
 
 # define ERR_ARGS "too many arguments\n"
@@ -29,8 +31,6 @@
 # define ERR_HOME "HOME not set\n"
 # define ERR_KEY "not a valid identifier\n"
 # define ERR_NUMERIC "numeric argument required\n"
-# define ERR_QUOTES "found unclosed quotes\n"
-# define ERR_QUOTES_D "found unclosed double quotes\n"
 # define CTRL_D NULL
 
 # define MINISHELL "minishell: "
