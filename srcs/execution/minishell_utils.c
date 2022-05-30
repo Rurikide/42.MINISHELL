@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:01:06 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/21 17:45:24 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/30 17:51:54 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_minishell	*get_minishell(void)
 		minishell.user_input = NULL;
 		minishell.is_heredoc = NO;
 		minishell.options = NULL;
+		minishell.home = NULL;
 		minishell.head = NULL;
 	}
 	return (&minishell);

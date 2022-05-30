@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 14:45:45 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/27 12:28:27 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/30 17:51:11 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_minishell
 	int		is_heredoc;
 	char	*user_input;
 	char	**options;
+	char	*home;
 	t_node	*head;
 }t_minishell;
 
