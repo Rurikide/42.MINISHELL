@@ -47,13 +47,11 @@ int	ft_is_present(char c, char *sym)
 	return (0);
 }
 
-int	ms_check_pipes(char *input, int i)
+static int	ms_check_pipes(char *input, int i, int r)
 {
 	int	j;
-	int	r;
 
 	j = i;
-	r = 0;
 	while (j > 0 && input[j--])
 	{
 		if (ft_isalnum(input[j]))
@@ -71,8 +69,40 @@ int	ms_check_pipes(char *input, int i)
 		}
 	}
 	if (r < 2)
+	{
 		printf("minishell: syntax error near unexpected token `|'\n");
+		get_minishell()->exit_nb = 258;
+	}
 	return (r);
+}
+
+static int	ft_manage_redir(char *input, int *i, char c)
+{
+	int	j;
+
+	j = 0;
+	while (input[*i] == c)
+	{
+		j++;
+		*i += 1;
+	}
+	while (input[*i] && !(ft_isalnum(input[*i])))
+	{
+		*i += 1;
+		if (input[*i] == '|')
+		{
+			get_minishell()->exit_nb = 258;
+			printf("minishell: syntax error near unexpected token `newline'\n");
+			return (1);
+		}
+	}
+	if (ft_strlen(input) == *i || j > 2)
+	{
+		get_minishell()->exit_nb = 258;
+		printf("minishell: syntax error near unexpected token `newline'\n");
+		return (1);
+	}
+	return (0);
 }
 
 int	ms_sanitize(char *input)
@@ -86,10 +116,13 @@ int	ms_sanitize(char *input)
 	{
 		if (input[i] == '|')
 		{
-			r = ms_check_pipes(input, i);
+			r = ms_check_pipes(input, i, 0);
 			if (r < 2)
 				return (0);
 		}
+		else if (input[i] == '<' || input[i] == '>')
+			if (ft_manage_redir(input, &i, input[i]))
+				return (0);
 		i++;
 	}
 	return (1);
