@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:42:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/23 11:43:58 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/27 13:03:32 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,19 @@
 
 void	execution_access(t_minishell *minishell, char **options)
 {
+	struct stat res;
 	char		**path_table;
 	char		*msg_err;
 
-	if (access(options[0], F_OK) == SUCCESS)
+	if (stat(options[0], &res) == SUCCESS && S_ISDIR(res.st_mode))
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(*options, STDERR_FILENO);
+		ft_free_table(options);
+		ft_putendl_fd(": is a directory", STDERR_FILENO);
+		exit(126);
+	}
+	else if (access(options[0], F_OK) == SUCCESS)
 	{
 		execve(options[0], options, minishell->env);
 		msg_err = strerror(errno);
@@ -81,24 +90,17 @@ void	search_binary_file(char **path_table, char **options, int i)
 	struct stat res;
 	char	*test_path;
 	char	*msg_err;
-	
-	// TO FIX  spacebar tab && BIN
+
 	while (path_table[i] != NULL)
 	{
 		test_path = ft_strjoin_symbol(path_table[i], '/', options[0]);
-		// if (stat(test_path, &res) == SUCCESS && S_ISDIR(res.st_mode))
-		// {
-		// 	ft_putendl_fd("is a directory", STDERR_FILENO);
-		// }
 		if (stat(test_path, &res) == SUCCESS && !S_ISDIR(res.st_mode))
 		{
 			execve(test_path, options, get_minishell()->env);
 			msg_err = strerror(errno);
-			//
-			// ft_putendl_fd("test path is: ", STDERR_FILENO);
-			// ft_putendl_fd(test_path, STDERR_FILENO);
+
 			ft_putstr_fd("Condition CCC\n", STDERR_FILENO);
-			//
+
 			ft_putstr_fd("minishell: ", STDERR_FILENO);
 			ft_putstr_fd(*options, STDERR_FILENO);
 			ft_putendl_fd(msg_err, STDERR_FILENO);

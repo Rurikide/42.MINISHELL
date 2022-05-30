@@ -6,11 +6,27 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:10:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/22 15:22:32 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/27 12:26:35 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_is_str_spacetab(char *str)
+{
+	int len;
+	int	i;
+
+	i = 0;
+	len = ft_strlen(str);
+	while (i < len)
+	{
+		if (str[i] != ' ' && str[i] != '\t')
+			return (FAIL);
+		i++;
+	}
+	return (SUCCESS);
+}
 
 void	minishell_loop(t_minishell *minishell)
 {
@@ -21,7 +37,12 @@ void	minishell_loop(t_minishell *minishell)
 	minishell->user_input = readline("minishell> ");
 	if (minishell->user_input == CTRL_D)
 		ctrl_d_exit();
-	if (minishell->user_input[0] != '\0')
+	if (ft_is_str_spacetab(minishell->user_input) == SUCCESS)
+	{
+		ms_free_list(minishell->head);
+		minishell->head = NULL;
+	}
+	else if (minishell->user_input[0] != '\0')
 	{
 		add_history(minishell->user_input);
 		if (ms_parsing(minishell, 1) == 1)

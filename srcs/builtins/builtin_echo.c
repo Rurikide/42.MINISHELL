@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 12:00:31 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/19 22:31:27 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/30 12:57:52 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,16 @@ void	builtin_echo_exit_nb(char **options, int i)
 		write(STDOUT_FILENO, &options[i][2], ft_strlen(&options[i][2]));
 }
 
+// void	builtin_echo_tilde(char **options, int i)
+// {
+
+// 	// ne pas mettre de backslash n
+	
+// 	// ft_putstr_fd(ft_itoa(get_minishell()->exit_nb), STDOUT_FILENO);
+// 	// if (options[i][2] != '\0')
+// 	// 	write(STDOUT_FILENO, &options[i][2], ft_strlen(&options[i][2]));
+// }
+
 void	builtin_echo_echo(char **options, int i)
 {
 	while (options[i] != NULL)
@@ -33,7 +43,12 @@ void	builtin_echo_echo(char **options, int i)
 			builtin_echo_exit_nb(options, i);
 		else if (options[i][0] == '~' && options[i][1] == '\0')
 		{
-			builtin_pwd(NULL);
+		//	builtin_echo_tilde(options, i);
+			return ;
+		}
+		else if (options[i][0] == '~' && (options[i][1] == '\\' || options[i][2] == '\0'))
+		{
+		//	builtin_echo_tilde(options, i);
 			return ;
 		}
 		else
