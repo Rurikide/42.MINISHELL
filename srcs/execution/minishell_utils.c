@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:01:06 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/30 17:51:54 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/31 14:47:10 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,11 @@ void	free_minishell(void)
 	if (minishell->head != NULL)
 		ms_free_list(minishell->head);
 	rl_clear_history();
+}
+
+void	mini_free_options(char **options)
+{
+	ft_putstr_fd(MINISHELL, STDERR_FILENO);
+	ft_putstr_fd(*options, STDERR_FILENO);
+	ft_free_table(options);
 }

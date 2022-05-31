@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 20:15:52 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/22 12:06:37 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/31 15:47:01 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int	get_fd_i(t_node *current, int i, int j, int fd)
 
 	while (current->value[i])
 	{
+		if (current->value[i] == '\'' || current->value[i] == '"')
+			ft_iterate(current, &i, current->value[i]);
 		if (current->value[i] == '<')
 		{
 			k = i;

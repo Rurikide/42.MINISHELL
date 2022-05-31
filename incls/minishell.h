@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 14:45:45 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/30 17:51:11 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/31 16:03:40 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,10 +142,12 @@ void		pipeline_fork(t_node *current, int read_fd);
 void		pipeline_child_process(t_node *current, int read_fd, int *pipe_end);
 void		pipeline_redirection(t_node *current, int read_fd, int *pipe_end);
 void		execution_access(t_minishell *minishell, char **options);
+void		execution_absolute_path(char **options);
 void		search_binary_file(char **path_table, char **options, int i);
 char		*get_path_value(t_minishell *minishell);
 int			ft_is_matching_strings(char *s1, char *s2);
 void		set_exit_nb(int wstatus);
+void		mini_free_options(char **options);
 
 t_node		*new_node(char *str);
 int			ms_parsing(t_minishell *minishell, int i);
@@ -179,5 +181,6 @@ void		reset_i_j_k(int *i, int *j, int *k);
 void		initialize_zero(int *i, int *j, int *l);
 int			get_length_h(char *str, int i, int j, int k);
 void		get_length_core_h(char *str, int i, int *j, int *k);
+void		ft_iterate(t_node *currrent, int *i, char q);
 
 #endif

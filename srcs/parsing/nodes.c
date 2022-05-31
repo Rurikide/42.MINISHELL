@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/22 16:16:26 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/31 15:48:09 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ t_node	*new_node(char *str)
 		new->value = ft_calloc(ft_strlen(str) + get_length(str, -1, 0, 0) + 1, \
 		sizeof(char));
 		get_var(new, str, 1, -1);
-		if (ft_is_present('\'', new->value) || ft_is_present('"', new->value))
-			new->value = ms_strip(new->value, 0, 0);
 		new->eof = NULL;
 		new->type = get_type(str);
 		new->fd_i = get_fd_i(new, 0, 0, 0);
@@ -60,6 +58,8 @@ t_node	*new_node(char *str)
 		new->id = -1;
 		new->prev = NULL;
 		new->next = NULL;
+		if (ft_is_present('\'', new->value) || ft_is_present('"', new->value))
+			new->value = ms_strip(new->value, 0, 0);
 	}
 	return (new);
 }

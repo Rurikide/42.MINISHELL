@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/22 18:23:55 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/31 16:55:49 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,13 @@ char	*get_var_str(char *str, char *var, int i, int j)
 	tmp = ft_substr(str, i, j);
 	var = env_var_get_value(tmp, j);
 	free(tmp);
+	if (var == NULL)
+	{
+		if (!(ft_isprint(str[i])) || str[i] == ' ')
+			var = "$";
+		else
+			var = "";
+	}
 	return (var);
 }
 
@@ -41,6 +48,13 @@ char	*get_var_heredoc_str(char *str, int i, int j)
 		var = ft_itoa(get_minishell()->exit_nb);
 	else
 		var = get_var_str(str, var, i, j);
+	if (var == NULL)
+	{
+		if (!(ft_isprint(str[i])) || str[i] == ' ')
+			var = "$";
+		else
+			var = "";
+	}
 	return (var);
 }
 

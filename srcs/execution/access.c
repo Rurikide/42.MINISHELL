@@ -6,36 +6,41 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:42:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/27 13:03:32 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/31 15:40:48 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	execution_absolute_path(char **options)
+{
+	if (options[0][0] == '.' && options[0][1] == '.' && options[0][2] == '\0')
+	{
+		mini_free_options(options);
+		ft_putendl_fd(": command not found", STDERR_FILENO);
+		exit(127);
+	}
+	else
+	{
+		mini_free_options(options);
+		ft_putendl_fd(": is a directory", STDERR_FILENO);
+		exit(126);
+	}
+}
+
 void	execution_access(t_minishell *minishell, char **options)
 {
-	struct stat res;
+	struct stat	res;
 	char		**path_table;
 	char		*msg_err;
 
 	if (stat(options[0], &res) == SUCCESS && S_ISDIR(res.st_mode))
-	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(*options, STDERR_FILENO);
-		ft_free_table(options);
-		ft_putendl_fd(": is a directory", STDERR_FILENO);
-		exit(126);
-	}
+		execution_absolute_path(options);
 	else if (access(options[0], F_OK) == SUCCESS)
 	{
 		execve(options[0], options, minishell->env);
 		msg_err = strerror(errno);
-		//
-		ft_putstr_fd("Condition AAA\n", STDERR_FILENO);
-		//
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(*options, STDERR_FILENO);
-		ft_free_table(options);
+		mini_free_options(options);
 		if (env_var_matching_key("PATH") == FAIL)
 		{
 			ft_putstr_fd(": ", STDERR_FILENO);
@@ -53,13 +58,8 @@ void	execution_access(t_minishell *minishell, char **options)
 
 void	env_var_missing_path(char **options)
 {
-	//
-	ft_putstr_fd("Condition BBB\n", STDERR_FILENO);
-	//
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(*options, STDERR_FILENO);
+	mini_free_options(options);
 	ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
-	ft_free_table(options);
 	exit(ERROR_127);
 }
 
@@ -87,9 +87,9 @@ char	*get_path_value(t_minishell *minishell)
 
 void	search_binary_file(char **path_table, char **options, int i)
 {
-	struct stat res;
-	char	*test_path;
-	char	*msg_err;
+	struct stat	res;
+	char		*test_path;
+	char		*msg_err;
 
 	while (path_table[i] != NULL)
 	{
@@ -98,24 +98,14 @@ void	search_binary_file(char **path_table, char **options, int i)
 		{
 			execve(test_path, options, get_minishell()->env);
 			msg_err = strerror(errno);
-
-			ft_putstr_fd("Condition CCC\n", STDERR_FILENO);
-
-			ft_putstr_fd("minishell: ", STDERR_FILENO);
-			ft_putstr_fd(*options, STDERR_FILENO);
+			mini_free_options(options);
 			ft_putendl_fd(msg_err, STDERR_FILENO);
-			ft_free_table(options);
 			exit(ERROR_127);
 		}
 		free(test_path);
 		i++;
 	}
-	//
-	ft_putstr_fd("Condition DDD\n", STDERR_FILENO);
-	//
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(*options, STDERR_FILENO);
+	mini_free_options(options);
 	ft_putstr_fd(": command not found\n", STDERR_FILENO);
-	ft_free_table(options);
 	exit(ERROR_127);
 }

@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:10:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/27 12:26:35 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/31 15:19:41 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_is_str_spacetab(char *str)
 {
-	int len;
+	int	len;
 	int	i;
 
 	i = 0;
@@ -31,6 +31,7 @@ int	ft_is_str_spacetab(char *str)
 void	minishell_loop(t_minishell *minishell)
 {
 	t_node	*current;
+
 
 	if (minishell->user_input != NULL)
 		free(minishell->user_input);
@@ -66,7 +67,7 @@ int	main(int argc, char **argv, char **env)
 		minishell->exit_nb = ERROR_127;
 		free_minishell();
 		return (minishell->exit_nb);
-	}
+	}		
 	init_env(env);
 	minishell = get_minishell();
 	set_signals();

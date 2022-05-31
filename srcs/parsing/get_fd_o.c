@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 20:16:49 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/22 11:55:00 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/31 15:45:38 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,13 @@ void	get_fd_o_open(t_node *cu, char *file, int *fd)
 	free(file);
 }
 
+void	ft_iterate(t_node *current, int *i, char q)
+{
+	*i += 1;
+	while (current->value[*i] != q)
+		*i += 1;
+}
+
 int	get_fd_o(t_node *cu, int i, int j, int fd)
 {
 	int		k;
@@ -52,6 +59,8 @@ int	get_fd_o(t_node *cu, int i, int j, int fd)
 
 	while (cu->value[++i])
 	{
+		if (cu->value[i] == '\'' || cu->value[i] == '"')
+			ft_iterate(cu, &i, cu->value[i]);
 		j = 0;
 		if (cu->value[i] == '>')
 		{
@@ -60,8 +69,6 @@ int	get_fd_o(t_node *cu, int i, int j, int fd)
 				cu->type = 'a';
 			if (cu->value[i + 1] == '>')
 				i++;
-			else
-				cu->type = 'c';
 			while (cu->value[i] == ' ' || cu->value[i] == '>')
 				i++;
 			while (cu->value[i] && cu->value[i] != ' ' && cu->value[i] != '>')

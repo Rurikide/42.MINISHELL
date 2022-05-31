@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 16:23:19 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/30 18:02:35 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/31 14:12:44 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,7 @@ void	init_env(char **env)
 		nb++;
 	}
 	minishell->env[nb] = NULL;
-	//
 	minishell->home = env_var_get_value("HOME", 5);
-	printf("home value is %s\n", minishell->home);
-	//
 	init_shlvl();
 }
 // IMPORTANT METTRE NULL avant la fonction init_shlvl

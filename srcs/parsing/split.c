@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:24 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/22 15:58:14 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/31 17:21:20 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,9 @@ char	**ms_split(char const *s, char sym, unsigned int i, \
 	{
 		ft_get_next_str(&next_str, &next_str_len, sym, 0);
 		tab[i] = (char *)malloc(sizeof(char) * (next_str_len + 1));
+		//
+		printf("next len = %d\n", next_str_len + 1);
+		//
 		if (!tab[i])
 			return (ft_malloc_error(tab));
 		ft_strlcpy(tab[i], next_str, next_str_len + 1);

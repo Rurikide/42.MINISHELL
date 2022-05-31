@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 12:00:31 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/30 18:09:16 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/05/31 15:16:37 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,12 @@ void	builtin_echo_exit_nb(char **options, int i)
 
 void	builtin_echo_tilde(void)
 {
-	t_minishell *minishell;
-	int	len;
+	t_minishell	*minishell;
+	int			len;
 
 	minishell = get_minishell();
 	len = ft_strlen(minishell->home);
-
-//	printf("home value inside tilde is %s\n", minishell->home);
-
-		
 	write(STDOUT_FILENO, minishell->home, len);
-	// ne pas mettre de backslash n
 }
 
 void	builtin_echo_echo(char **options, int i)
