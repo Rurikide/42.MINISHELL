@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 11:19:38 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/31 15:23:40 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/01 16:24:22 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_is_present(char c, char *sym)
 	while (sym[i])
 	{
 		if (sym[i] == c)
-			return (i);
+			return (1);
 		i++;
 	}
 	return (0);

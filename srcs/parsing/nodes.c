@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/31 15:48:09 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/01 16:18:06 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ t_node	*new_node(char *str)
 		new->id = -1;
 		new->prev = NULL;
 		new->next = NULL;
-		if (ft_is_present('\'', new->value) || ft_is_present('"', new->value))
-			new->value = ms_strip(new->value, 0, 0);
 	}
 	return (new);
 }

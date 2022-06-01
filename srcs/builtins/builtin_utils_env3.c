@@ -6,11 +6,60 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:13:07 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/19 22:32:07 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/01 15:42:39 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// char *ft_trim(char *str, char c)
+// {
+// 	char	*tmp;
+// 	int 	i;
+// 	int 	j;
+
+// 	i = 0;
+// 	j = 0;
+// 	//freeeeeeeeee meeeeeeeeee
+// 	tmp = ft_calloc(ft_strlen(str), sizeof(char));
+// 	while (str[i])
+// 	{
+// 		if (str[i] != c)
+// 			tmp[j++] = str[i];
+// 		i++;
+// 	}
+// 	return (tmp);
+// }
+
+// t_answer	ft_is_a_match(char *keyword, char *input)
+// {
+// 	int		i;
+// 	int		len;
+// 	char	*tmp;
+
+// 	i = 0;
+// 	if (input == NULL)
+// 		return (NO);
+// 	tmp = ft_trim(input, ' ');
+// 	len = ft_strlen(tmp);
+// 	if (ft_strlen(keyword) != ft_strlen(tmp))
+// 	{
+// 		free(tmp);
+// 		return (NO);
+// 	}
+// 	while (i < len)
+// 	{
+// 		if (keyword[i] == tmp[i])
+// 			i++;
+// 		else
+// 		{
+// 			free(tmp);
+// 			return (NO);
+// 		}
+// 	}
+// 	free(tmp);
+// 	return (YES);
+// }
 
 t_answer	ft_is_a_match(char *keyword, char *input)
 {

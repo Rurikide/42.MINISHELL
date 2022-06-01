@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split.c                                            :+:      :+:    :+:   */
+/*   sp_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:24 by adubeau           #+#    #+#             */
-/*   Updated: 2022/06/01 18:47:23 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/01 18:47:30 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ static unsigned int	ft_get_nb_strs(char const *s, char sym, int i, \
 
 	if (!s[0])
 		return (0);
-	while (s[++i])
+	while (s[i] == sym)
+		i++;
+	while (s[i])
 	{
 		if (s[i] == '"' || s[i] == '\'')
 		{
@@ -52,7 +54,14 @@ static unsigned int	ft_get_nb_strs(char const *s, char sym, int i, \
 			}
 		}
 		if (s[i] == sym)
-			nb_strs++;
+		{
+			while (s[i] == sym)
+				i++;
+			if (s[i])
+				nb_strs++;
+		}
+		i++;
+
 	}
 	return (nb_strs);
 }
@@ -97,7 +106,7 @@ static void	ft_get_next_str(char **next_str, unsigned int *next_str_len, \
 	}
 }
 
-char	**ms_split(char const *s, char sym, unsigned int i, \
+char	**sp_split(char const *s, char sym, unsigned int i, \
 		unsigned int next_str_len)
 {
 	char			**tab;
@@ -107,16 +116,14 @@ char	**ms_split(char const *s, char sym, unsigned int i, \
 	i = 0;
 	if (ft_strlen(s) == 0)
 		return ((char **)s);
-	nb_strs = ft_get_nb_strs(s, sym, -1, 1);
+	nb_strs = ft_get_nb_strs(s, sym, 0, 1);
 	tab = (char **)malloc(sizeof(char *) * (nb_strs + 1));
 	if (!tab || !s)
 		return (NULL);
 	next_str = (char *)s;
-	//
-	//printf("nb strs:%d\n", nb_strs);
-	//
-	//
-	//
+	
+	//printf("nb strs = %d\n", nb_strs);
+	
 	while (i < nb_strs)
 	{
 		ft_get_next_str(&next_str, &next_str_len, sym, 0);

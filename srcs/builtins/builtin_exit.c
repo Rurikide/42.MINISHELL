@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 15:13:05 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/19 22:31:40 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/01 12:43:13 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ void	builtin_exit_error(char **options, int error_nb)
 {
 	if (error_nb == ERROR_255)
 	{
-		ft_putstr_fd("minishell: exit:", STDERR_FILENO);
+		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 		ft_putstr_fd(options[0], STDERR_FILENO);
 		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 		get_minishell()->exit_nb = ERROR_255;
 	}
 	else if (error_nb == ERROR_1)
 	{
-		ft_putstr_fd("minishell: exit:", STDOUT_FILENO);
+		ft_putstr_fd("minishell: exit: ", STDOUT_FILENO);
 		ft_putstr_fd(options[0], STDOUT_FILENO);
 		ft_putstr_fd(": too many arguments\n", STDOUT_FILENO);
 		get_minishell()->exit_nb = ERROR_1;

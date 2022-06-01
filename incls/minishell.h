@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 14:45:45 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/31 16:03:40 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/01 18:44:52 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,5 +182,8 @@ void		initialize_zero(int *i, int *j, int *l);
 int			get_length_h(char *str, int i, int j, int k);
 void		get_length_core_h(char *str, int i, int *j, int *k);
 void		ft_iterate(t_node *currrent, int *i, char q);
-
+char		*ft_trim(char *str, char c);
+char		*ms_strip(char *str, int i, int j);
+char		**sp_split(char const *s, char sym, unsigned int i, \
+			unsigned int next_str_len);
 #endif

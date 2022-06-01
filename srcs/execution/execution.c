@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:40:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/21 17:11:05 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/01 18:21:49 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,13 @@ void	execution_main(t_node *current)
 	int		i;
 
 	i = 0;
-	options = ft_split(current->value, ' ');
+	options = NULL;
+	options = sp_split(current->value, ' ', 0, 0);
+	while (options[++i])
+	{
+		if (ft_is_present('\'', options[i]) || ft_is_present('"', options[i]))
+			options[i] = ms_strip(options[i], 0, 0);
+	}
 	if (current->next == NULL && is_a_builtin(options) == YES)
 	{
 		one_builtin_redirection(current, options);
@@ -87,9 +93,16 @@ void	pipeline_fork(t_node *current, int read_fd)
 void	pipeline_child_process(t_node *current, int read_fd, int *pipe_end)
 {
 	char	**options;
+	int		i;
 
+	i = 0;
 	pipeline_redirection(current, read_fd, pipe_end);
-	options = ft_split(current->value, ' ');
+	options = sp_split(current->value, ' ', 0, 0);
+	while (options[++i])
+	{
+		if (ft_is_present('\'', options[i]) || ft_is_present('"', options[i]))
+			options[i] = ms_strip(options[i], 0, 0);
+	}
 	if (execution_builtins(options) == NO)
 		execution_access(get_minishell(), options);
 	ft_free_table(options);

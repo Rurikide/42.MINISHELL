@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 16:36:25 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/31 17:30:38 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/01 18:46:45 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@ void	reset_i_j_k(int *i, int *j, int *k)
 	*i += 1;
 	*j = 0;
 	*k = 0;
-		printf("reset i = %d\n", *i);
-		// printf("reset j = %d\n", *j);
-		// printf("reset k = %d\n", *k);
 }
 
 void	initialize_zero(int *i, int *j, int *l)
@@ -29,6 +26,7 @@ void	initialize_zero(int *i, int *j, int *l)
 	*l = 0;
 }
 
+	//if (ft_strlen(str) == i || str[i] == ' ')
 void	get_length_core(char *str, int i, int *j, int *k)
 {
 	char	*var;
@@ -45,19 +43,10 @@ void	get_length_core(char *str, int i, int *j, int *k)
 		var = env_var_get_value(tmp, *j);
 		free(tmp);
 	}
-	//
-	printf("str = '%s', i = %d, ascii of str[i] = %d\n", str, i, str[i]);
-	//
-
-
 	if (!(ft_isprint(str[i])) || str[i] == ' ')
-	//if (ft_strlen(str) == i || str[i] == ' ')
 		var = "$";
 	if (var == NULL)
 		return ;
-	//
-	printf("var = '%s', len = %d\n", var, ft_strlen(var));
-	//
 	while (var[*k])
 		*k += 1;
 	if (str[i] == '?')
@@ -74,20 +63,8 @@ int	get_length(char *str, int i, int j, int k)
 
 	c = 0;
 	quote = 1;
-
-	int len = ft_strlen(str);
-	//
-	printf("initial i = %d\n", i);
-		// printf("initial j = %d\n", j);
-		// 	printf("initial k = %d\n", k);
-	printf("strlen = %d\n", len);
-	printf("str = '%s'\n", str);
-	//
 	while (str[++i])
 	{
-		//
-		printf("initial i = %d\n", i);
-		//
 		if (str[i] == '\'')
 			quote *= -1;
 		if (str[i] == '$' && quote > 0)

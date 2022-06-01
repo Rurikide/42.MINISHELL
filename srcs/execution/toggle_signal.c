@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:22:46 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/23 10:32:22 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/01 13:37:35 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	set_exit_nb(int wstatus)
 	minishell = get_minishell();
 	if (WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIGQUIT)
 	{
-		ft_putstr_fd("Quit\n", STDERR_FILENO);
+		ft_putstr_fd("Quit: 3\n", STDERR_FILENO);
 		minishell->exit_nb = SIG_CTRL_D;
 	}
 	else if (WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIGINT)
