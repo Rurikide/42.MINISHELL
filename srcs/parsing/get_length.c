@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 16:36:25 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/01 18:46:45 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/02 15:35:52 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,16 +63,31 @@ int	get_length(char *str, int i, int j, int k)
 
 	c = 0;
 	quote = 1;
+	int len = ft_strlen(str);
+	//
+	//printf("len is %d\n", len);
+	//
+	if (len == 0)
+		return (0);
 	while (str[++i])
 	{
+		//printf("i is %d\n", i);
 		if (str[i] == '\'')
 			quote *= -1;
 		if (str[i] == '$' && quote > 0)
 		{
 			reset_i_j_k(&i, &j, &k);
+			// reset_i_j_k  fait i++;
+			// invalid read ici??? si on incrémente i de str[i]
+			// if (str[i] == '\0')
+			// 	printf("invalid read incoming???\n");
 			get_length_core(str, i, &j, &k);
 			c += k - j - 1;
 		}
+		// //
+		// if (str[i] == '\0')
+		// 	break;
+		// //
 	}
 	return (c);
 }

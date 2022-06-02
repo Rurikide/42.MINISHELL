@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:13:07 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/01 15:42:39 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/02 18:44:52 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ t_answer	ft_is_a_match(char *keyword, char *input)
 	int	len;
 
 	i = 0;
+	len = 0;
 	len = ft_strlen(input);
 	if (input == NULL)
 		return (NO);

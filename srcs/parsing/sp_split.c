@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:24 by adubeau           #+#    #+#             */
-/*   Updated: 2022/06/01 18:47:30 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/02 11:21:35 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ static char	**ft_malloc_error(char **tab)
 		free(tab[i]);
 		i++;
 	}
-	free(tab);
+	// replaced free par ft_free_table
+	ft_free_table(tab);
+	//
 	return (NULL);
 }
 
@@ -60,7 +62,9 @@ static unsigned int	ft_get_nb_strs(char const *s, char sym, int i, \
 			if (s[i])
 				nb_strs++;
 		}
-		i++;
+		// fixed invalid read in sp_split, but what about ms_split???
+		if (s[i])
+			i++;
 
 	}
 	return (nb_strs);

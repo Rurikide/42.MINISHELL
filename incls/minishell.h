@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 14:45:45 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/01 18:44:52 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/02 14:00:11 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,8 +171,8 @@ char		*get_var_heredoc(char *str, int quote, int i, int j);
 char		*get_var_heredoc_str(char *str, int i, int j);
 
 void		dual_increments(int *i, int *j);
-void		heredoc_main(t_node *current, char *file);
-int			try_open_file(t_node *current, char *file, int fd);
+void		heredoc_main(t_node *current, char **file);
+int			try_open_file(t_node *current, char **file, int fd);
 char		*get_fd_i_value(char *value, int *i, int *j, int k);
 void		get_fd_left_redirection(t_node *current, int *i, int *j);
 void		get_fd_o_value(t_node *cu, char *file, int *i, int k);

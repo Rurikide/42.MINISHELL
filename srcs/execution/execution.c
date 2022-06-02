@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:40:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/01 18:21:49 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/02 18:40:04 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	execution_main(t_node *current)
 	char	**options;
 	int		i;
 
-	i = 0;
+	i = -1;
 	options = NULL;
 	options = sp_split(current->value, ' ', 0, 0);
 	while (options[++i])
@@ -28,13 +28,15 @@ void	execution_main(t_node *current)
 	if (current->next == NULL && is_a_builtin(options) == YES)
 	{
 		one_builtin_redirection(current, options);
+		if (options != NULL)
+			ft_free_table(options);
 	}
 	else if (current != NULL)
 	{
+		if (options != NULL)
+			ft_free_table(options);
 		pipeline_fork(current, current->fd_i);
 	}
-	if (options != NULL)
-		ft_free_table(options);
 }
 
 void	one_builtin_redirection(t_node *current, char **options)
@@ -95,7 +97,7 @@ void	pipeline_child_process(t_node *current, int read_fd, int *pipe_end)
 	char	**options;
 	int		i;
 
-	i = 0;
+	i = -1;
 	pipeline_redirection(current, read_fd, pipe_end);
 	options = sp_split(current->value, ' ', 0, 0);
 	while (options[++i])
@@ -106,6 +108,7 @@ void	pipeline_child_process(t_node *current, int read_fd, int *pipe_end)
 	if (execution_builtins(options) == NO)
 		execution_access(get_minishell(), options);
 	ft_free_table(options);
+	free_minishell();
 	exit(get_minishell()->exit_nb);
 }
 
@@ -123,8 +126,7 @@ void	pipeline_redirection(t_node *current, int read_fd, int *pipe_end)
 			dup2(read_fd, STDIN_FILENO);
 			close(read_fd);
 		}
-	}
-	if (current->fd_o != STDOUT_FILENO)
+	}	if (current->fd_o != STDOUT_FILENO)
 	{
 		dup2(current->fd_o, STDOUT_FILENO);
 		close(current->fd_o);

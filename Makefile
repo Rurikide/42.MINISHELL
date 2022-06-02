@@ -54,8 +54,10 @@ re: clean all
 
 
 val: all
-	valgrind --leak-check=full --track-origins=yes --trace-children=yes ./minishell
+	valgrind --leak-check=full --track-origins=yes ./minishell
 
 .PHONY: all clean fclean re val
 
 #--show-leak-kinds=all --verbose
+# --trace-children=yes
+#--show-leak-kinds=all

@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:42:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/01 13:26:05 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/02 14:34:38 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void	search_binary_file(char **path_table, char **options, int i)
 		i++;
 	}
 	mini_free_options(options);
+	free_minishell();
 	ft_putstr_fd(": command not found\n", STDERR_FILENO);
 	exit(ERROR_127);
 }

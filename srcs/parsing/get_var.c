@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/05/31 16:55:49 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/02 11:56:08 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,13 @@ char	*get_var_heredoc(char *str, int quote, int i, int j)
 	int		k;
 	int		l;
 
+//
+	if (!str)
+	{
+		printf("control-d ::: str len is zero\n");	
+		return (NULL);
+	}
+//
 	tmp = ft_calloc(ft_strlen(str) + get_length(str, -1, 0, 0) + 1, \
 	sizeof(char));
 	initialize_zero(&i, &j, &l);

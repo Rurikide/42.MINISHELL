@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 13:23:57 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/05/19 22:32:12 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/02 18:48:07 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ int	is_a_builtin(char **options)
 {
 	int	is_builtin;
 
+	//
+	is_builtin = NO;
+	//s
 	if (ft_is_a_match("echo", options[0]) == YES)
 		is_builtin = YES;
 	else if (ft_is_a_match("cd", options[0]) == YES)
