@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 14:45:45 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/02 14:00:11 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/03 14:57:07 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,8 @@ char		*get_path_value(t_minishell *minishell);
 int			ft_is_matching_strings(char *s1, char *s2);
 void		set_exit_nb(int wstatus);
 void		mini_free_options(char **options);
+void		ft_close_pipe(int *pipe_end);
+
 
 t_node		*new_node(char *str);
 int			ms_parsing(t_minishell *minishell, int i);
@@ -186,4 +188,9 @@ char		*ft_trim(char *str, char c);
 char		*ms_strip(char *str, int i, int j);
 char		**sp_split(char const *s, char sym, unsigned int i, \
 			unsigned int next_str_len);
+void		skip_symbol(char const *s, char sym, int *i);
+void		skip_symbol_increment_strs(char const *s, char sym, \
+			int *i, unsigned int *nb_strs);
+void		increment_index(char const *s, int *i);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 17:04:23 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/02 13:55:05 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/03 14:53:30 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,22 +81,3 @@ void	heredoc_execution(t_node *current, int *pipe_end)
 	exit(SUCCESS);
 }
 		//heredoc_input = get_var(current, heredoc_input, 1, -1);
-
-int	ft_is_matching_strings(char *s1, char *s2)
-{
-	int		s1_len;
-	int		s2_len;
-
-	s1_len = ft_strlen(s1) - 1;
-	s2_len = ft_strlen(s2) - 1;
-	if (s1_len != s2_len)
-		return (FAIL);
-	while (s1_len > 0 && s2_len > 0)
-	{
-		if (s1[s1_len] != s2[s2_len])
-			return (FAIL);
-		s1_len--;
-		s2_len--;
-	}
-	return (SUCCESS);
-}

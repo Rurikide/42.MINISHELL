@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:40:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/02 18:40:04 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/03 14:57:59 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,8 @@ void	pipeline_redirection(t_node *current, int read_fd, int *pipe_end)
 			dup2(read_fd, STDIN_FILENO);
 			close(read_fd);
 		}
-	}	if (current->fd_o != STDOUT_FILENO)
+	}	
+	if (current->fd_o != STDOUT_FILENO)
 	{
 		dup2(current->fd_o, STDOUT_FILENO);
 		close(current->fd_o);
