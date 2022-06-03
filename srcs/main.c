@@ -6,27 +6,11 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:10:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/02 19:01:30 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/03 15:06:13 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_is_str_spacetab(char *str)
-{
-	int	len;
-	int	i;
-
-	i = 0;
-	len = ft_strlen(str);
-	while (i < len)
-	{
-		if (str[i] != ' ' && str[i] != '\t')
-			return (FAIL);
-		i++;
-	}
-	return (SUCCESS);
-}
 
 void	minishell_loop(t_minishell *minishell)
 {

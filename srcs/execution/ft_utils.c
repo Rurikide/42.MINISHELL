@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   xtra_utils.c                                       :+:      :+:    :+:   */
+/*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 13:58:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/03 14:06:04 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/03 15:06:20 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,20 @@ void	ft_close_pipe(int *pipe_end)
 {
 	close(pipe_end[0]);
 	close(pipe_end[1]);
+}
+
+int	ft_is_str_spacetab(char *str)
+{
+	int	len;
+	int	i;
+
+	i = 0;
+	len = ft_strlen(str);
+	while (i < len)
+	{
+		if (str[i] != ' ' && str[i] != '\t')
+			return (FAIL);
+		i++;
+	}
+	return (SUCCESS);
 }

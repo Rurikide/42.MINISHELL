@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 17:04:23 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/03 14:53:30 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/03 15:04:37 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,23 +61,23 @@ void	heredoc_execution(t_node *current, int *pipe_end)
 	while (true)
 	{
 		heredoc_input = readline("> ");
-		tmp = get_var_heredoc(heredoc_input, 1, 0, 0);
-		free(heredoc_input);
-		if (tmp == CTRL_D)
+		if (heredoc_input == CTRL_D)
 		{
-			close(pipe_end[0]);
-			close(pipe_end[1]);
-			free(tmp);
+			ft_close_pipe(pipe_end);
+			free(heredoc_input);
 			ctrl_d_heredoc_exit();
 		}
+		tmp = get_var_heredoc(heredoc_input, 1, 0, 0);
+		free(heredoc_input);
 		if (ft_is_matching_strings(tmp, current->eof) == SUCCESS)
 			break ;
 		ft_putendl_fd(tmp, pipe_end[1]);
 		free(tmp);
+		tmp = NULL;
 	}
-	close(pipe_end[0]);
-	close(pipe_end[1]);
-	free(tmp);
+	ft_close_pipe(pipe_end);
+	if (tmp)
+		free(tmp);
 	exit(SUCCESS);
 }
 		//heredoc_input = get_var(current, heredoc_input, 1, -1);

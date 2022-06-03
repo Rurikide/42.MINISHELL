@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 11:19:38 by adubeau           #+#    #+#             */
-/*   Updated: 2022/06/01 16:24:22 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/03 14:59:55 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	ms_sanitize(char *input)
 	int	r;
 
 	i = 0;
-	r = 0;		
+	r = 0;
 	while (input[i])
 	{
 		if (input[i] == '|')
