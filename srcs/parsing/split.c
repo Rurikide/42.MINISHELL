@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:24 by adubeau           #+#    #+#             */
-/*   Updated: 2022/06/01 18:47:23 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/03 18:41:15 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,9 @@ static unsigned int	ft_get_nb_strs(char const *s, char sym, int i, \
 				if (s[i] == q)
 					break ;
 				else if (i == ft_strlen(s) - 1)
-				{
 					printf("minishell: Error missing %c\n", q);
+				else if (i == ft_strlen(s) - 1)
 					return (0);
-				}
 				i++;
 			}
 		}
@@ -72,7 +71,9 @@ static unsigned int	ft_get_nb_strs(char const *s, char sym, int i, \
 static void	ft_get_next_str(char **next_str, unsigned int *next_str_len, \
 							char sym, unsigned int i)
 {
-	char q;
+	char	q;
+
+	q = '\0';
 	*next_str += *next_str_len;
 	*next_str_len = 0;
 	while ((*next_str)[i] == sym)
@@ -84,16 +85,15 @@ static void	ft_get_next_str(char **next_str, unsigned int *next_str_len, \
 			q = (*next_str)[i];
 			(*next_str_len)++;
 			i++;
-			while((*next_str)[i] != q)
+			while ((*next_str)[i] && (*next_str)[i] != q)
 			{
 				(*next_str_len)++;
 				i++;
 			}
 		}
-		if ((*next_str)[i] == sym)
+		if ((*next_str)[i++] == sym)
 			return ;
 		(*next_str_len)++;
-		i++;
 	}
 }
 
@@ -104,7 +104,6 @@ char	**ms_split(char const *s, char sym, unsigned int i, \
 	char			*next_str;
 	unsigned int	nb_strs;
 
-	i = 0;
 	if (ft_strlen(s) == 0)
 		return ((char **)s);
 	nb_strs = ft_get_nb_strs(s, sym, -1, 1);
@@ -112,11 +111,6 @@ char	**ms_split(char const *s, char sym, unsigned int i, \
 	if (!tab || !s)
 		return (NULL);
 	next_str = (char *)s;
-	//
-	//printf("nb strs:%d\n", nb_strs);
-	//
-	//
-	//
 	while (i < nb_strs)
 	{
 		ft_get_next_str(&next_str, &next_str_len, sym, 0);
@@ -129,3 +123,6 @@ char	**ms_split(char const *s, char sym, unsigned int i, \
 	tab[i] = NULL;
 	return (tab);
 }
+
+	//
+	//printf("nb strs:%d\n", nb_strs);

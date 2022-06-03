@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 14:37:11 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/03 14:52:47 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/03 17:11:32 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,10 @@ void	increment_index(char const *s, int *i)
 {
 	if (s[*i])
 		*i += 1;
+}
+
+void	dual_increments(int *i, int *j)
+{
+	*i += 1;
+	*j += 1;
 }

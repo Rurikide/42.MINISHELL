@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:24 by adubeau           #+#    #+#             */
-/*   Updated: 2022/06/02 11:21:35 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/03 18:38:06 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ static char	**ft_malloc_error(char **tab)
 		free(tab[i]);
 		i++;
 	}
-	// replaced free par ft_free_table
-	ft_free_table(tab);
-	//
+	free(tab);
 	return (NULL);
 }
 
@@ -35,40 +33,37 @@ static unsigned int	ft_get_nb_strs(char const *s, char sym, int i, \
 
 	if (!s[0])
 		return (0);
-	while (s[i] == sym)
-		i++;
+	skip_symbol(s, sym, &i);
 	while (s[i])
 	{
 		if (s[i] == '"' || s[i] == '\'')
 		{
-			q = s[i];
-			i++;
+			q = s[i++];
 			while (s[i])
 			{
-				if (s[i] == q)
+				if (s[i++] == q)
 					break ;
-				else if (i == ft_strlen(s) - 1)
-				{
+				else if ((i - 1) == ft_strlen(s) - 1)
 					printf("minishell: Error missing %c\n", q);
+				else if ((i - 1) == ft_strlen(s) - 1)
 					return (0);
-				}
-				i++;
 			}
 		}
 		if (s[i] == sym)
-		{
-			while (s[i] == sym)
-				i++;
-			if (s[i])
-				nb_strs++;
-		}
-		// fixed invalid read in sp_split, but what about ms_split???
-		if (s[i])
-			i++;
-
+			skip_symbol_increment_strs(s, sym, &i, &nb_strs);
+		increment_index(s, &i);
 	}
 	return (nb_strs);
 }
+// fixed invalid read in sp_split, but what about ms_split???
+		// {
+		// 	while (s[i] == sym)
+		// 		i++;
+		// 	if (s[i])
+		// 		nb_strs++;
+		// }
+	// while (s[i] == sym)
+	// 	i++;
 
 /*static void	ft_get_next_quote(char **next_str, unsigned int *next_str_len, \
 								char c, unsigned int *i)
@@ -85,7 +80,9 @@ static unsigned int	ft_get_nb_strs(char const *s, char sym, int i, \
 static void	ft_get_next_str(char **next_str, unsigned int *next_str_len, \
 							char sym, unsigned int i)
 {
-	char q;
+	char	q;
+
+	q = '\0';
 	*next_str += *next_str_len;
 	*next_str_len = 0;
 	while ((*next_str)[i] == sym)
@@ -97,16 +94,15 @@ static void	ft_get_next_str(char **next_str, unsigned int *next_str_len, \
 			q = (*next_str)[i];
 			(*next_str_len)++;
 			i++;
-			while((*next_str)[i] != q)
+			while ((*next_str)[i] && (*next_str)[i] != q)
 			{
 				(*next_str_len)++;
 				i++;
 			}
 		}
-		if ((*next_str)[i] == sym)
+		if ((*next_str)[i++] == sym)
 			return ;
 		(*next_str_len)++;
-		i++;
 	}
 }
 
@@ -117,7 +113,6 @@ char	**sp_split(char const *s, char sym, unsigned int i, \
 	char			*next_str;
 	unsigned int	nb_strs;
 
-	i = 0;
 	if (ft_strlen(s) == 0)
 		return ((char **)s);
 	nb_strs = ft_get_nb_strs(s, sym, 0, 1);
@@ -125,9 +120,6 @@ char	**sp_split(char const *s, char sym, unsigned int i, \
 	if (!tab || !s)
 		return (NULL);
 	next_str = (char *)s;
-	
-	//printf("nb strs = %d\n", nb_strs);
-	
 	while (i < nb_strs)
 	{
 		ft_get_next_str(&next_str, &next_str_len, sym, 0);
@@ -140,3 +132,5 @@ char	**sp_split(char const *s, char sym, unsigned int i, \
 	tab[i] = NULL;
 	return (tab);
 }
+
+	//printf("nb strs = %d\n", nb_strs);

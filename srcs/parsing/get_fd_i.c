@@ -6,24 +6,16 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 20:15:52 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/02 18:53:02 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/03 18:13:51 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	heredoc_main(t_node *current, char **file)
-{
-	current->type = 'h';
-	current->eof = ft_strdup(*file);
-	current->fd_i = dup(STDIN_FILENO);
-	heredoc_preparation(current);
-	free(*file);
-	*file = NULL;
-}
-
 int	try_open_file(t_node *current, char **file, int fd)
 {
+	if (fd != STDIN_FILENO)
+		close(fd);
 	fd = open(*file, O_RDONLY);
 	if (fd == FAIL)
 	{
@@ -38,20 +30,33 @@ int	try_open_file(t_node *current, char **file, int fd)
 	return (fd);
 }
 
-char	*get_fd_i_value(char *value, int *i, int *j, int k)
+void	get_fd_i_value(t_node *cu, int *i, int *j, int k)
 {
 	char	*sub_str;
 	char	*join_str;
 
-	sub_str = ft_substr(value, 0, k);
-	join_str = ft_strjoin(sub_str, (value + *i));
+	sub_str = ft_substr(cu->value, 0, k);
+	join_str = ft_strjoin(sub_str, (cu->value + *i));
 	free(sub_str);
-	free(value);
-	value = join_str;
+	free(cu->value);
+	cu->value = join_str;
 	*i = -1;
 	*j = 0;
-	return (value);
+	cu->value = ft_trim(cu->value, ' ', 0, 0);
+	if (ft_strlen(cu->value) == 0)
+		cu->type = 'e';
 }
+//printf("b = %d, value = '%s', len = %d, type = %c\n"
+//,b++, cu->value, ft_strlen(cu->value), cu->type);
+
+// void	get_fd_left_redirection(t_node *current, int *i, int *j)
+// {
+// 	while (current->value[*i] == ' ' || current->value[*i] == '<')
+// 		*i += 1;
+// 	while (current->value[*i] && current->value[*i] != ' '
+// 	&& current->value[*i] != '<')
+// 		dual_increments(i, j);
+// }
 
 void	get_fd_left_redirection(t_node *current, int *i, int *j)
 {
@@ -67,10 +72,6 @@ int	get_fd_i(t_node *current, int i, int j, int fd)
 	char	*file;
 	int		k;
 
-	//
-	file = NULL;
-	k = 0;
-	//
 	while (current->value[i])
 	{
 		if (current->value[i] == '\'' || current->value[i] == '"')
@@ -84,17 +85,21 @@ int	get_fd_i(t_node *current, int i, int j, int fd)
 				heredoc_main(current, &file);
 			else
 				fd = try_open_file(current, &file, fd);
-			if (file)
-			{
-				free(file);
-				file = NULL;
-			}
 			if (fd == FAIL)
 				break ;
-			current->value = get_fd_i_value(current->value, &i, &j, k);
+			get_fd_i_value(current, &i, &j, k);
 		}
 		i++;
 	}
+	return (get_fd_number(current, fd));
+}
+	// if (current->type != 'h')
+	// 	return (fd);
+	// else
+	// 	return (current->fd_i);
+
+int	get_fd_number(t_node *current, int fd)
+{
 	if (current->type != 'h')
 		return (fd);
 	else

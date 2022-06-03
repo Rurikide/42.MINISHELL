@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 17:04:23 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/03 15:04:37 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/03 17:10:25 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,3 +81,13 @@ void	heredoc_execution(t_node *current, int *pipe_end)
 	exit(SUCCESS);
 }
 		//heredoc_input = get_var(current, heredoc_input, 1, -1);
+
+void	heredoc_main(t_node *current, char **file)
+{
+	current->type = 'h';
+	current->eof = ft_strdup(*file);
+	current->fd_i = dup(STDIN_FILENO);
+	heredoc_preparation(current);
+	free(*file);
+	*file = NULL;
+}

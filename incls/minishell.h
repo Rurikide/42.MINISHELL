@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 14:45:45 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/03 14:57:07 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/03 18:39:56 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,6 @@ void		set_exit_nb(int wstatus);
 void		mini_free_options(char **options);
 void		ft_close_pipe(int *pipe_end);
 
-
 t_node		*new_node(char *str);
 int			ms_parsing(t_minishell *minishell, int i);
 void		ms_arg_to_node(t_minishell *minishell, char **arg, int i);
@@ -175,7 +174,7 @@ char		*get_var_heredoc_str(char *str, int i, int j);
 void		dual_increments(int *i, int *j);
 void		heredoc_main(t_node *current, char **file);
 int			try_open_file(t_node *current, char **file, int fd);
-char		*get_fd_i_value(char *value, int *i, int *j, int k);
+void		get_fd_i_value(t_node *cu, int *i, int *j, int k);
 void		get_fd_left_redirection(t_node *current, int *i, int *j);
 void		get_fd_o_value(t_node *cu, char *file, int *i, int k);
 void		get_fd_o_open(t_node *cu, char *file, int *fd);
@@ -183,8 +182,8 @@ void		reset_i_j_k(int *i, int *j, int *k);
 void		initialize_zero(int *i, int *j, int *l);
 int			get_length_h(char *str, int i, int j, int k);
 void		get_length_core_h(char *str, int i, int *j, int *k);
-void		ft_iterate(t_node *currrent, int *i, char q);
-char		*ft_trim(char *str, char c);
+void		ft_iterate(t_node *cu, int *i, char q);
+char		*ft_trim(char *str, char c, int i, int j);
 char		*ms_strip(char *str, int i, int j);
 char		**sp_split(char const *s, char sym, unsigned int i, \
 			unsigned int next_str_len);
@@ -192,5 +191,7 @@ void		skip_symbol(char const *s, char sym, int *i);
 void		skip_symbol_increment_strs(char const *s, char sym, \
 			int *i, unsigned int *nb_strs);
 void		increment_index(char const *s, int *i);
-
+int			get_fd_number(t_node *current, int fd);
+void		increment_right_redir(t_node *cu, int *i);
+int			ft_count(char *str, char c);
 #endif

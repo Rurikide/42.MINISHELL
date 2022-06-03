@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 13:58:38 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/03 15:06:20 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/03 18:17:46 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,27 @@ int	ft_is_str_spacetab(char *str)
 		i++;
 	}
 	return (SUCCESS);
+}
+
+int	ft_count(char *str, char c)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			j++;
+		i++;
+	}
+	return (j);
+}
+
+void	ft_iterate(t_node *cu, int *i, char q)
+{
+	*i += 1;
+	while (cu->value[*i] && cu->value[*i] != q)
+		*i += 1;
 }
