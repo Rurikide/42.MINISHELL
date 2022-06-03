@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:24 by adubeau           #+#    #+#             */
-/*   Updated: 2022/06/03 18:41:15 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/03 19:30:57 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static void	ft_get_next_str(char **next_str, unsigned int *next_str_len, \
 	q = '\0';
 	*next_str += *next_str_len;
 	*next_str_len = 0;
-	while ((*next_str)[i] == sym)
+	while ((*next_str)[i] && (*next_str)[i] == sym)
 		(*next_str)++;
 	while ((*next_str)[i])
 	{
@@ -91,9 +91,10 @@ static void	ft_get_next_str(char **next_str, unsigned int *next_str_len, \
 				i++;
 			}
 		}
-		if ((*next_str)[i++] == sym)
+		if ((*next_str)[i] && (*next_str)[i++] == sym)
 			return ;
-		(*next_str_len)++;
+		if ((*next_str)[i])
+			(*next_str_len)++;
 	}
 }
 
