@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:24 by adubeau           #+#    #+#             */
-/*   Updated: 2022/06/03 19:30:57 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/04 10:44:55 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,9 @@ static void	ft_get_next_str(char **next_str, unsigned int *next_str_len, \
 				i++;
 			}
 		}
-		if ((*next_str)[i] && (*next_str)[i++] == sym)
+		if ((*next_str)[i++] == sym)
 			return ;
-		if ((*next_str)[i])
+		// if ((*next_str)[i])
 			(*next_str_len)++;
 	}
 }
