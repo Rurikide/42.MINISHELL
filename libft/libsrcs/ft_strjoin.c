@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/02 20:36:30 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/04/08 16:20:04 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/04 12:27:50 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!s1 && !s2)
 		return (0);
 	bytes = (ft_strlen(s1) + ft_strlen(s2) + 1);
-	newstr = malloc(sizeof(char) * bytes);
+	newstr = ft_calloc(bytes, sizeof(char));
 	if (!newstr)
 		return (0);
 	while (s1 != NULL && s1[j])
@@ -58,3 +58,5 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	s1 = NULL;
 	return (newstr);
 }
+
+	//newstr = malloc(sizeof(char) * bytes);

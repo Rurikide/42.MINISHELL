@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:24 by adubeau           #+#    #+#             */
-/*   Updated: 2022/06/04 10:45:00 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/04 11:54:25 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,7 @@ static void	ft_get_next_str(char **next_str, unsigned int *next_str_len, \
 		}
 		if ((*next_str)[i++] == sym)
 			return ;
-		// if ((*next_str)[i])
-			(*next_str_len)++;
+		(*next_str_len)++;
 	}
 }
 
@@ -114,6 +113,7 @@ char	**sp_split(char const *s, char sym, unsigned int i, \
 	char			*next_str;
 	unsigned int	nb_strs;
 
+	//if (ft_strlen(s) == 0)
 	if (ft_strlen(s) == 0)
 		return ((char **)s);
 	nb_strs = ft_get_nb_strs(s, sym, 0, 1);

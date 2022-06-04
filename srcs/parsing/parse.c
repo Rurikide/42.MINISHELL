@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:54 by adubeau           #+#    #+#             */
-/*   Updated: 2022/06/02 18:54:11 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/04 12:00:13 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	ms_parsing(t_minishell *minishell, int i)
 			return (0);
 		}
 		ms_arg_to_node(minishell, arg, i);
+
 		tmp = minishell->head;
 		while (tmp->next)
 		{

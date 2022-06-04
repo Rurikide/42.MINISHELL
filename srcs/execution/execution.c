@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:40:03 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/03 14:57:59 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/04 12:11:31 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,18 @@ void	execution_main(t_node *current)
 	int		i;
 
 	i = -1;
+	//
+	printf("current = '%s'\n", current->value);
 	options = NULL;
 	options = sp_split(current->value, ' ', 0, 0);
+	//
+	printf("current = '%s'\n", current->value);
+
+
 	while (options[++i])
 	{
+		//
+		printf("options = '%s'\n", options[i]);
 		if (ft_is_present('\'', options[i]) || ft_is_present('"', options[i]))
 			options[i] = ms_strip(options[i], 0, 0);
 	}

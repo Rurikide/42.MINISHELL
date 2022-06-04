@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:24 by adubeau           #+#    #+#             */
-/*   Updated: 2022/06/04 10:44:55 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/04 12:16:38 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,20 @@ static unsigned int	ft_get_nb_strs(char const *s, char sym, int i, \
 		return (0);
 	while (s[++i])
 	{
+			//
+			//printf("i = %d, s = '%s'\n", i, s);
+
 		if (s[i] == '"' || s[i] == '\'')
 		{
 			q = s[i];
 			i++;
+			//
+			//printf("i  =%d, len = %d\n", i, ft_strlen(s));
+			if (i == ft_strlen(s))
+			{
+				printf("minishell: Error missing %c\n", q);
+				return 0;
+			}
 			while (s[i])
 			{
 				if (s[i] == q)
@@ -105,6 +115,9 @@ char	**ms_split(char const *s, char sym, unsigned int i, \
 	char			*next_str;
 	unsigned int	nb_strs;
 
+	//if (ft_strlen(s) == 0)
+	//printf("len = %d, s = '%s'\n", ft_strlen(s), s);
+	//
 	if (ft_strlen(s) == 0)
 		return ((char **)s);
 	nb_strs = ft_get_nb_strs(s, sym, -1, 1);

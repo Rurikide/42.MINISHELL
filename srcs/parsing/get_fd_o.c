@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 20:16:49 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/03 17:45:31 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/04 12:52:53 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,19 @@ char	*ft_trim(char *str, char c, int i, int j)
 		{
 			q = str[i];
 			tmp[j++] = str[i++];
-			while (str[i] != q)
+			while (str[i] && str[i] != q)
 				tmp[j++] = str[i++];
 		}
-		if (str[i] != c || (str[i - 1] && str[i - 1] != c))
+		if (str[i] && (str[i] != c || (str[i - 1] && str[i - 1] != c)))
 			tmp[j++] = str[i];
 		i++;
 	}
+	//
+	printf("i = %d || j = %d\n", i , j);
 	tmp[j] = '\0';
 	tmp2 = ft_calloc(ft_strlen(tmp) + 1, sizeof(char));
-	ft_strlcpy(tmp2, tmp, ft_strlen(tmp));
+	//ft_strlcpy(tmp2, tmp, ft_strlen(tmp) + 1);
+	tmp2 = ft_strdup(tmp);
 	free(str);
 	free(tmp);
 	return (tmp2);
@@ -127,7 +130,7 @@ int	get_fd_o(t_node *cu, int i, int j, int fd)
 		j = 0;
 		if (cu->value[i] == '>')
 		{
-			k = i - 1;
+			k = i;
 			increment_right_redir(cu, &i);
 			while (cu->value[i] == ' ' || cu->value[i] == '>')
 				i++;
