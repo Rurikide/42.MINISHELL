@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 20:16:49 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/04 12:52:53 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/04 13:27:07 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,9 @@ char	*ft_trim(char *str, char c, int i, int j)
 			tmp[j++] = str[i];
 		i++;
 	}
-	//
-	printf("i = %d || j = %d\n", i , j);
 	tmp[j] = '\0';
 	tmp2 = ft_calloc(ft_strlen(tmp) + 1, sizeof(char));
-	//ft_strlcpy(tmp2, tmp, ft_strlen(tmp) + 1);
-	tmp2 = ft_strdup(tmp);
+	ft_strlcpy(tmp2, tmp, ft_strlen(tmp) + 1);
 	free(str);
 	free(tmp);
 	return (tmp2);
