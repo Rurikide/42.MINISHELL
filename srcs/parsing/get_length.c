@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 16:36:25 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/03 16:52:50 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/05 13:09:48 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ int	get_length(char *str, int i, int j, int k)
 		return (0);
 	while (str[++i])
 	{
-		if (str[i] == '\'')
+		if (i < ft_strlen(str) - 1 && str[i] == '\'')
 			quote *= -1;
-		if (str[i] == '$' && quote > 0)
+		if (i < ft_strlen(str) - 1 && str[i] == '$' && quote > 0)
 		{
 			reset_i_j_k(&i, &j, &k);
 			get_length_core(str, i, &j, &k);

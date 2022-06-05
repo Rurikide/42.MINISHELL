@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 20:15:52 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/03 18:13:51 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/05 13:32:40 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,6 @@ void	get_fd_i_value(t_node *cu, int *i, int *j, int k)
 	if (ft_strlen(cu->value) == 0)
 		cu->type = 'e';
 }
-//printf("b = %d, value = '%s', len = %d, type = %c\n"
-//,b++, cu->value, ft_strlen(cu->value), cu->type);
-
-// void	get_fd_left_redirection(t_node *current, int *i, int *j)
-// {
-// 	while (current->value[*i] == ' ' || current->value[*i] == '<')
-// 		*i += 1;
-// 	while (current->value[*i] && current->value[*i] != ' '
-// 	&& current->value[*i] != '<')
-// 		dual_increments(i, j);
-// }
 
 void	get_fd_left_redirection(t_node *current, int *i, int *j)
 {
@@ -76,12 +65,13 @@ int	get_fd_i(t_node *current, int i, int j, int fd)
 	{
 		if (current->value[i] == '\'' || current->value[i] == '"')
 			ft_iterate(current, &i, current->value[i]);
-		if (current->value[i] == '<')
+		if (current->value[i] && current->value[i] == '<')
 		{
 			k = i;
 			get_fd_left_redirection(current, &i, &j);
 			file = ft_substr(current->value, i - j, j);
-			if (current->value[k] == '<' && current->value[k + 1] == '<')
+			if (current->value[k] && current->value[k] == '<' \
+				&& current->value[k + 1] == '<')
 				heredoc_main(current, &file);
 			else
 				fd = try_open_file(current, &file, fd);
@@ -93,10 +83,6 @@ int	get_fd_i(t_node *current, int i, int j, int fd)
 	}
 	return (get_fd_number(current, fd));
 }
-	// if (current->type != 'h')
-	// 	return (fd);
-	// else
-	// 	return (current->fd_i);
 
 int	get_fd_number(t_node *current, int fd)
 {

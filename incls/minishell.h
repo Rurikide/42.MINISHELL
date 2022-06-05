@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 14:45:45 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/03 18:39:56 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/05 14:53:19 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,4 +194,7 @@ void		increment_index(char const *s, int *i);
 int			get_fd_number(t_node *current, int fd);
 void		increment_right_redir(t_node *cu, int *i);
 int			ft_count(char *str, char c);
+void		increment_nb_strs(char const *s, char sym, \
+			int i, unsigned int *nb_strs);
+int			is_index_equals_len(char const *s, int i, char q);
 #endif

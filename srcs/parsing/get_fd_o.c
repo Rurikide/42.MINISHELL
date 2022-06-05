@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 20:16:49 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/04 13:27:07 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/05 14:20:26 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,18 @@ char	*ft_trim(char *str, char c, int i, int j)
 		}
 		if (str[i] && (str[i] != c || (str[i - 1] && str[i - 1] != c)))
 			tmp[j++] = str[i];
+		if (str[i] && (str[i] != c || (str[i - 1] && str[i - 1] != c)))
+			tmp[j++] = str[i];
 		i++;
 	}
 	tmp[j] = '\0';
-	tmp2 = ft_calloc(ft_strlen(tmp) + 1, sizeof(char));
-	ft_strlcpy(tmp2, tmp, ft_strlen(tmp) + 1);
-	free(str);
+	tmp2 = ft_strdup(tmp);
 	free(tmp);
+	free(str);
 	return (tmp2);
 }
+	// tmp2 = ft_calloc(ft_strlen(tmp) + 1, sizeof(char));
+	// ft_strlcpy(tmp2, tmp, ft_strlen(tmp) + 1);
 
 void	get_fd_o_value(t_node *cu, char *file, int *i, int k)
 {
@@ -62,9 +65,6 @@ void	get_fd_o_value(t_node *cu, char *file, int *i, int k)
 	*i = -1;
 }
 
-	// //
-	// printf("file: '%s', len of value: %d, value:'%s\n'", file,
-	// ft_strlen(cu->value), cu->value);
 void	get_fd_o_open(t_node *cu, char *file, int *fd)
 {
 	if (*fd != STDOUT_FILENO)
@@ -76,43 +76,12 @@ void	get_fd_o_open(t_node *cu, char *file, int *fd)
 	free(file);
 }
 
-// int	get_fd_o(t_node *cu, int i, int j, int fd)
-// {
-// 	int		k;
-// 	char	*file;
-
-// 	while (cu->value[++i])
-// 	{
-// 		if (cu->value[i] == '\'' || cu->value[i] == '"')
-// 			ft_iterate(cu, &i, cu->value[i]);
-// 		j = 0;
-// 		if (cu->value[i] == '>')
-// 		{
-// 			k = i - 1;
-// 			if (cu->value[i + 1] == '>')
-// 				cu->type = 'a';
-// 			if (cu->value[i + 1] == '>')
-// 				i++;
-// 			while (cu->value[i] == ' ' || cu->value[i] == '>')
-// 				i++;
-// 			while (cu->value[i] && cu->value[i] != ' ' && cu->value[i] != '>')
-// 				dual_increments(&i, &j);
-// 			file = ft_substr(cu->value, i - j, j);
-// 			get_fd_o_value(cu, file, &i, k);
-// 			get_fd_o_open(cu, file, &fd);
-// 			if (cu->type == 'e')
-// 				return (fd);
-// 		}
-// 	}
-// 	return (fd);
-// }
 void	increment_right_redir(t_node *cu, int *i)
 {
-	if (cu->value[*i + 1] == '>')
-	{
-		cu->type = 'a';
+	while (cu->value[*i] && cu->value [*i] == ' ')
 		*i += 1;
-	}
+	if (cu->value[*i] == '>')
+		cu->type = 'a';
 }
 
 int	get_fd_o(t_node *cu, int i, int j, int fd)
@@ -142,8 +111,3 @@ int	get_fd_o(t_node *cu, int i, int j, int fd)
 	}
 	return (fd);
 }
-
-			// if (cu->value[i + 1] == '>')
-			// 	cu->type = 'a';
-			// if (cu->value[i + 1] == '>')
-			// 	i++;

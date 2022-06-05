@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 11:19:38 by adubeau           #+#    #+#             */
-/*   Updated: 2022/06/04 11:51:07 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/05 14:09:58 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,10 @@ int	ms_sanitize(char *input)
 	while (input[i])
 	{
 		if (ft_strlen(input) == 1 && (input[i] == '\'' || input[i] == '"'))
-        {
-            printf("minishell: Error missing %c\n", input[i]);
-            return (0);
-        }
+		{
+			printf("minishell: Error missing %c\n", input[i]);
+			return (0);
+		}
 		if (input[i] == '|')
 		{
 			r = ms_check_pipes(input, i, 0);
