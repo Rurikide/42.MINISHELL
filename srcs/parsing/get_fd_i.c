@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 20:15:52 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/05 13:32:40 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/05 15:38:45 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ void	get_fd_i_value(t_node *cu, int *i, int *j, int k)
 	cu->value = join_str;
 	*i = -1;
 	*j = 0;
-	cu->value = ft_trim(cu->value, ' ', 0, 0);
 	if (ft_strlen(cu->value) == 0)
 		cu->type = 'e';
 }
+	// cu->value = ft_trim(cu->value, ' ', 0, 0);
 
 void	get_fd_left_redirection(t_node *current, int *i, int *j)
 {

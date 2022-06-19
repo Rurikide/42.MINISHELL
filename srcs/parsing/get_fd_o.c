@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 20:16:49 by tshimoda          #+#    #+#             */
-/*   Updated: 2022/06/05 14:20:26 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/05 15:41:28 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ void	get_fd_o_value(t_node *cu, char *file, int *i, int k)
 	free(cu->value);
 	free(sub_str);
 	cu->value = join_str;
-	cu->value = ft_trim(cu->value, ' ', 0, 0);
 	if (ft_strlen(cu->value) == 0 || \
 		ft_strlen(file) == ft_strlen(cu->value) - ft_count(cu->value, '>'))
 		cu->type = 'e';
 	*i = -1;
 }
+	// cu->value = ft_trim(cu->value, ' ', 0, 0);
 
 void	get_fd_o_open(t_node *cu, char *file, int *fd)
 {

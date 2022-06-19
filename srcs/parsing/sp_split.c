@@ -6,7 +6,7 @@
 /*   By: tshimoda <tshimoda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:42:24 by adubeau           #+#    #+#             */
-/*   Updated: 2022/06/05 14:14:43 by tshimoda         ###   ########.fr       */
+/*   Updated: 2022/06/05 15:19:29 by tshimoda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,3 @@ char	**sp_split(char const *s, char sym, unsigned int i, \
 	tab[i] = NULL;
 	return (tab);
 }
-
-	//printf("nb strs = %d\n", nb_strs);
